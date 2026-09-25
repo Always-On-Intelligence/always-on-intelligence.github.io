@@ -3,9 +3,9 @@ import { searchCampusPlaces } from './ntuPlaceSearch'
 import type { SingaporeSceneOptions } from './singaporeHud'
 import './ntuHallPrototypeHud.css'
 
-export default function NtuCampusExploreHud ({ language, stops, busy, error, onShuttle, onGlasses, onDemo, observerMode, onObserver }: {
+export default function NtuCampusExploreHud ({ language, stops, busy, error, onShuttle, onGlasses, onTask, observerMode, onObserver }: {
   language: 'en' | 'zh'; stops: SingaporeSceneOptions['tourStops']; busy: boolean; error?: string
-  onShuttle: (id: string) => void; onGlasses: () => void; onDemo: () => void
+  onShuttle: (id: string) => void; onGlasses: () => void; onTask: () => void
   observerMode: 'walk' | 'fly' | 'overhead'; onObserver: (mode: 'walk' | 'fly' | 'overhead') => void
 }) {
   const [expanded, setExpanded] = useState(true)
@@ -28,7 +28,7 @@ export default function NtuCampusExploreHud ({ language, stops, busy, error, onS
         <option value=''>{zh ? `选择地点（${matches.length}）…` : `Choose a place (${matches.length})…`}</option>
         {matches.slice(0, 80).map(stop => <option key={stop.id} value={stop.id}>{stop.name[language]}</option>)}
       </select><button disabled={!destination || busy || observerMode !== 'walk'} onClick={() => onShuttle(destination)}>{zh ? '前往' : 'Go'} ↗</button></div>
-      <div className='ntu-prototype-stops'><button onClick={onDemo} disabled={busy || observerMode !== 'walk'}>{zh ? '自动演示 · S-Lab 午后' : 'S-Lab afternoon · Demo'}<span>▶</span></button><button onClick={onGlasses}>{zh ? 'Always-On 眼镜' : 'Always-On glasses'}<span>↗</span></button></div>
+      <div className='ntu-prototype-stops'><button onClick={onTask} disabled={busy || observerMode !== 'walk'}>{zh ? 'S-Lab · 体验论文六通路' : 'S-Lab · Explore the six channels'}<span>↗</span></button><button onClick={onGlasses}>{zh ? 'Always-On 眼镜' : 'Always-On glasses'}<span>↗</span></button></div>
       {error && <p role='alert'>{error}</p>}
       <small>{zh ? '校园几何参考' : 'Campus geometry reference'} · <a href='https://ntumap.app/' target='_blank' rel='noopener noreferrer'>NTUMap / Finute</a></small>
     </div>}

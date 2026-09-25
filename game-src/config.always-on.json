@@ -10,8 +10,7 @@
   "defaultSettings": {
     "localUsername": "Visitor",
     "renderDistance": 3,
-    "rendererMesher": "legacy-js",
-    "rendererMeshersCountOverride": 1,
+    "rendererMesher": "wasm",
     "frameLimit": 30,
     "loadPlayerSkins": false,
     "guiScale": 2,
@@ -46,7 +45,6 @@
     "localUsername": true,
     "renderDistance": true,
     "rendererMesher": true,
-    "rendererMeshersCountOverride": true,
     "frameLimit": true,
     "loadPlayerSkins": true,
     "guiScale": true,

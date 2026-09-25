@@ -18,3 +18,12 @@ export function ntuMapAsset (file: string): string {
 export function ntuMemoryKey (original: string): string {
   return isNtuMapRebuild() ? 'always-on-ntumap-memory-v1' : original
 }
+
+/**
+ * Mesher workers for the campus: half the CPU cores, one to four. Drawing a new place is
+ * CPU-bound, so this decides how long a shuttle trip or a fresh load takes; a two-core
+ * device keeps a single worker.
+ */
+export function ntuMesherWorkers (cores: number | undefined = globalThis.navigator?.hardwareConcurrency): number {
+  return Math.max(1, Math.min(4, Math.floor((cores || 2) / 2)))
+}

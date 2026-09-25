@@ -11,7 +11,8 @@ import SingaporeMinimap from './singaporeMinimap'
 import NtuHallPrototypeHud from './ntuHallPrototypeHud'
 import NtuCampusExploreHud from './ntuCampusExploreHud'
 import NtuRegionBanner from './ntuRegionBanner'
-import NtuCompanionHud from './ntuCompanionHud'
+import NtuCampusHud from './ntuCampusHud'
+import { PICKUP_PLACE } from './ntuPickupQuest'
 import { getLoadedHallPrototype } from './ntuHallPrototype'
 import { isNtuMapRebuild, ntuMapAsset, ntuMemoryKey } from './ntuMapLocal'
 import './alwaysOnHud.css'
@@ -30,7 +31,8 @@ export type SingaporeSceneOptions = {
   acceptLoan: () => Promise<Result>
   returnLoan: () => Promise<Result>
   collectKit: () => Promise<Result>
-  shuttle: (id: string, signal?: AbortSignal) => Promise<Result>
+  /** A stop id, or a checked point to walk in from (the chapter demo). */
+  shuttle: (to: string | Position & { yaw?: number }, signal?: AbortSignal) => Promise<Result>
   observer?: (mode: 'fly' | 'overhead' | 'walk') => Promise<Result>
 }
 export type SingaporeMemory = {
@@ -281,7 +283,7 @@ function refreshSceneCamera () {
   const entity = activeBot?.entity
   if (entity && typeof appViewer !== 'undefined') appViewer.backend?.updateCamera(entity.position, entity.yaw, entity.pitch, { instant: true })
 }
-async function travelDayDemo (id: string, signal: AbortSignal): Promise<boolean> {
+async function travelDayDemo (id: string | Position & { yaw?: number }, signal: AbortSignal): Promise<boolean> {
   const currentScene = scene
   const player = activeBot
   if (!currentScene || !player || signal.aborted) return false
@@ -542,9 +544,13 @@ export default function SingaporeHud () {
     </header>
     {isNtuMapRebuild() && activeBot && <NtuRegionBanner player={activeBot} language={state.language} />}
     {!panelOpen && getLoadedHallPrototype() && <NtuHallPrototypeHud language={state.language} busy={state.busy} onShuttle={takeShuttle} error={state.error ? text[state.error] : undefined} />}
-    {!panelOpen && isNtuMapRebuild() && <NtuCampusExploreHud language={state.language} stops={scene?.tourStops} busy={state.busy} error={state.error ? text[state.error] : undefined} onShuttle={takeShuttle} onGlasses={() => openSingaporePanel()}
-      onDemo={openDayDemo} observerMode={state.observerMode} onObserver={mode => { void changeObserverMode(mode) }} />}
-    {!panelOpen && isNtuMapRebuild() && activeBot && <NtuCompanionHud language={state.language} player={activeBot} target={state.target} focus={stationName(state.focus)} quiet={state.quiet} onOpen={() => openSingaporePanel()} />}
+    {!panelOpen && isNtuMapRebuild() && <NtuCampusExploreHud
+      language={state.language} stops={scene?.tourStops} busy={state.busy} error={state.error ? text[state.error] : undefined} onShuttle={takeShuttle} onGlasses={() => openSingaporePanel()}
+      onTask={() => takeShuttle(PICKUP_PLACE)} observerMode={state.observerMode} onObserver={mode => { void changeObserverMode(mode) }} />}
+    {isNtuMapRebuild() && activeBot && <NtuCampusHud
+      language={state.language} player={activeBot} quiet={state.quiet} hidden={panelOpen}
+      active={!panelOpen && !state.busy && state.observerMode === 'walk'} onQuiet={toggleQuiet} onInteract={stopWalking} onTravel={async (stop, signal) => travelDayDemo(stop, signal)}
+      isVisible={(point, range) => Boolean(activeBot && isSingaporeTargetVisible(activeBot, point, range))} />}
     {!panelOpen && !getLoadedHallPrototype() && !isNtuMapRebuild() && !state.quiet && <button className='ao-mission ao-interactive' onClick={() => openSingaporePanel()}><span className='ao-eyebrow'>NTU · {state.language === 'zh' ? `第 ${state.visit} 次访问` : `VISIT ${state.visit}`}</span><strong>{title}</strong><span>{description}</span><span className='ao-mission-progress'>{receipts.map((receipt, index) => <i key={index} className={receipt ? 'is-active' : ''} />)}</span>{!allDone && <small className='sg-focus'>{text.focus} · {stationName(state.focus)}</small>}</button>}
     {!panelOpen && activeBot && scene && <SingaporeMinimap player={activeBot} stations={scene.stations} tourStops={scene.tourStops} language={state.language} focus={state.focus} touch={Boolean(currentTouch)} onVisit={state.observerMode === 'walk' ? takeShuttle : undefined} />}
     {!panelOpen && state.target && <button className='ao-interact ao-interactive' onClick={interact}><kbd>{currentTouch ? '↗' : 'E'}</kbd>{stationName(state.target)}<span>↗</span></button>}

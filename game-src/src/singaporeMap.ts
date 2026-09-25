@@ -10,7 +10,7 @@ import { fsState, loadSave } from './loadSave'
 import { options, qsOptions, serverChangedSettings } from './optionsStorage'
 import { appStorage } from './react/appStorageProvider'
 import { loadHallPrototype } from './ntuHallPrototype'
-import { isNtuMapRebuild, ntuMapAsset } from './ntuMapLocal'
+import { isNtuMapRebuild, ntuMapAsset, ntuMesherWorkers } from './ntuMapLocal'
 
 export type SingaporePosition = { x: number, y: number, z: number }
 export type SingaporeApproach = SingaporePosition & { yaw: number }
@@ -53,13 +53,14 @@ const isApproach = (value: any) => isPosition(value) && Number.isFinite(value.ya
 /** Scene defaults stay out of saved preferences; explicit visitor settings win. */
 export function applyNtuMapPerformanceDefaults () {
   const explicit = { ...appStorage.changedSettings, ...qsOptions }
-  const assignDefault = (key: 'renderDistance' | 'rendererWorldPerformance' | 'keepChunksDistance', value: any) => {
+  const assignDefault = (key: 'renderDistance' | 'rendererWorldPerformance' | 'rendererMeshersCountOverride' | 'keepChunksDistance', value: any) => {
     if (Object.hasOwn(explicit, key)) return
     serverChangedSettings.value.add(key)
     Object.assign(options, { [key]: value })
   }
   assignDefault('renderDistance', 2)
   assignDefault('rendererWorldPerformance', 'low-energy')
+  assignDefault('rendererMeshersCountOverride', ntuMesherWorkers())
   assignDefault('keepChunksDistance', 0)
   // Also accept the simple URL parameter used by the local preview links.
   const requested = Number(appQueryParams.renderDistance)

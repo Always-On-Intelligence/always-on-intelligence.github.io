@@ -7,7 +7,7 @@ import { LIVE_ROUTE as DEFAULT_LIVE_ROUTE } from './ntuLiveRoute'
  */
 export function createCampusActors(
   THREE,
-  { scene, getGroundHeight, route: LIVE_ROUTE = DEFAULT_LIVE_ROUTE }
+  { scene, getGroundHeight, route: LIVE_ROUTE = DEFAULT_LIVE_ROUTE, deskLabel = 'S-LAB / DEMO' }
 ) {
   const group = new THREE.Group()
   group.name = 'S-Lab outdoor demo actors'
@@ -207,7 +207,7 @@ export function createCampusActors(
   )
   const deskLeg = geometry(new THREE.CylinderGeometry(0.018, 0.024, 0.76, 6))
   for (const x of [-0.4, 0.4]) { for (const z of [-0.19, 0.19]) mesh(deskLeg, metal, desk, x, 0.38, z) }
-  const sign = label('S-LAB / DEMO', 0.65, 0.2)
+  const sign = label(deskLabel, 0.65, 0.2)
   if (sign) {
     sign.position.set(0, 1.025, -0.2)
     desk.add(sign)
@@ -329,6 +329,42 @@ export function createCampusActors(
       }
     }
   }
+  // Objective marker: a floating pin, drawn over walls, above whichever target is next.
+  let markerTarget = null
+  const marker = (() => {
+    if (typeof document === 'undefined') return null
+    const canvas = document.createElement('canvas')
+    canvas.width = 96
+    canvas.height = 128
+    const context = canvas.getContext('2d')
+    if (!context) return null
+    context.fillStyle = '#d7eab9'
+    context.strokeStyle = '#203c30'
+    context.lineWidth = 7
+    context.beginPath()
+    context.arc(48, 44, 34, Math.PI * 0.8, Math.PI * 2.2)
+    context.lineTo(48, 120)
+    context.closePath()
+    context.fill()
+    context.stroke()
+    context.fillStyle = '#203c30'
+    context.beginPath()
+    context.arc(48, 44, 12, 0, Math.PI * 2)
+    context.fill()
+    const texture = new THREE.CanvasTexture(canvas)
+    texture.colorSpace = THREE.SRGBColorSpace
+    textures.add(texture)
+    const pin = new THREE.SpriteMaterial({ map: texture, depthTest: false, sizeAttenuation: false, fog: false, toneMapped: false })
+    materials.add(pin)
+    const sprite = new THREE.Sprite(pin)
+    // Constant on-screen size, anchored at the pin's tip.
+    sprite.scale.set(0.045, 0.06, 1)
+    sprite.center.set(0.5, 0)
+    sprite.renderOrder = 999
+    sprite.visible = false
+    group.add(sprite)
+    return sprite
+  })()
   function update(dt, cameraPosition, cameraQuaternion) {
     if (disposed || !group.visible) return
     dt = Math.max(0, Math.min(0.1, Number.isFinite(dt) ? dt : 0))
@@ -439,6 +475,11 @@ export function createCampusActors(
       parcel.position.copy(targetPosition)
       parcel.quaternion.copy(targetQuaternion)
     }
+    if (marker && markerTarget) {
+      const base = markerTarget === 'desk' ? desk.position : actors[markerTarget].root.position
+      const lift = markerTarget === 'desk' ? 1.45 : 2.05
+      marker.position.set(base.x, base.y + lift + Math.sin(elapsed * 2.6) * 0.05, base.z)
+    }
   }
   return {
     colleague: colleagueState.root,
@@ -465,6 +506,11 @@ export function createCampusActors(
     update,
     gesture,
     setParcel,
+    /** Point the objective marker at 'colleague', 'steward' or 'desk'; anything else hides it. */
+    setMarker(target) {
+      markerTarget = ['colleague', 'steward', 'desk'].includes(target) ? target : null
+      if (marker) marker.visible = markerTarget !== null
+    },
     isTransferring() {
       return transfer !== null
     },

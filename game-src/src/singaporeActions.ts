@@ -1,7 +1,8 @@
 import { Vec3 } from 'vec3'
 
 type Position = { x: number, y: number, z: number }
-type Station = { id: string, position: Position, approach: Position & { yaw?: number } }
+type Approach = Position & { yaw?: number }
+type Station = { id: string, position: Position, approach: Approach }
 type Result = { ok: boolean, receiptId?: string, reason?: string, observerMode?: 'walk' | 'fly' | 'overhead' }
 type PreloadEntry = { x: number, z: number, users: number, owned: boolean, settled: boolean, column?: any, ready: Promise<any> }
 const LOAN = 'NTU-DEMO-LOAN-1'
@@ -199,30 +200,33 @@ export function createSingaporeActions (server: any, playerBot: any, stations: r
       kitCollected = true
       return { ok: true, receiptId: `NTU-KIT-${Date.now().toString(36)}` }
     },
-    /** Only called after the visitor explicitly selects a simulated shuttle stop. */
-    async shuttle (id: string, signal?: AbortSignal): Promise<Result> {
+    /**
+     * Only called after the visitor explicitly selects a simulated shuttle stop, or by the chapter
+     * demo with a checked point to walk in from. A point gets the same safety checks as a stop.
+     */
+    async shuttle (to: string | Approach, signal?: AbortSignal): Promise<Result> {
       if (signal?.aborted) return { ok: false, reason: 'cancelled' }
-      const target = station(id)
+      const approach = typeof to === 'string' ? station(to)?.approach : to
       const visitor = player()
-      if (!target || !visitor || travelling) return { ok: false, reason: 'not-ready' }
+      if (!approach || !visitor || travelling) return { ok: false, reason: 'not-ready' }
       if (observerOrigin) return { ok: false, reason: 'observer-mode' }
       travelling = true
       let destinationLoad: ReturnType<typeof preload> | undefined
       try {
         playerBot.clearControlStates()
         // Load the destination before moving; never place a visitor on missing terrain.
-        destinationLoad = preload(target.approach)
+        destinationLoad = preload(approach)
         await cancellableTravel(destinationLoad.ready, signal)
         checkTravelActive(signal)
-        const foot = point(target.approach).floored()
+        const foot = point(approach).floored()
         const floor = await cancellableTravel(Promise.resolve(server.overworld.getBlock(foot.offset(0, -1, 0))), signal)
         const body = await cancellableTravel(Promise.resolve(server.overworld.getBlock(foot)), signal)
         const head = await cancellableTravel(Promise.resolve(server.overworld.getBlock(foot.offset(0, 1, 0))), signal)
         checkTravelActive(signal)
         if (floor?.boundingBox !== 'block' || body?.boundingBox === 'block' || head?.boundingBox === 'block') return { ok: false, reason: 'unsafe-stop' }
-        await teleportAndConfirm(visitor, playerBot, point(target.approach), signal)
+        await teleportAndConfirm(visitor, playerBot, point(approach), signal)
         checkTravelActive(signal)
-        await cancellableTravel(playerBot.look(target.approach.yaw ?? 0, 0, true), signal)
+        await cancellableTravel(playerBot.look(approach.yaw ?? 0, 0, true), signal)
         checkTravelActive(signal)
         return { ok: true }
       } catch { return { ok: false, reason: signal?.aborted ? 'cancelled' : 'travel-failed' } } finally {

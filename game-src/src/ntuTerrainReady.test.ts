@@ -1,5 +1,5 @@
 import { afterEach, expect, test, vi } from 'vitest'
-import { waitForNtuTerrain } from './ntuTerrainReady'
+import { drawnAround, waitForNtuTerrain } from './ntuTerrainReady'
 
 const points = [{ x: 0, y: 52, z: 0 }, { x: 16, y: 52, z: 0 }]
 afterEach(() => { vi.useRealTimers() })
@@ -67,4 +67,21 @@ test('an already cancelled mount never inspects the disposed runtime', async () 
   await expect(waitForNtuTerrain({ points, getGroundHeight: probe, signal: abort.signal })).rejects.toMatchObject({ name: 'AbortError' })
   expect(probe).not.toHaveBeenCalled()
   expect(vi.getTimerCount()).toBe(0)
+})
+
+test('a place counts as drawn only when every chunk in view is meshed and shown', () => {
+  const finishedChunks: Record<string, boolean> = {}
+  const pending = new Set<string>()
+  const renderer = { viewDistance: 1, finishedChunks, chunkMeshManager: { pendingNearReveal: pending } }
+  // Just west of the origin: the centre chunk is -1,0, so the view spans chunks -2..0 by -1..1.
+  const at = { x: -0.5, z: 3 }
+  expect(drawnAround(renderer, at)).toEqual({ drawn: 0, total: 9 })
+  for (const x of [-32, -16, 0]) for (const z of [-16, 0, 16]) finishedChunks[`${x},${z}`] = true
+  // A chunk outside the view does not count.
+  finishedChunks['16,0'] = true
+  expect(drawnAround(renderer, at)).toEqual({ drawn: 9, total: 9 })
+  // Meshed but held back from display is not drawn yet.
+  pending.add('-16,0')
+  expect(drawnAround(renderer, at)).toEqual({ drawn: 8, total: 9 })
+  expect(drawnAround({ viewDistance: 3, finishedChunks }, at).total).toBe(49)
 })
