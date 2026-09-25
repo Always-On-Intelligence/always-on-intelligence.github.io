@@ -32,7 +32,7 @@
     "dev:always-on": "node scripts/alwaysOn.mjs dev",
     "build:always-on": "node scripts/alwaysOn.mjs build",
     "stage:website": "node scripts/stageAlwaysOn.mjs",
-    "test:always-on": "vitest run src/alwaysOnMenuInput.test.ts src/ntuMapLocal.test.ts src/ntuTerrainReady.test.ts src/ntuLiveEpisodeRuntime.test.ts src/ntuObserverView.test.ts src/ntuDayDemoEngine.test.ts src/ntuDayDemoPresets.test.ts src/ntuRegionTracker.test.ts && node scripts/testSingaporeHud.cjs && node scripts/testEccvHud.cjs && node scripts/testSingaporeMap.cjs && node scripts/testSingaporeActions.cjs"
+    "test:always-on": "vitest run src/alwaysOnLoop.test.ts src/alwaysOnPrompt.test.ts src/alwaysOnMenuInput.test.ts src/ntuMapLocal.test.ts src/ntuTerrainReady.test.ts src/ntuLiveEpisodeRuntime.test.ts src/ntuObserverView.test.ts src/ntuDayDemoEngine.test.ts src/ntuDayDemoPresets.test.ts src/ntuRegionTracker.test.ts src/ntuCampusClock.test.ts src/ntuCampusStory.test.ts src/ntuCampusErrands.test.ts src/ntuCampusConditions.test.ts src/ntuPickupQuest.test.ts src/ntuCampusDirector.test.ts src/ntuCampusChapters.test.ts src/waitForWorldReady.test.ts && node scripts/testSingaporeHud.cjs && node scripts/testEccvHud.cjs && node scripts/testSingaporeMap.cjs && node scripts/testSingaporeActions.cjs"
   },
   "keywords": [
     "prismarine",

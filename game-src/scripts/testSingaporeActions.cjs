@@ -137,6 +137,12 @@ async function run () {
   assert.equal((await actions.collectKit()).ok, true)
   assert.equal(slots.find(Boolean).name, 'bundle')
   assert.equal((await actions.collectKit()).reason, 'already-collected')
+  // The chapter demo lands at a checked point instead of a stop, with the same arrival guarantees.
+  const walkIn = { x: destination.x, y: destination.y, z: destination.z - 2, yaw: 1.2 }
+  assert.equal((await actions.shuttle(walkIn)).ok, true)
+  assert(bot.entity.position.distanceTo(new Vec3(walkIn.x, walkIn.y, walkIn.z)) < .01)
+  assert(visitor.position.distanceTo(bot.entity.position) < .01)
+  assert(angleDistance(bot.entity.yaw, walkIn.yaw) < .003)
   const walkingOrigin = bot.entity.position.clone()
   let lastAbilities
   bot._client.on('abilities', packet => { lastAbilities = packet })
@@ -156,6 +162,7 @@ async function run () {
   assert.equal(bot.entity.velocity.norm(), 0)
   safe = false
   assert.equal((await actions.shuttle('return')).reason, 'unsafe-stop')
+  assert.equal((await actions.shuttle({ x: destination.x, y: destination.y, z: destination.z - 2 })).reason, 'unsafe-stop')
   assert.equal((await actions.shuttle('unknown')).ok, false)
   safe = true
   const originalWrite = bot._client.write.bind(bot._client)

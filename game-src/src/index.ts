@@ -56,6 +56,7 @@ import {
 
 import { parseServerAddress } from './parseServerAddress'
 import { setLoadingScreenStatus, lastConnectOptions, formatLoadingScreenError } from './appStatus'
+import { waitForWorldReady } from './waitForWorldReady'
 import { isCypress } from './standaloneUtils'
 
 import { startLocalServer, unsupportedLocalServerFeatures } from './createLocalServer'
@@ -794,22 +795,18 @@ export async function connect (connectOptions: ConnectOptions) {
 
   let worldWasReady = false
   const waitForChunksToLoad = async (progress?: ProgressReporter) => {
-    await new Promise<void>(resolve => {
-      if (worldWasReady) {
-        resolve()
-        return
-      }
-      const unsub = subscribe(appViewer.rendererState, () => {
-        if (appViewer.rendererState.world.allChunksLoaded && appViewer.nonReactiveState.world.chunksTotalNumber) {
-          worldWasReady = true
-          resolve()
-          unsub()
-        } else {
-          const perc = Math.round(Object.keys(appViewer.rendererState.world.chunksLoaded).length / appViewer.nonReactiveState.world.chunksTotalNumber * 100)
-          progress?.reportProgress('chunks', perc / 100)
-        }
+    if (worldWasReady) return
+    const controller = new AbortController()
+    const disconnected = () => controller.abort()
+    bot.once('end', disconnected)
+    try {
+      await waitForWorldReady({
+        read: () => ({ ready: appViewer.rendererState.world.allChunksLoaded, loaded: Object.keys(appViewer.rendererState.world.chunksLoaded).length, total: appViewer.nonReactiveState.world.chunksTotalNumber }),
+        subscribe: check => subscribe(appViewer.rendererState, check),
+        onProgress: value => progress?.reportProgress('chunks', value), signal: controller.signal
       })
-    })
+      worldWasReady = true
+    } finally { bot.removeListener('end', disconnected) }
   }
 
   const spawnEarlier = !singleplayer && !p2pMultiplayer
@@ -837,7 +834,7 @@ export async function connect (connectOptions: ConnectOptions) {
       window.worldLoadTime = (Date.now() - loadWorldStart) / 1000
       console.log('All chunks done and ready! Time from renderer connect to ready', (Date.now() - loadWorldStart) / 1000, 's')
       document.dispatchEvent(new Event('cypress-world-ready'))
-    })
+    }).catch(error => console.warn('World readiness check:', error))
 
     try {
       if (p2pConnectTimeout) clearTimeout(p2pConnectTimeout)
@@ -1061,7 +1058,7 @@ const maybeEnterGame = () => {
     if (isSingaporeScene) {
       void loadSingaporeMap().catch(error => {
         console.error('NTU map loading failed', error)
-        setLoadingScreenStatus(new URLSearchParams(location.search).get('lang') === 'zh' ? 'NTU 地图加载失败，请刷新重试。' : 'NTU map loading failed. Please refresh to retry.')
+        setLoadingScreenStatus(formatLoadingScreenError('NTU map loading', error), true)
       })
       return
     }

@@ -1,0 +1,96 @@
+.ntu-quest{position:absolute;right:24px;top:90px;width:340px;box-sizing:border-box;max-height:calc(100vh - 165px);overflow:auto;padding:18px;color:#edf6ef;background:rgba(24,48,42,.9);border:1px solid #d7f4dd55;border-radius:16px;backdrop-filter:blur(16px);font:12px/1.55 system-ui,sans-serif;box-shadow:0 10px 32px #112b2533}
+.ntu-quest header{display:flex;justify-content:space-between;gap:8px;color:#b4d6c4;font-size:9px;letter-spacing:.06em}.ntu-quest header small{white-space:nowrap;font-size:9px}.ntu-quest h2{font-size:19px;font-weight:600;margin:9px 0}.ntu-quest p{margin:10px 0}.ntu-quest button{font:inherit;color:inherit;cursor:pointer;border:1px solid #ffffff35;border-radius:8px;background:#ffffff0d;padding:8px 10px}.ntu-quest button:disabled{opacity:.45;cursor:default}.ntu-quest button:focus-visible{outline:2px solid #d9f2b8;outline-offset:2px}.ntu-quest .ntu-quest-primary{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:#d7eab9;color:#203c30;border:0;font-weight:600}.ntu-quest kbd{font:10px system-ui;border:1px solid currentColor;border-radius:3px;padding:0 4px;opacity:.7}.ntu-quest-progress{display:flex;gap:6px}.ntu-quest-progress span{flex:1;border-top:3px solid #ffffff25;padding-top:5px;color:#b8c8be;font-size:10px}.ntu-quest-progress span[data-done=true]{border-color:#d7eab9;color:#d7eab9}.ntu-quest-hint{display:block;margin-top:8px;color:#bed2c6;font-size:10px}.ntu-quest .ntu-quest-quiet{flex:none;padding:1px 7px;border-radius:999px;font-size:9px}.ntu-quest .ntu-quest-quiet[aria-pressed=true]{background:#b6caef40;border-color:#b6caef}.ntu-quest-reminder{padding:10px;border-left:2px solid #d7eab9;background:#ffffff09}
+@media(max-width:700px){.ntu-quest{right:12px;top:auto;bottom:55px;width:245px;max-height:45vh;padding:12px}.ntu-quest h2{font-size:17px;margin:8px 0}.ntu-quest header{font-size:8px}}
+@media(max-height:580px){.ntu-quest{top:70px;max-height:calc(100vh - 125px);padding:12px}.ntu-quest h2{font-size:17px;margin:8px 0}}
+.ntu-quest-prompt{position:absolute;left:50%;top:calc(50% + 46px);transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:max(250px,min(460px,calc(100vw - 744px)));box-sizing:border-box;padding:9px 16px 9px 10px;border:1px solid rgba(255,255,255,.75);border-radius:14px;background:rgba(250,252,245,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 6px 26px rgba(25,42,36,.2);color:#1f3a33;font:600 14px/1.35 system-ui,sans-serif;text-align:left;pointer-events:none}
+.ntu-quest-prompt span{display:grid;gap:2px;min-width:0}
+.ntu-quest-prompt small{font:500 12px/1.35 system-ui,sans-serif;color:#51685f;text-wrap:balance}
+.ntu-quest-prompt i{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#294c45;color:#fff;font:700 17px/1 system-ui,sans-serif;font-style:normal}
+.ntu-quest-prompt[data-mode=act]{pointer-events:auto;cursor:pointer;animation:ntu-quest-prompt-in .2s ease-out}
+.ntu-quest-prompt[data-mode=act] strong{font-size:16px}
+.ntu-quest-prompt kbd{flex:none;min-width:30px;padding:6px 8px;box-sizing:border-box;border-radius:8px;background:#294c45;color:#fff;font:700 15px/1 system-ui,sans-serif;text-align:center;box-shadow:0 2px 0 #10231e;animation:ntu-quest-key 1.6s ease-in-out infinite}
+@keyframes ntu-quest-prompt-in{from{opacity:0;transform:translate(-50%,4px)}}
+@keyframes ntu-quest-key{50%{box-shadow:0 2px 0 #10231e,0 0 0 4px rgba(215,234,185,.95)}}
+@media(max-width:700px){.ntu-quest-prompt{top:calc(50% + 34px);max-width:calc(100vw - 32px)}}
+@media(prefers-reduced-motion:reduce){.ntu-quest-prompt,.ntu-quest-prompt kbd{animation:none}}
+.ntu-quest-tools{display:flex;gap:8px;margin-top:10px}.ntu-quest .ntu-quest-tools button{flex:1;padding:6px 8px;font-size:11px}.ntu-quest .ntu-quest-tools button[data-armed=true]{border-color:#f1b5a2;color:#f7d9cf;background:#f1b5a21f}
+.ntu-quest-prompt kbd{transition:transform .12s,background .12s}.ntu-quest-prompt[data-pressed=true] kbd{transform:translateY(2px) scale(.92);box-shadow:none;background:#4a8074}
+.ntu-demo-bar{display:flex;align-items:center;gap:8px;width:max-content;max-width:max(300px,min(560px,calc(100vw - 744px)));box-sizing:border-box;padding:8px 8px 8px 14px;border:1px solid #d7f4dd55;border-radius:12px;background:rgba(24,48,42,.93);box-shadow:0 8px 26px #0b1a1640;color:#edf6ef;font:12px/1.4 system-ui,sans-serif}
+.ntu-demo-bar>div{display:grid;gap:1px;min-width:0}.ntu-demo-bar b{color:#d7eab9;font-size:10px;letter-spacing:.06em}.ntu-demo-bar small{color:#b6cdbf;font-size:10px}
+.ntu-demo-bar button{flex:none;padding:5px 9px;border:1px solid #ffffff40;border-radius:7px;background:#ffffff12;color:inherit;font:inherit;font-size:11px;cursor:pointer}.ntu-demo-bar button:hover{background:#ffffff24}.ntu-demo-bar button:focus-visible{outline:2px solid #d9f2b8;outline-offset:2px}
+.ntu-demo-bar[data-status=failed] b{color:#f1b5a2}
+@media(max-width:700px){.ntu-demo-bar{max-width:calc(100vw - 24px)}}
+/* Top centre column: the campus clock, the demo bar and the reminder cards, in that order. */
+.ntu-top{position:absolute;left:50%;top:12px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;z-index:2}
+.ntu-top>*{pointer-events:auto}
+.ntu-clock{display:flex;align-items:center;gap:10px;padding:6px 8px 6px 14px;border:1px solid #d7f4dd55;border-radius:999px;background:rgba(24,48,42,.9);backdrop-filter:blur(14px);box-shadow:0 8px 24px #0b1a1640;color:#edf6ef;font:12px/1.2 system-ui,sans-serif;white-space:nowrap}
+.ntu-clock>span{color:#b8d3c3;font-size:11px}
+.ntu-clock strong{font-size:19px;font-weight:650;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.ntu-clock-bar{display:block;width:70px;height:4px;border-radius:3px;background:#ffffff1f;overflow:hidden}
+.ntu-clock-bar b{display:block;height:100%;background:linear-gradient(90deg,#d7eab9,#f1cf9f)}
+.ntu-clock small{color:#f1d7a0;font-size:10px}
+.ntu-clock button{padding:5px 10px;border:1px solid #ffffff40;border-radius:999px;background:#ffffff12;color:inherit;font:600 11px system-ui,sans-serif;cursor:pointer}
+.ntu-clock button:hover:not(:disabled){background:#ffffff26}
+.ntu-clock button:disabled{opacity:.45;cursor:default}
+.ntu-clock[data-paused=true] strong{opacity:.6}
+.ntu-agenda{display:grid;gap:4px;margin:4px 0 8px;padding:0;list-style:none}
+.ntu-agenda li{display:grid;grid-template-columns:16px minmax(0,1fr) auto;align-items:center;gap:8px;padding:6px 8px;border-radius:9px;background:#ffffff08}
+.ntu-agenda li>i{font-style:normal;text-align:center;color:#b8d3c3}
+.ntu-agenda li>span{display:grid;min-width:0}
+.ntu-agenda strong{font-weight:600;font-size:12px;color:#f1f7f0}
+.ntu-agenda small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b7cabe;font-size:10.5px}
+.ntu-quest .ntu-agenda button{padding:3px 9px;font-size:10.5px;border-radius:7px}
+.ntu-agenda li[data-state=done]{opacity:.62}
+.ntu-agenda li[data-state=done]>i{color:#d7eab9}
+.ntu-agenda li[data-state=now]{background:#d7eab91a;box-shadow:inset 0 0 0 1px #d7eab955}
+.ntu-agenda li[data-state=now]>i{color:#d7eab9}
+.ntu-agenda li[data-state=missed]>i{color:#f1b5a2}
+@media(max-width:700px){.ntu-top{top:8px;width:calc(100vw - 24px)}.ntu-clock{gap:7px;padding:4px 5px 4px 10px;font-size:11px}.ntu-clock strong{font-size:16px}.ntu-clock-bar{display:none}.ntu-clock button{padding:4px 8px;font-size:10px;overflow:hidden;text-overflow:ellipsis;max-width:48vw}.ntu-agenda small{display:none}.ntu-agenda li{padding:4px 6px}}
+/* Battery in the Sensing header: recognising people everywhere drains it faster. */
+.ntu-battery{flex:none;padding:1px 5px;border-radius:4px;background:#a9d6ba26;color:#d9efe0;font-size:8.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ntu-battery[data-low=true]{background:#f1cf9f33;color:#f5e3c6}
+/* Chapter demo: the list of chapters, and the playback speed switch it shares with the demo bar. */
+.ntu-chapters{display:grid;gap:8px;width:min(440px,max(300px,calc(100vw - 760px)));max-height:min(62vh,560px);box-sizing:border-box;padding:12px;border:1px solid #d7f4dd55;border-radius:14px;background:rgba(24,48,42,.95);box-shadow:0 10px 30px #0b1a1650;color:#edf6ef;font:12px/1.45 system-ui,sans-serif}
+.ntu-chapters header{display:flex;align-items:center;gap:8px}
+.ntu-chapters header b{flex:1;color:#d7eab9;font-size:11px;letter-spacing:.06em}
+.ntu-chapters p{margin:0;color:#b8d0c2;font-size:11px}
+.ntu-chapters button{font:inherit;color:inherit;cursor:pointer;border:1px solid #ffffff35;border-radius:8px;background:#ffffff0d}
+.ntu-chapters header>button{padding:2px 8px}
+.ntu-chapters .ntu-chapters-all{padding:7px 10px;border:0;background:#d7eab9;color:#203c30;font-weight:650}
+.ntu-chapters ol{display:grid;gap:4px;margin:0;padding:0;list-style:none;overflow:auto;min-height:0}
+.ntu-chapters li button{display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px;text-align:left}
+.ntu-chapters li button:hover{background:#ffffff1c}
+.ntu-chapters li i{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:50%;background:#ffffff18;font-style:normal;font-weight:650;font-size:11px}
+.ntu-chapters li span{display:grid;min-width:0}
+.ntu-chapters li strong{font-weight:600}
+.ntu-chapters li small{color:#aac3b5;font-size:10px}
+.ntu-speed{display:inline-flex;flex:none;gap:2px;padding:2px;border-radius:8px;background:#ffffff12}
+.ntu-top .ntu-speed button{padding:2px 7px;border:0;border-radius:6px;background:transparent;color:#cfe3d6;font:600 11px system-ui,sans-serif;cursor:pointer}
+.ntu-top .ntu-speed button[aria-pressed=true]{background:#d7eab9;color:#203c30}
+@media(max-width:700px){.ntu-chapters{width:calc(100vw - 24px);max-height:55vh}}
+/* The curtain over the world while a demo trip draws the map. It sits under every panel and the glasses rim. */
+.ntu-curtain{position:absolute;inset:0;z-index:-1;display:grid;place-items:center;box-sizing:border-box;padding:96px 388px 96px 24px;background:radial-gradient(ellipse at 42% 45%,#1f3d35 0%,#11231e 60%,#0a1512 100%);color:#edf6ef;font:13px/1.55 system-ui,sans-serif;text-align:center;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.ntu-curtain[data-shown=true]{opacity:1;visibility:visible;transition:opacity .3s ease}
+.ntu-curtain>div{display:grid;justify-items:center;gap:10px;max-width:480px}
+.ntu-curtain>div>small{color:#b8d3c3;font-size:11px;letter-spacing:.08em}
+.ntu-curtain h2{margin:0;color:#f4f8f3;font-size:26px;font-weight:650;line-height:1.25}
+.ntu-curtain p{margin:0;color:#cfe0d5;font-size:14px;text-wrap:balance}
+.ntu-curtain-load{display:grid;justify-items:center;gap:7px;margin-top:14px;color:#b8d3c3;font-size:11px}
+.ntu-curtain-load strong{color:#edf6ef;font-size:13px;font-weight:600}
+.ntu-curtain-load i{display:block;width:200px;height:3px;border-radius:2px;background:#ffffff1f;overflow:hidden}
+.ntu-curtain-load b{display:block;height:100%;background:linear-gradient(90deg,#d7eab9,#f1cf9f);transition:width .3s}
+.ntu-curtain-load small{font-variant-numeric:tabular-nums}
+@media(max-width:700px){.ntu-curtain{padding:96px 16px 45vh}}
+@media(prefers-reduced-motion:reduce){.ntu-curtain,.ntu-curtain[data-shown=true],.ntu-curtain-load b{transition:none}}
+/* The curtain already names the destination; the region banner fired by the jump would float over it. */
+.ao-glasses:has(.ntu-curtain[data-shown=true]) .ntu-region-banner{visibility:hidden}
+/*
+ * The S/M/A panel is what the demo is about. When the card runs short, the agenda gives way
+ * first and scrolls on its own. Memory's list is capped to what fits beside Sensing and Action
+ * (one record on a 900-px-high window, more on taller ones) and scrolls too; past that the card scrolls.
+ */
+.ntu-quest{display:flex;flex-direction:column;overscroll-behavior:contain}
+.ntu-quest>*{flex:none}
+.ntu-quest>.ntu-agenda{flex:0 1 auto;min-height:118px;margin:0 0 8px;overflow-y:auto;overscroll-behavior:contain}
+.ntu-quest>.ntu-quest-hint{margin-top:0}
+.ntu-quest .ao-loop-memory{max-height:max(84px,calc(100vh - 816px));overflow-y:auto;overscroll-behavior:contain}
