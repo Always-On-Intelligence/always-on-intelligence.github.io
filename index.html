@@ -3,355 +3,515 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#182439">
-  <title>Always-On Personal AI — A Continuing and Self-Evolving Loop</title>
-  <meta name="description" content="A roadmap for always-on personal AI: Sensing, Memory, Action, five coupling channels, levels of loop closure, and HALO for evidence-based oversight.">
-  <link rel="canonical" href="https://always-on-agent.github.io/">
+  <meta name="theme-color" content="#faf8f3">
+  <title>Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops</title>
+  <meta name="description" content="A survey and roadmap for always-on personal intelligence: Sensing, Memory, and Action connected by six directed coupling channels, levels of loop closure, and HALO for checking the loop.">
+  <link rel="canonical" href="https://always-on-intelligence.github.io/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Always-On Personal AI">
-  <meta property="og:description" content="A Roadmap towards a Continuing and Self-Evolving Loop. Explore the survey, functional framework, and HALO oversight protocol.">
-  <meta property="og:url" content="https://always-on-agent.github.io/">
-  <meta property="og:image" content="https://always-on-agent.github.io/assets/icon.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:title" content="Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops">
+  <meta property="og:description" content="Sensing, Memory, and Action connected by six directed coupling channels, levels of loop closure, and HALO for checking the loop.">
+  <meta property="og:url" content="https://always-on-intelligence.github.io/">
+  <meta property="og:image" content="https://always-on-intelligence.github.io/assets/figures/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=framework-high-channels-20260915">
-  <script src="script.js?v=framework-high-channels-20260915" defer></script>
-  <link rel="stylesheet" href="research.css?v=glass-only-20260917">
-  <link rel="stylesheet" href="application-space.css?v=glass-only-20260917">
-  <script type="module" src="research.js?v=glass-only-20260917"></script>
-  <link rel="stylesheet" href="demo/minecraft-embed.css?v=minecraft-ready-20260917">
-  <script type="module" src="demo/minecraft-embed.mjs?v=minecraft-ready-20260917"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Pixelify+Sans:wght@500;600;700&family=Silkscreen&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="site/site.css">
+  <link rel="stylesheet" href="site/cases.css">
+  <script>(function () { var h = location.hash; if (/^#case-[a-z0-9-]+$/.test(h)) location.replace('play.html' + h); })();</script>
+  <script type="importmap">{ "imports": { "three": "./world/vendor/three/three.module.min.js", "three/addons/": "./world/vendor/three/addons/" } }</script>
+  <script type="module" src="site/main.mjs"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="nav-wrap">
-      <a class="brand" href="#top" aria-label="Always-On Personal AI home"><img src="assets/icon.webp" width="36" height="36" alt=""><span>Always-On<span class="brand-light"> Agent</span></span></a>
-      <nav aria-label="Main navigation">
-        <a href="#overview">Overview</a><a href="#framework">Framework</a><a href="#live-demo">Live demo</a><a href="#closure">Roadmap</a><a href="#halo">HALO</a><a href="#applications">Applications</a><a href="#research">Research</a><a href="#cite">Cite</a>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top" aria-label="Always-On Personal Intelligence"><img src="assets/icon.webp" width="26" height="26" alt=""><span class="brand-name">Always-On Personal Intelligence</span></a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#takeaways">Takeaways</a>
+        <a href="#framework">Framework</a>
+        <a href="play.html">Demo</a>
+        <a href="#applications">Applications</a>
+        <a href="#levels">Levels</a>
+        <a href="#halo">HALO</a>
+        <a href="#open">Open problems</a>
+        <a href="#works">Works</a>
+        <a href="#questions">Questions</a>
+        <a href="#cite">Cite</a>
       </nav>
-      <a class="nav-github" href="https://github.com/Always-On-Agent" aria-label="Always-On-Agent on GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.4 11.4 0 0 0-3.6 22.2c.57.1.78-.25.78-.55v-2.1c-3.17.69-3.84-1.35-3.84-1.35-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.09 1.76 1.18 1.76 1.18 1.02 1.75 2.67 1.25 3.32.96.1-.74.4-1.25.72-1.54-2.53-.29-5.2-1.27-5.2-5.63 0-1.24.45-2.26 1.18-3.06-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.14 1.17a10.9 10.9 0 0 1 5.71 0c2.18-1.48 3.13-1.17 3.13-1.17.63 1.57.24 2.73.12 3.02.74.8 1.18 1.82 1.18 3.06 0 4.37-2.67 5.34-5.22 5.62.41.36.77 1.05.77 2.12v3.11c0 .3.21.66.78.55A11.4 11.4 0 0 0 12 .8Z"/></svg></a>
+      <a class="nav-icon" href="https://github.com/Always-On-Intelligence" aria-label="Always-On-Intelligence on GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.55v-2.02c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55A11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="paper-title">
-      <div class="hero-glow" aria-hidden="true"></div>
-      <div class="container hero-inner">
-        <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> SURVEY &amp; RESEARCH ROADMAP <span class="eyebrow-divider">/</span> 2026</div>
-        <div class="hero-heading"><img class="hero-icon" src="assets/icon.webp" width="88" height="88" alt="Always-On Agent AO loop logo"><h1 id="paper-title"><span>Always-On</span> Personal AI</h1></div>
-        <p class="paper-subtitle">A Roadmap towards a Continuing<br class="desktop-break"> and Self-Evolving Loop</p>
-        <p class="hero-thesis">Personal AI must carry context and commitments beyond a single request.<br class="desktop-break"> We study the continuing loop that makes this possible—and the evidence needed to improve it.</p>
-        <div class="authors" aria-label="Authors"><span class="author-placeholder">Authors to be announced</span></div>
-        <div class="hero-actions">
-          <a class="button primary" href="assets/always-on-personal-ai.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8m-5-5 5 5m-5-5v5h5M8 13h8m-8 4h6"/></svg>Read the paper <span class="button-note">PDF</span></a>
-          <a class="button secondary" href="#research">Explore works <span aria-hidden="true">↗</span></a>
-          <a class="button secondary" href="halo/">Explore HALO <span aria-hidden="true">↗</span></a>
-          <a class="button text-button" href="#cite">BibTeX <span aria-hidden="true">↓</span></a>
+    <!-- ============ title ============ -->
+    <section class="masthead" id="top">
+      <!-- Title, authors and links first, as on the reference page, then the survey video on the same screen,
+           then the moving banner as its own band. The author list follows the paper (main.tex). -->
+      <div class="wrap hero-head">
+        <p class="hero-chip"><i aria-hidden="true"></i>Survey and roadmap</p>
+        <h1 class="title"><span class="title-accent">Always-<span class="title-on">On</span></span> <span class="title-rest">Personal Intelligence</span></h1>
+        <p class="subtitle"><span class="nowrap">A Roadmap Towards Continuing,</span> <span class="nowrap">Self-Evolving Loops</span></p>
+        <p class="authors-list"><span class="au"><a href="https://choiszt.github.io/" target="_blank" rel="noopener">Shuai Liu</a><sup>1,†</sup> ·</span> <span class="au"><a href="https://github.com/hongming21" target="_blank" rel="noopener">Hongming Guo</a><sup>5</sup> ·</span> <span class="au"><a href="https://xiaoxiaoyang2003.github.io/" target="_blank" rel="noopener">Weiyang Jin</a><sup>1</sup> ·</span> <span class="au"><a href="https://kairuihu.github.io/" target="_blank" rel="noopener">Kairui Hu</a><sup>1</sup> ·</span> <span class="au"><a href="https://shulin16.github.io/" target="_blank" rel="noopener">Shulin Tian</a><sup>1</sup> ·</span> <span class="au"><a href="https://scholar.google.com/citations?user=kMui170AAAAJ" target="_blank" rel="noopener">Yuhao Dong</a><sup>1</sup> ·</span> <span class="au"><a href="https://kim1ng.github.io/" target="_blank" rel="noopener">Jinming Wu</a><sup>1</sup> ·</span> <span class="au"><a href="https://kcz358.github.io/" target="_blank" rel="noopener">Kaichen Zhang</a><sup>1</sup> ·</span> <span class="au"><a href="https://yyyujintang.github.io/" target="_blank" rel="noopener">Yujin Tang</a><sup>7</sup> ·</span> <span class="au"><a href="https://davidhanx.github.io/" target="_blank" rel="noopener">Xinyang Han</a><sup>2</sup> ·</span> <span class="au"><a href="https://wenhaochai.com/" target="_blank" rel="noopener">Wenhao Chai</a><sup>3</sup> ·</span> <span class="au"><a href="https://yuqianfu.com/" target="_blank" rel="noopener">Yuqian Fu</a><sup>6</sup> ·</span> <span class="au"><a href="https://ceezh.github.io/" target="_blank" rel="noopener">Ce Zhang</a><sup>8</sup> ·</span> <span class="au"><a href="https://zhangyuanhan-ai.github.io/" target="_blank" rel="noopener">Yuanhan Zhang</a><sup>1,‡</sup> ·</span> <span class="au"><a href="https://ldkong.com/" target="_blank" rel="noopener">Lingdong Kong</a><sup>5,‡</sup> ·</span> <span class="au"><a href="https://lisiyao21.github.io/" target="_blank" rel="noopener">Li Siyao</a><sup>1,‡</sup> ·</span> <span class="au"><a href="https://jingkangyang.com/" target="_blank" rel="noopener">Jingkang Yang</a><sup>1,‡</sup> ·</span> <span class="au"><a href="https://www.gedasbertasius.com/" target="_blank" rel="noopener">Gedas Bertasius</a><sup>8,◇</sup> ·</span> <span class="au"><a href="https://limanling.github.io/" target="_blank" rel="noopener">Manling Li</a><sup>9,◇</sup> ·</span> <span class="au"><a href="https://jiajunwu.com/" target="_blank" rel="noopener">Jiajun Wu</a><sup>4,◇</sup> ·</span> <span class="au"><a href="https://mwang.princeton.edu/" target="_blank" rel="noopener">Mengdi Wang</a><sup>3,◇</sup> ·</span> <span class="au"><a href="https://dawnsong.io/" target="_blank" rel="noopener">Dawn Song</a><sup>2,◇</sup> ·</span> <span class="au"><a href="https://liuziwei7.github.io/" target="_blank" rel="noopener">Ziwei Liu</a><sup>1,✉</sup></span></p>
+        <p class="affils"><span class="affils-row"><span class="nowrap"><sup>1</sup><img class="affil-logo" src="assets/logos/ntu.png" width="19" height="24" alt="" decoding="async">S-Lab, NTU</span> <span class="nowrap"><sup>2</sup><img class="affil-logo affil-logo--tile" src="assets/logos/berkeley.svg" width="24" height="24" alt="" decoding="async">UC Berkeley</span> <span class="nowrap"><sup>3</sup><img class="affil-logo" src="assets/logos/princeton.png" width="17" height="24" alt="" decoding="async">Princeton</span> <span class="nowrap"><sup>4</sup><img class="affil-logo" src="assets/logos/stanford.png" width="16" height="24" alt="" decoding="async">Stanford</span> <span class="nowrap"><sup>5</sup><img class="affil-logo" src="assets/logos/nus.png" width="19" height="24" alt="" decoding="async">NUS</span></span> <span class="affils-row"><span class="nowrap"><sup>6</sup><img class="affil-logo" src="assets/logos/kaust.png" width="26" height="24" alt="" decoding="async">KAUST</span> <span class="nowrap"><sup>7</sup><img class="affil-logo" src="assets/logos/dartmouth.png" width="24" height="24" alt="" decoding="async">Dartmouth</span> <span class="nowrap"><sup>8</sup><img class="affil-logo affil-logo--tile" src="assets/logos/unc.png" width="24" height="24" alt="" decoding="async">UNC Chapel Hill</span> <span class="nowrap"><sup>9</sup><img class="affil-logo affil-logo--tile" src="assets/logos/northwestern.png" width="24" height="24" alt="" decoding="async">Northwestern</span></span></p>
+        <p class="roles"><span class="nowrap"><sup>†</sup>Project lead</span> <span class="nowrap"><sup>‡</sup>Equal mentorship</span> <span class="nowrap"><sup>◇</sup>Advisory committee</span> <span class="nowrap"><sup>✉</sup>Corresponding author</span></p>
+        <div class="res-tiles">
+          <span class="res-tile is-soon" aria-disabled="true"><span class="res-arxiv" aria-hidden="true">ar<b>X</b>iv</span><span>Paper</span><small>coming soon</small></span>
+          <a class="res-tile" href="https://github.com/Always-On-Intelligence/awesome-always-on-personal-intelligence"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.55v-2.02c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55A11.5 11.5 0 0 0 12 .5Z"/></svg><span>Reading list</span></a>
+          <a class="res-tile" href="#framework"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 4.5a7.5 7.5 0 1 1-6.9 4.6M5 4.5v4.8h4.8"/></svg><span>Framework</span></a>
+          <a class="res-tile" href="#halo"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4 7h16M4 12h10M4 17h7m7.5-2.5 2 2-4 4"/></svg><span>HALO</span></a>
+          <a class="res-tile" href="#cite"><span class="res-mono" aria-hidden="true">{ }</span><span>BibTeX</span></a>
         </div>
-        <p class="draft-note">Working draft · September 2026</p>
-        <a class="hero-scroll" href="#overview">Explore the continuing loop <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="wrap">
+        <!-- The survey video, right under the title (the 90-second cut, analysis/demo-video-20261014 in the survey repo).
+             It takes the height left on the first screen, waits on its opening frame until the viewer presses play,
+             and phones get the lighter encode (site/video.mjs). The moving banner follows it. -->
+        <figure class="teaser teaser--video" id="video">
+          <div class="vid" data-video>
+            <video poster="assets/video/always-on-poster.webp" width="1920" height="1080" preload="none" playsinline controls aria-label="The survey in 90 seconds. It has music and no voice, and every word is on screen.">
+              <source src="assets/video/always-on-small.mp4" type="video/mp4" media="(max-width: 760px)">
+              <source src="assets/video/always-on.mp4" type="video/mp4">
+            </video>
+            <button type="button" class="vid-play" data-video-play aria-label="Play the video, 1 minute 30 seconds" hidden>
+              <span class="vid-pill"><svg viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15"/><path d="M12 9.6v10.8c0 .7.8 1.1 1.4.7l8.2-5.4c.5-.4.5-1.1 0-1.4l-8.2-5.4c-.6-.4-1.4 0-1.4.7Z"/></svg>Watch the video<small>1:30</small></span>
+            </button>
+          </div>
+        </figure>
+      </div>
+      <div class="hero">
+        <div class="hero-art" aria-hidden="true">
+          <img class="hero-bg" src="assets/figures/banner-bg.webp" width="2172" height="724" alt="" decoding="async">
+          <!-- The loop that the banner draws, set moving by site/hero-anim.mjs; the paths follow the drawn arrows
+               in the banner's pixels (add ?heroDebug to the URL to see them). -->
+          <svg class="hero-anim" viewBox="0 0 2172 724" data-hero-anim>
+            <path class="ha-path" data-path="sense" d="M 310 358 C 358 304, 413 277, 467 280 C 548 286, 612 336, 695 390 C 758 428, 815 434, 863 428"/>
+            <path class="ha-path" data-path="remember" d="M 1045 375 C 1129 365, 1216 372, 1292 395 C 1358 414, 1412 418, 1461 410"/>
+            <path class="ha-path" data-path="act" d="M 1616 324 C 1662 296, 1727 274, 1792 278 C 1841 284, 1870 300, 1888 322"/>
+            <path class="ha-steam" d="M 1462 538 c -12 -14 12 -26 0 -40 s 12 -26 0 -40"/>
+            <path class="ha-steam" d="M 1484 540 c -12 -14 12 -26 0 -40 s 12 -26 0 -40"/>
+          </svg>
+        </div>
+      </div>
+      <div class="wrap">
+        <dl class="stats" data-stats>
+          <div class="stat"><dt><span class="stat-n" data-stat="works">340</span></dt><dd>works from the survey’s tables, each listed in the <a href="#works">index</a> with every table that cites it.</dd></div>
+          <div class="stat"><dt><span class="stat-n" data-stat="on">67</span><span class="stat-of">of <span data-stat="placed">119</span></span></dt><dd>reviewed systems reach <a href="#levels">L3 or above</a>, where the assistant decides for itself whether or when to act without a request.</dd></div>
+          <div class="stat"><dt><span class="stat-n" data-stat="ms">17</span><span class="stat-of">of <span data-stat="read">40</span></span></dt><dd>systems in <a href="#halo">HALO’s read table</a> report memory guiding what they observe (M→S)<span data-stat-least>, the least reported of the five channels it reads</span>.</dd></div>
+        </dl>
+      </div>
+      <div class="wrap">
+        <div class="overview">
+          <header class="section-head overview-head">
+            <p class="eyebrow">Overview</p>
+            <h2>A loop that keeps running between requests</h2>
+            <p class="lede">Always-on personal intelligence keeps <mark class="hl">assisting between requests</mark>, retains <mark class="hl">personal context</mark> and carries <mark class="hl">unfinished commitments</mark> forward. <mark class="hl">Self-evolution</mark> goes one step further and revises how the loop works, based on past experience.</p>
+          </header>
+          <ol class="contribs">
+            <li><a href="#framework">
+              <span class="contrib-num">01</span>
+              <h3>A unified framework</h3>
+              <p><b class="t-sensing">Sensing</b>, <b class="t-memory">Memory</b> and <b class="t-action">Action</b>, linked by <mark class="hl">six directed channels</mark> that carry information between them, under shared conditions such as privacy and authority.</p>
+              <span class="contrib-go">§2 Framework <i aria-hidden="true">→</i></span>
+            </a></li>
+            <li><a href="#levels">
+              <span class="contrib-num">02</span>
+              <h3>A system-level synthesis</h3>
+              <p>Existing systems mapped onto the framework and compared by <mark class="hl">how much of the loop they close</mark>, in levels from L0 to L5.</p>
+              <span class="contrib-go">§6 Levels <i aria-hidden="true">→</i></span>
+            </a></li>
+            <li><a href="#halo">
+              <span class="contrib-num">03</span>
+              <h3>HALO, a harness for loop oversight</h3>
+              <p>In <mark class="hl">read mode</mark>, three agents read each system’s paper and code and vote on what it reports. In <mark class="hl">run mode</mark>, executable systems run with channels or evidence steps blocked, singly or together, and the behavior is compared.</p>
+              <span class="contrib-go">§7 HALO <i aria-hidden="true">→</i></span>
+            </a></li>
+          </ol>
+        </div>
+
+        <figure class="teaser teaser--roadmap">
+          <img src="assets/figures/roadmap.webp" width="2200" height="824" data-zoom alt="Overview of the roadmap: the definition of always-on personal intelligence as a continuing loop of Sensing, Memory, and Action with six directed channels; the review of each module by space, conditions, policy, coupling, and evaluation; integrated systems, bottlenecks, and levels of loop closure; HALO in read and run modes; and four open problems: the continuing loop, privacy, safety and authority, self-evolution and recursive self-improvement, and longitudinal evaluation.">
+          <figcaption><b>Overview of the roadmap.</b></figcaption>
+        </figure>
       </div>
     </section>
 
-    <section class="section overview" id="overview" aria-labelledby="overview-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">01 / THE PERSPECTIVE</span><h2 id="overview-title">Assistance continues.<br><span class="muted">The request does not have to.</span></h2></div>
-        <div class="intro-grid">
-          <p class="lead">Always-on personal AI sustains assistance between explicit requests, under a declared schedule and availability contract, while retaining usable user-specific state across interactions.</p>
-          <p>It carries unresolved commitments forward and chooses when to observe, remember, communicate, prepare, act—or remain silent. Self-evolution extends this baseline: attributed outcomes must justify policy changes that are validated and retained.</p>
-        </div>
-        <div class="comparison">
-          <article><span class="comparison-label">LONG-HORIZON TASK EXECUTION</span><h3>How far can a task go?</h3><p>Sustain planning and execution through many steps towards a task objective.</p><div class="task-track" aria-hidden="true"><span>Request</span><i></i><b>Steps</b><i></i><span>Completion</span></div></article>
-          <article class="always-on-comparison"><span class="comparison-label">ALWAYS-ON PERSONAL ASSISTANCE</span><h3>What continues between tasks?</h3><p>Maintain decision opportunities, personal state, and commitments across interactions.</p><div class="continuity-track" aria-hidden="true"><span>Observe</span><span>Retain</span><span>Decide</span><span>Continue ↻</span></div></article>
-          <p class="comparison-footnote">These dimensions can overlap. A long task alone does not establish an always-on service; continuous operation does not require continuous recording or constant intervention.</p>
+    <!-- ============ takeaways ============ -->
+    <!-- The paper's Main Takeaways at a Glance (sec/01_intro.tex, §1.3) as twelve short cards: the claim and one line
+         of evidence, and a disclosure inside the card that opens its reasoning and fuller evidence in place,
+         as on the Proactive AI survey's page. -->
+    <section class="section" id="takeaways">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§1.3</span> Main takeaways</p>
+          <h2>The survey at a glance</h2>
+          <p class="lede">Twelve takeaways in the order of the paper. Each card opens to show the reasoning and the <mark class="hl">evidence behind it</mark>.</p>
+        </header>
+        <div class="tk">
+          <p class="tk-swipe" aria-hidden="true">Swipe for all twelve →</p>
+          <ol class="tk-grid">
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">01</span><span class="tk-tag">§2 · Definition</span></p>
+              <h3 class="tk-claim">Always-on means acting between requests and keeping state across them.</h3>
+              <p class="tk-ev">Either alone is common: memory agents only answer requests, and proactive agents act only within one session.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>An always-on assistant needs two properties. It decides by itself whether and when to act, without waiting for a request (<i>operational continuity</i>), and it keeps personal state, like preferences and pending tasks, across interactions (<i>state durability</i>). A loop of sensing, remembering and acting that keeps running between requests provides both.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Each property alone is common. MemGPT remembers the user across sessions but only answers requests, and VideoLLM-online comments on a live video without being asked but only within one session.</p><p class="tk-where">Paper §2.1</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">02</span><span class="tk-tag">§2 · Self-evolution</span></p>
+              <h3 class="tk-claim">Self-evolution changes how the assistant works, and needs evidence.</h3>
+              <p class="tk-ev">The evidence runs from record to later use. Of 40 works, <b>5</b> state a revision and <b>4</b> its later use.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>To serve the user better, the assistant can change how it works (a rule, a prompt or its model weights) from its own trace and the user’s feedback, while it keeps running. Storing that the user prefers reminders at their workstation only updates its state. Editing the timing rule to wait until they are back there changes how it works.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>A claim needs five steps: the assistant recorded what it did, observed the outcome, linked it to the decision behind it, changed the rule, and used the new rule later. Of the 40 works that HALO read, <b>24</b> state the first step, <b>5</b> a revision and only <b>4</b> the later use.</p><p class="tk-where">Paper §2.1.2</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">03</span><span class="tk-tag">§2 · Framework</span></p>
+              <h3 class="tk-claim">Three modules and six channels show where a failure starts.</h3>
+              <p class="tk-ev">A dismissed reminder can trace back to the timing rule, a wrong stored time, or a task the user already finished.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>Sensing observes, Memory keeps what later decisions need, and Action decides whether, when and how to help. Six channels carry information between them, for example from Memory to Sensing about where to look next. Shared limits on privacy, permissions and budgets apply to all three.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Tracing these flows shows where a failure starts, and the cause can sit in another module. A dismissed reminder could mean the timing rule is wrong, the stored meeting time is wrong, or the user already finished the task, and each calls for a different fix.</p><p class="tk-where">Paper §2.2–2.4</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">04</span><span class="tk-tag"><span class="dot dot--S" aria-hidden="true"></span>§3 · Sensing</span></p>
+              <h3 class="tk-claim">What sensing misses leaves no trace.</h3>
+              <p class="tk-ev">Power limits keep wearables at low frame rates, yet <b>40.6%</b> of annotated kitchen actions last under a second.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>Missing an event can do more harm than misreading it. The assistant does not know what it missed, so nothing prompts it to correct its state or the way it senses. Most evaluations test recognition or timing on prerecorded video and do not count what was missed.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Power limits keep always-on wearables at low frame rates. In HD-EPIC’s kitchen videos, <b>40.6%</b> of actions last under a second, so at one frame per second they can fall entirely between frames.</p><p class="tk-where">Paper §3.5</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">05</span><span class="tk-tag"><span class="dot dot--M" aria-hidden="true"></span>§4 · Memory</span></p>
+              <h3 class="tk-claim">A wrong memory gets reused and can steer later revisions.</h3>
+              <p class="tk-ev">We call this the memory trap, and <b>no</b> reviewed always-on system yet shows lasting protection against it.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>A wrong record can be reused before the user notices, so a correction has to reach every summary and pending task built on it. A faulty memory can also bias how later feedback is read, so each revision keeps or even amplifies the error. The paper calls this a <i>memory trap</i>.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Methods that flag outdated records, like STALE, act only once new evidence arrives, so a belief that turns wrong without notice keeps being reused. <b>No</b> reviewed always-on system yet shows lasting protection against the memory trap.</p><p class="tk-where">Paper §4.4.3, §4.5</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">06</span><span class="tk-tag"><span class="dot dot--A" aria-hidden="true"></span>§5 · Action</span></p>
+              <h3 class="tk-claim">Outcomes arrive late, and repeated help becomes a burden.</h3>
+              <p class="tk-ev">In a six-week trial, suggestions raised step counts most at the start, and the effect then shrank.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>A message saying that an action was sent does not show that it worked, and the real outcome often comes late or not at all. Promised tasks must outlast the session that created them, and a reminder that helps today can become a nuisance when it is repeated.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>In the six-week HeartSteps trial, activity suggestions raised step counts most at the start, and the effect shrank over time. In LIMBO, leading models repeat a write in most episodes when a request is still in flight or arrives twice.</p><p class="tk-where">Paper §5.5</p></div></details>
+            </li>
+            <li class="tk-card is-key">
+              <p class="tk-top"><span class="tk-n">07</span><span class="tk-tag">Main finding · §3–5</span></p>
+              <h3 class="tk-claim">Memory rarely guides observation, and outcomes rarely return to it.</h3>
+              <p class="tk-ev">Of 40 works, only <b>17</b> let memory guide observation, and only <b>15</b> of the <b>25</b> that store their actions keep the outcomes.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>Assistants seldom use what they remember to decide what to observe next, and when they do, an outdated memory can keep them from the evidence that would correct it. Many record their actions, but fewer keep how those actions turned out. Keeping sensing open to unexpected change and linking each outcome to the decision behind it are the two research priorities.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Of the 40 works in HALO’s read table, <b>37</b> report memory guiding action (M→A) but only <b>17</b> report memory guiding observation (M→S). Of the same 40, <b>25</b> pass action records back to memory (A→M), and only <b>15</b> of them also keep the outcomes. The two examples right after these cards play both out.</p><p class="tk-where">Paper §3.4.2, §4.4.3, §7.1</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">08</span><span class="tk-tag">§6 · Applications</span></p>
+              <h3 class="tk-claim">Bottlenecks and shared limits cross module lines.</h3>
+              <p class="tk-ev">A confidential meeting may be heard but not stored or repeated, and <b>no</b> reported system controls all three modules.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>On smart glasses, what is captured now limits what can be recalled later. In digital assistance, background checks compete with replies for the same computation. In physical assistance, a wrong action costs more, and judging whether help worked needs Memory to keep the user’s response.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>A shared limit must hold in all three modules at once. In a confidential meeting, Sensing may process other people’s speech, but Memory must not keep it and Action must not pass it on. <b>No</b> reported system controls all three.</p><p class="tk-where">Paper §6.1, §6.2</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">09</span><span class="tk-tag">§6.3 · Levels</span></p>
+              <h3 class="tk-claim">Most assistants stop short of the full loop.</h3>
+              <p class="tk-ev">Of <b>119</b> placed systems, <b>67</b> decide when to act, <b>34</b> tie outcomes to decisions, and <b>5</b> keep every change within the user’s limits.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>Recording in the background or running on a schedule can look always-on, yet such assistants still wait for a request or act only as set. Fewer decide for themselves when to act, and fewer still check how it turned out.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Of the <b>119</b> systems placed, <b>52</b> are not yet always-on (L0 to L2). Of the <b>67</b> that decide when to act, <b>34</b> link an outcome to the decision behind it, mostly through explicit replies like ratings or dismissals. Only <b>5</b> research works keep every change within the user’s limits (L5), each under a stated condition.</p><p class="tk-where">Paper §6.3</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">10</span><span class="tk-tag">§6.4 · Revision</span></p>
+              <h3 class="tk-claim">Changing itself is harder while it keeps running.</h3>
+              <p class="tk-ev">Tasks promised under the old rule are still pending, and <b>no</b> reported system shows in full how a changed rule performs later.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>A running assistant cannot try a change cheaply. Tasks promised under the old rule are still pending, and a revised rule also changes what the assistant observes next.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p><b>No</b> reported system revises when or what it observes. Most revisions learn from ratings, edits, or dismissals, and only the mobile-health trials learn from delayed outcomes. <b>None</b> shows in full what happens to commitments made under the old rule, or whether later assistance improves.</p><p class="tk-where">Paper §6.4</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">11</span><span class="tk-tag">§7 · HALO</span></p>
+              <h3 class="tk-claim">HALO reads each system, then runs it with parts cut.</h3>
+              <p class="tk-ev">Three reviewers vote on <b>40</b> works. Cutting one path can leave behavior unchanged, so channels are cut alone and together.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>In read mode, three language-model reviewers read the paper or blog and any released code of 40 works, and vote on which channels and evidence steps each one reports. In run mode, HALO reruns executable systems with a channel or step removed and compares the behavior.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>No work that reports all channels also revises how it works, so the two are judged apart. In the smart-glasses assistant AiGet, the user profile reaches the suggestions by two paths: removing it from one prompt left no clear preference, and only removing it from both made the judge prefer the original. In the email assistant EAIA, withholding feedback or not storing revisions made all three models drop the required sign-off from new emails.</p><p class="tk-where">Paper §7</p></div></details>
+            </li>
+            <li class="tk-card">
+              <p class="tk-top"><span class="tk-n">12</span><span class="tk-tag">§8 · Goal</span></p>
+              <h3 class="tk-claim">The user steers, and the assistant runs the loop.</h3>
+              <p class="tk-ev"><b>15</b> open problems in four groups stand between today’s assistants and this goal.</p>
+              <details class="tk-more"><summary>Why and evidence</summary><div class="tk-more-why"><p class="tk-label">Why</p><p>The user sets only the loop’s direction and limits. The assistant decides when to act, revises how it works, and asks for confirmation whenever an action needs the user’s permission.</p></div><div class="tk-more-ev"><p class="tk-label">Evidence</p><p>Reaching it means solving <b>15</b> open problems in four groups: keeping the loop running between requests (5), protecting authority, privacy and safety while the user is away (4), checking self-evolution and keeping it within the user’s limits (4), and evaluating assistants over months of real use (2).</p><p class="tk-where">Paper §8</p></div></details>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
 
-    <section class="section framework" id="framework" aria-labelledby="framework-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">02 / THE FRAMEWORK</span><h2 id="framework-title">Three modules. Five connections.<br><span class="muted">One continuing loop.</span></h2><p class="section-deck">We organize the field around what a personal assistant senses, retains, and does—and how these decisions depend on one another.</p></div>
-        <figure class="paper-figure"><button type="button" class="figure-zoom" data-zoom-image="assets/framework.png" aria-label="Enlarge the survey framework" aria-haspopup="dialog" aria-controls="image-lightbox"><img src="assets/framework.webp" width="2600" height="989" alt="Survey framework connecting Sensing, Memory, and Action through five coupling channels, shared operating conditions, applications, and HALO oversight." loading="lazy"></button><figcaption><span>THE SURVEY AT A GLANCE</span> Functional architecture, applications, and evidence-based oversight.</figcaption></figure>
-        <div class="framework-explorer" id="framework-explorer">
-          <div class="explorer-heading"><h3>Follow the connections.</h3><p>Explore a module, or select a directed channel to follow the dependency it carries.</p></div>
-          <div class="framework-layout">
-            <div class="framework-navigation">
-              <div class="framework-map" role="tablist" aria-label="Modules and coupling channels">
-                <div class="loop-diagram">
-                  <svg viewBox="0 0 480 400" aria-hidden="true" focusable="false">
-                    <defs>
-                      <marker id="loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 Z" fill="#9aafa9"/></marker>
-                      <marker id="loop-arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 Z" fill="#167b6c"/></marker>
-                      <marker id="loop-arrow-high" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 Z" fill="#984a3b"/></marker>
-                    </defs>
-                    <path class="loop-baseline" d="M 148 303 L 332 303" marker-end="url(#loop-arrow)"/>
-                    <text class="loop-baseline-label" x="240" y="291" text-anchor="middle">S → A · baseline</text>
-                    <g class="loop-edge is-active" data-loop-edge="sm">
-                      <path class="loop-hit" d="M 126 250 Q 160 185 210 145"/>
-                      <path class="loop-line" d="M 126 250 Q 160 185 210 145"/>
-                      <path class="loop-trace" d="M 126 250 Q 160 185 210 145" pathLength="100"/>
-                      <rect class="loop-edge-label" x="135" y="188" width="58" height="27" rx="7"/>
-                      <text x="164" y="206" text-anchor="middle">S → M</text>
-                    </g>
-                    <g class="loop-edge loop-edge-high" data-loop-edge="ms">
-                      <path class="loop-hit" d="M 178 145 Q 91 170 69 240"/>
-                      <path class="loop-line" d="M 178 145 Q 91 170 69 240"/>
-                      <path class="loop-trace" d="M 178 145 Q 91 170 69 240" pathLength="100"/>
-                      <rect class="loop-edge-label" x="53" y="176" width="58" height="42" rx="7"/>
-                      <text x="82" y="193" text-anchor="middle">M → S</text>
-                      <text class="loop-difficulty-label" x="82" y="208" text-anchor="middle">HIGH</text>
-                    </g>
-                    <g class="loop-edge" data-loop-edge="ma">
-                      <path class="loop-hit" d="M 270 145 Q 320 185 354 240"/>
-                      <path class="loop-line" d="M 270 145 Q 320 185 354 240"/>
-                      <path class="loop-trace" d="M 270 145 Q 320 185 354 240" pathLength="100"/>
-                      <rect class="loop-edge-label" x="287" y="188" width="58" height="27" rx="7"/>
-                      <text x="316" y="206" text-anchor="middle">M → A</text>
-                    </g>
-                    <g class="loop-edge loop-edge-high" data-loop-edge="am">
-                      <path class="loop-hit" d="M 411 250 Q 389 170 302 145"/>
-                      <path class="loop-line" d="M 411 250 Q 389 170 302 145"/>
-                      <path class="loop-trace" d="M 411 250 Q 389 170 302 145" pathLength="100"/>
-                      <rect class="loop-edge-label" x="369" y="176" width="58" height="42" rx="7"/>
-                      <text x="398" y="193" text-anchor="middle">A → M</text>
-                      <text class="loop-difficulty-label" x="398" y="208" text-anchor="middle">HIGH</text>
-                    </g>
-                    <g class="loop-edge" data-loop-edge="as">
-                      <path class="loop-hit" d="M 332 337 Q 240 374 148 337"/>
-                      <path class="loop-line" d="M 332 337 Q 240 374 148 337"/>
-                      <path class="loop-trace" d="M 332 337 Q 240 374 148 337" pathLength="100"/>
-                      <rect class="loop-edge-label" x="211" y="347" width="58" height="27" rx="7"/>
-                      <text x="240" y="365" text-anchor="middle">A → S</text>
-                    </g>
-                  </svg>
-                  <button class="loop-node loop-node-sensing" id="framework-tab-sensing" type="button" role="tab" data-framework-select="sensing" aria-selected="false" aria-controls="framework-panel-sensing" tabindex="-1"><span class="loop-node-letter" aria-hidden="true">S</span><strong>Sensing</strong><small>Acquire timely evidence</small></button>
-                  <button class="loop-node loop-node-memory" id="framework-tab-memory" type="button" role="tab" data-framework-select="memory" aria-selected="false" aria-controls="framework-panel-memory" tabindex="-1"><span class="loop-node-letter" aria-hidden="true">M</span><strong>Memory</strong><small>Maintain usable personal state</small></button>
-                  <button class="loop-node loop-node-action" id="framework-tab-action" type="button" role="tab" data-framework-select="action" aria-selected="false" aria-controls="framework-panel-action" tabindex="-1"><span class="loop-node-letter" aria-hidden="true">A</span><strong>Action</strong><small>Choose the right intervention</small></button>
-                </div>
-                <div class="loop-channel-tabs">
-                  <button type="button" id="framework-tab-sm" role="tab" data-framework-select="sm" aria-label="S → M: Persistent admission" aria-selected="true" aria-controls="framework-panel-sm" tabindex="0">S → M</button>
-                  <button type="button" id="framework-tab-ma" role="tab" data-framework-select="ma" aria-label="M → A: State-informed action" aria-selected="false" aria-controls="framework-panel-ma" tabindex="-1">M → A</button>
-                  <button type="button" id="framework-tab-as" role="tab" data-framework-select="as" aria-label="A → S: Action-directed observation" aria-selected="false" aria-controls="framework-panel-as" tabindex="-1">A → S</button>
-                  <button type="button" id="framework-tab-ms" role="tab" data-framework-select="ms" data-difficulty="high" aria-label="M → S: Memory-guided observation. High difficulty" aria-selected="false" aria-controls="framework-panel-ms" tabindex="-1">M → S<small>High</small></button>
-                  <button type="button" id="framework-tab-am" role="tab" data-framework-select="am" data-difficulty="high" aria-label="A → M: Outcome-attributed revision. High difficulty" aria-selected="false" aria-controls="framework-panel-am" tabindex="-1">A → M<small>High</small></button>
-                </div>
-              </div>
-              <div class="loop-legend" aria-label="Channel difficulty legend"><span><i aria-hidden="true"></i>Moderate</span><span><i class="legend-high" aria-hidden="true"></i>High difficulty</span></div>
-              <p class="loop-baseline-note"><strong>Five channels beyond sense-and-respond.</strong> S → A is the basic observation-to-action path. We focus on the other five directed dependencies.</p>
-              <details class="difficulty-guide"><summary>How to read the difficulty ratings</summary><p>Moderate and High express our qualitative assessment under changing user needs, limited resources, and incomplete feedback. They describe challenges in continuing operation, not a universal ordering or a ranking of research maturity.</p><a href="assets/always-on-personal-ai.pdf#nameddest=section.2">Framework definitions in the survey ↗</a></details>
+    <!-- ============ findings ============ -->
+    <section class="section section--tint mf" id="findings" data-findings>
+      <div class="wrap">
+        <div class="mf-hero">
+          <p class="eyebrow">The main finding</p>
+          <h2 class="mf-statement">Always-on assistants rarely let what they remember guide what they look at, and rarely learn from how their help turned out.</h2>
+          <p class="mf-sub">In the paper’s terms, these are the two channels with the thinnest support: <mark class="hl">Memory guiding Sensing</mark> and <mark class="hl">outcomes from Action returning to Memory</mark>. Both are hard because their errors hide the evidence that would correct them.</p>
+          <a class="mf-down" href="#gap-ms">See both in the example <i aria-hidden="true">↓</i></a>
+        </div>
+
+        <article class="gap" id="gap-ms">
+          <header class="gap-head">
+            <p class="gap-tag"><span>1</span>Memory → Sensing</p>
+            <h3>An outdated memory can stop the assistant from looking.</h3>
+            <p class="gap-intro">The user asked for a reminder after a meeting that is stored as ending at 15:00. Play the afternoon, then let an email move the meeting to 16:00.</p>
+          </header>
+          <div class="gap-demo" data-demo="stale"></div>
+          <div class="gap-more">
+            <div class="gap-evidence">
+              <p class="gap-label">What the paper shows · <a href="#halo">§7.1</a></p>
+              <div class="gap-bars" data-bars="channels"></div>
+              <p>Most works let memory guide what to do. Far fewer let it guide what to observe. Missing documentation explains part of this gap, but such guidance is also hard to build and test. When the world changes without notice, an assistant that trusts its record stops looking where the change happened, and a missed observation leaves nothing to check.</p>
             </div>
-            <div class="framework-details">
-              <button type="button" class="framework-back" data-framework-back>↑ Back to the loop</button>
-              <article class="framework-panel module-detail" id="framework-panel-sensing" role="tabpanel" aria-labelledby="framework-tab-sensing" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>Functional module / S</span></div>
-                <h4>Sensing</h4><p class="framework-definition">Acquire and interpret current evidence. Decide what to observe, when to sample, and what uncertainty remains.</p>
-                <div class="module-topics">
-                  <section><span class="topic-number">01</span><div><h5>Observation streams</h5><p>Work with egocentric video, streaming audio, physical sensors, and digital activity. Preserve when and where evidence was observed.</p></div></section>
-                  <section><span class="topic-number">02</span><div><h5>Sampling and interpretation</h5><p>Choose observation windows, attention, event boundaries, and compression. Keep useful context while accounting for gaps, ambiguity, and sensitive information.</p></div></section>
-                  <section><span class="topic-number">03</span><div><h5>Continuing operation</h5><p>Balance event coverage and timely interpretation against energy, latency, and access. Observation can be scheduled or triggered; always-on assistance need not record continuously.</p></div></section>
-                </div>
-                <div class="framework-example"><span>A continuing reminder</span><p>A reminder is pending. Observe whether a call has ended, while keeping uncertainty explicit when audio or calendar evidence is incomplete.</p></div>
-                <p class="framework-boundary">A short-lived frame buffer supports current perception. Cross-interaction personal state belongs to Memory.</p>
-                <div class="module-connections"><h5>Follow its connections</h5>
-                  <button type="button" data-explore-target="as">A → S · Observe for an action <span aria-hidden="true">↗</span></button>
-                  <button type="button" data-explore-target="ms">M → S · Observe with prior context <span aria-hidden="true">↗</span></button>
-                </div>
-                <a class="framework-paper-link" href="assets/always-on-personal-ai.pdf#nameddest=section.3">Read the Sensing chapter ↗</a>
+            <aside class="gap-open">
+              <p class="gap-label">Open problem · <a href="#open">§8.1</a></p>
+              <h4>Observing between requests</h4>
+              <p>What keeps memory-guided sensing from blinding the assistant to unannounced changes, and how can the assistant account for the stretches of time it chose not to observe?</p>
+            </aside>
+          </div>
+        </article>
+
+        <article class="gap" id="gap-am">
+          <header class="gap-head">
+            <p class="gap-tag"><span>2</span>Action → Memory</p>
+            <h3>Learning from outcomes takes five steps, and few works show them all.</h3>
+            <p class="gap-intro">The user dismisses every reminder that arrives right after a meeting and sends the report once back at their workstation. Step through what the assistant needs to learn from this.</p>
+          </header>
+          <div class="gap-demo" data-demo="learn"></div>
+          <div class="gap-more">
+            <div class="gap-evidence">
+              <p class="gap-label">What the paper shows · <a href="#halo">§7.1</a></p>
+              <p>Most reviewed works keep records of their actions, but few go on to revise how they work from them. A stored outcome does not show by itself which decision produced it, and one user’s feedback is sparse, delayed, and open to competing explanations. A claim of self-evolution needs evidence for all five steps.</p>
+            </div>
+            <aside class="gap-open">
+              <p class="gap-label">Open problem · <a href="#open">§8.3</a></p>
+              <h4>Learning from implicit, delayed outcomes</h4>
+              <p>When feedback arrives hours later, or never arrives because the assistant stayed silent, how does a self-evolving loop attribute the outcome to the right earlier decision and tell whether to fix a stale memory record or rewrite a decision rule?</p>
+            </aside>
+          </div>
+        </article>
+
+        <a class="findings-next" href="#open"><span class="finding-sec">Two priorities · §8</span><span>Keep sensing open to unexpected change, for reliable operation, and attribute outcomes to the decisions behind them, for self-evolution. Fifteen open problems follow from the paper’s findings.</span><i aria-hidden="true">→</i></a>
+      </div>
+    </section>
+
+    <!-- ============ framework ============ -->
+    <section class="section" id="framework">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§2</span> Definitions and foundations</p>
+          <h2>A continuing loop, and its self-evolving extension</h2>
+          <p class="lede">Always-on personal intelligence is personal assistance that maintains two core properties for the same user: <mark class="hl">operational continuity</mark> and <mark class="hl">state durability</mark>. Its foundation is the continuing loop, the recurring operation of Sensing, Memory, and Action that provides both properties.</p>
+        </header>
+        <figure class="teaser teaser--framework">
+          <img src="assets/figures/framework.webp" width="2200" height="1724" loading="lazy" decoding="async" data-zoom alt="The framework figure of the paper. Top: the always-on assistant's step, a continuing loop with a fixed mechanism and its self-evolving extension that revises the mechanism. Middle: Sensing, Memory, and Action with their spaces and policies, linked by six directed channels, under shared conditions and on an implementation of model and scaffolding. Bottom: wearable, digital, and physical scenes of the user and the world.">
+          <figcaption><b>A framework for always-on personal intelligence.</b></figcaption>
+        </figure>
+
+        <div class="props">
+          <div class="prop-group prop-group--continuing">
+            <p class="prop-group-head"><span class="prop-group-name">Continuing loop</span><span class="prop-group-note">the foundation · mechanism <i>θ</i> fixed</span></p>
+            <div class="prop-group-cards">
+              <article class="prop">
+                <p class="prop-label">Property 1</p>
+                <h3>Operational continuity</h3>
+                <p>The ability to <mark class="hl">keep operating between explicit requests</mark> and to <mark class="hl">decide when to act or wait</mark>.</p>
+                <div class="def-sim" data-def="continuity"></div>
+                <p class="math"><i>π</i><sub><i>i</i></sub><sup><i>θ</i><sub><i>t</i></sub></sup>(· ∣ <i>I</i><sub><i>i</i>,<i>t</i></sub>; <i>c</i><sub><i>t</i></sub>) selects an operation at every <i>t</i> ∈ 𝒯, ℛ ⊊ 𝒯</p>
               </article>
-              <article class="framework-panel module-detail" id="framework-panel-memory" role="tabpanel" aria-labelledby="framework-tab-memory" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>Functional module / M</span></div>
-                <h4>Memory</h4><p class="framework-definition">Keep personal information usable across interactions. Admit, organize, retrieve, consolidate, correct, and forget as circumstances change.</p>
-                <div class="module-topics">
-                  <section><span class="topic-number">01</span><div><h5>What persists</h5><p>Retain facts and preferences, resumable tasks and commitments, and useful cases or skills. Preserve identity, time, scope, and provenance.</p></div></section>
-                  <section><span class="topic-number">02</span><div><h5>Admission and retrieval</h5><p>Decide what deserves a durable record, organize it, and retrieve evidence relevant to the current decision within the available budget.</p></div></section>
-                  <section><span class="topic-number">03</span><div><h5>Correction and forgetting</h5><p>Resolve conflicts, consolidate accumulated experience, and retire stale information. Carry corrections and deletions through summaries and other derived records.</p></div></section>
-                </div>
-                <div class="framework-example"><span>A continuing reminder</span><p>Keep both the pending task and the user&#x27;s quiet-morning preference, including their source and scope, so a later interaction can resume appropriately.</p></div>
-                <p class="framework-boundary">Having a record is only the first step. Its relevance, validity, and availability to later decisions determine whether it remains useful.</p>
-                <div class="module-connections"><h5>Follow its connections</h5>
-                  <button type="button" data-explore-target="sm">S → M · Admit observations <span aria-hidden="true">↗</span></button>
-                  <button type="button" data-explore-target="am">A → M · Revise from outcomes <span aria-hidden="true">↗</span></button>
-                </div>
-                <a class="framework-paper-link" href="assets/always-on-personal-ai.pdf#nameddest=section.4">Read the Memory chapter ↗</a>
+              <article class="prop">
+                <p class="prop-label">Property 2</p>
+                <h3>State durability</h3>
+                <p>The ability to <mark class="hl">preserve user-specific state</mark> for later use and to carry <mark class="hl">unresolved commitments</mark> across interaction boundaries.</p>
+                <div class="def-sim" data-def="durability"></div>
+                <p class="math"><i>z</i><sub><i>t</i>+1</sub> = UPDATE(<i>z</i><sub><i>t</i></sub>, <i>x</i><sub><i>t</i></sub>; <i>θ</i><sub><i>t</i></sub>), <i>t</i> ∈ ℬ</p>
               </article>
-              <article class="framework-panel module-detail" id="framework-panel-action" role="tabpanel" aria-labelledby="framework-tab-action" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>Functional module / A</span></div>
-                <h4>Action</h4><p class="framework-definition">Decide whether, when, and how to intervene. Communicate, clarify, prepare, execute, wait, or remain silent within the user&#x27;s current authority.</p>
-                <div class="module-topics">
-                  <section><span class="topic-number">01</span><div><h5>Intervention and timing</h5><p>Weigh the value of assistance against interruption and uncertainty. Choose an appropriate moment, including a deliberate decision to wait or stay silent.</p></div></section>
-                  <section><span class="topic-number">02</span><div><h5>Control and continuity</h5><p>Take a single step, plan, delegate, or resume interrupted work. Carry unfinished commitments forward across interactions.</p></div></section>
-                  <section><span class="topic-number">03</span><div><h5>Execution and authority</h5><p>Choose a conversational, GUI, API, or physical interface. Check current permission at commitment and execution, and distinguish issuing an operation from achieving its effect.</p></div></section>
-                </div>
-                <div class="framework-example"><span>A continuing reminder</span><p>Defer a routine reminder during a call, retain the pending commitment, and reconsider when an appropriate opportunity arrives.</p></div>
-                <p class="framework-boundary">Remembered preferences help personalize a decision; they do not create new permission to act.</p>
-                <div class="module-connections"><h5>Follow its connections</h5>
-                  <button type="button" data-explore-target="ma">M → A · Act with personal context <span aria-hidden="true">↗</span></button>
-                  <button type="button" data-explore-target="as">A → S · Check what action needs <span aria-hidden="true">↗</span></button>
-                  <button type="button" data-explore-target="am">A → M · Learn from consequences <span aria-hidden="true">↗</span></button>
-                </div>
-                <a class="framework-paper-link" href="assets/always-on-personal-ai.pdf#nameddest=section.5">Read the Action chapter ↗</a>
-              </article>
-              <article class="framework-panel channel-detail" id="framework-panel-sm" role="tabpanel" aria-labelledby="framework-tab-sm" tabindex="0">
-                <div class="detail-eyebrow"><span>S → M / Persistent admission</span></div>
-                <h4>From observations to lasting context</h4><p class="framework-definition">Select sensed evidence for persistent admission. The channel requests creation or refresh of a record; Memory decides how to realize the write. Admission may be user-directed or autonomous.</p>
-                <section class="channel-continuity"><h5>Why it matters for always-on</h5><p>What survives today&#x27;s interaction determines what tomorrow&#x27;s assistance can recover. The system must preserve useful context without retaining everything it encounters.</p></section>
-                <section class="channel-difficulty"><div class="difficulty-heading"><h5>Why it is difficult</h5><span class="difficulty-badge difficulty-moderate">Moderate</span></div><p class="difficulty-context">Difficulty under continuing operation</p><ul>
-                  <li>Future usefulness is uncertain when an observation arrives; a missed event may never be recoverable.</li>
-                  <li>Excess retention consumes resources and increases privacy exposure; compression can lose the context needed later.</li>
-                </ul></section>
-                <div class="framework-example"><span>A continuing reminder</span><p>Retain a newly stated task and quiet-morning preference, with their source, time, and scope, so both remain available after the conversation ends.</p></div>
-                <p class="framework-boundary"><strong>Boundary.</strong> A transient observation buffer or a preloaded profile alone does not establish online, persistent admission.</p>
-                <section class="channel-related"><div class="channel-works-heading"><h5>Works in the survey</h5><span>4 works</span></div><p class="related-intro">All entries in the S → M implementation table. <a href="assets/always-on-personal-ai.pdf#nameddest=table.caption.90">Table 11 ↗</a></p><div class="channel-work-table-wrap"><table class="channel-work-table"><thead><tr><th scope="col">Work</th><th scope="col">Guidance, use, and evaluation</th></tr></thead><tbody><tr><th scope="row"><strong>AdaMem</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.21144" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Personal relevance <span class="channel-work-arrow">→</span> Write selection</p><small><strong>Reported evaluation:</strong> Personalized writing and use</small></td></tr><tr><th scope="row"><strong>PerMemBench</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.25535" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>User-specific context <span class="channel-work-arrow">→</span> Storage admission</p><small><strong>Reported evaluation:</strong> Personalized storage decisions</small></td></tr><tr><th scope="row"><strong>Imprint</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2607.00696" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Personal event records <span class="channel-work-arrow">→</span> Record construction</p><small><strong>Reported evaluation:</strong> Compression and later recall</small></td></tr><tr><th scope="row"><strong>Infini Memory</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.10677" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Sources and topic state <span class="channel-work-arrow">→</span> Document updates</p><small><strong>Reported evaluation:</strong> Maintenance and subsequent use</small></td></tr></tbody><tbody id="channel-more-sm"></tbody></table></div><a class="channel-index-link" href="#research" data-index-channel="S→M">Explore these works in the full index →</a></section>
-              </article>
-              <article class="framework-panel channel-detail" id="framework-panel-ma" role="tabpanel" aria-labelledby="framework-tab-ma" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>M → A / State-informed action</span></div>
-                <h4>From retained context to better decisions</h4><p class="framework-definition">Use retained personal state to condition whether, when, and how the assistant acts, including its content, interface, and level of commitment, within current grants of authority.</p>
-                <section class="channel-continuity"><h5>Why it matters for always-on</h5><p>Earlier interactions should influence later assistance when they are relevant. The assistant must reconcile remembered context with the user&#x27;s present circumstances.</p></section>
-                <section class="channel-difficulty"><div class="difficulty-heading"><h5>Why it is difficult</h5><span class="difficulty-badge difficulty-moderate">Moderate</span></div><p class="difficulty-context">Difficulty under continuing operation</p><ul>
-                  <li>Personal records can become stale or conflict with one another and with current evidence.</li>
-                  <li>A valid memory may still be irrelevant to this decision; its use must fit timing, context, and current permission.</li>
-                </ul></section>
-                <div class="framework-example"><span>A continuing reminder</span><p>Use the quiet-morning preference to defer a routine reminder, while checking whether an approaching deadline changes the appropriate timing.</p></div>
-                <p class="framework-boundary"><strong>Boundary.</strong> Retrieval alone does not show that a memory changed the action, improved it, or authorized it.</p>
-                <section class="channel-related"><div class="channel-works-heading"><h5>Works in the survey</h5><span>8 works</span></div><p class="related-intro">All entries in the M → A implementation table. <a href="assets/always-on-personal-ai.pdf#nameddest=table.caption.117">Table 16 ↗</a></p><div class="channel-work-table-wrap"><table class="channel-work-table"><thead><tr><th scope="col">Work</th><th scope="col">Guidance, use, and evaluation</th></tr></thead><tbody><tr><th scope="row"><strong>User as Code</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.16707" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=userascode2026#evidence">HALO evidence →</a></div></th><td><p>Typed personal state <span class="channel-work-arrow">→</span> Select alerts</p><small><strong>Reported evaluation:</strong> Alert-pipeline variants</small></td></tr><tr><th scope="row"><strong>PASK</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2604.08000" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=pask2026#evidence">HALO evidence →</a></div></th><td><p>Long-term context <span class="channel-work-arrow">→</span> Proactive assistance</p><small><strong>Reported evaluation:</strong> Short tasks and memory cases</small></td></tr><tr><th scope="row"><strong>MEMENTO</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2505.16348" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Personal task memory <span class="channel-work-arrow">→</span> Household decisions</p><small><strong>Reported evaluation:</strong> Oracle perception and skills</small></td></tr><tr><th scope="row"><strong>MementoGUI</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.18652" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Selected task history <span class="channel-work-arrow">→</span> GUI decisions</p><small><strong>Reported evaluation:</strong> Task and memory baselines</small></td></tr><tr><th scope="row"><strong>MMSkills</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.13527" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Procedures and state cards <span class="channel-work-arrow">→</span> Ground a stored skill</p><small><strong>Reported evaluation:</strong> GUI and game benchmarks</small></td></tr><tr><th scope="row"><strong>LatentSkill</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.06087" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Selected skill adapters <span class="channel-work-arrow">→</span> Reuse procedures</p><small><strong>Reported evaluation:</strong> Success and context cost</small></td></tr></tbody><tbody id="channel-more-ma"><tr><th scope="row"><strong>PACE</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2609.03293" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Personal facts and events <span class="channel-work-arrow">→</span> Assess request conflicts</p><small><strong>Reported evaluation:</strong> Retrieval/conflict accuracy</small></td></tr><tr><th scope="row"><strong>EAL-Bench</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2609.01836" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Memory under fixed rules <span class="channel-work-arrow">→</span> Check permission</p><small><strong>Reported evaluation:</strong> Memory swaps; fixed authority</small></td></tr></tbody></table></div><a class="channel-index-link" href="#research" data-index-channel="M→A">Explore these works in the full index →</a></section>
-              </article>
-              <article class="framework-panel channel-detail" id="framework-panel-as" role="tabpanel" aria-labelledby="framework-tab-as" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>A → S / Action-directed observation</span></div>
-                <h4>From an action to the evidence it needs</h4><p class="framework-definition">Turn action intentions, plans, and execution state into observation targets. Acquire information needed before acting and check expected effects during or after execution.</p>
-                <section class="channel-continuity"><h5>Why it matters for always-on</h5><p>Plans may outlive an interaction while the world keeps changing. Observation needs must follow the active commitment, including when work is interrupted or resumed.</p></section>
-                <section class="channel-difficulty"><div class="difficulty-heading"><h5>Why it is difficult</h5><span class="difficulty-badge difficulty-moderate">Moderate</span></div><p class="difficulty-context">Difficulty under continuing operation</p><ul>
-                  <li>The system must translate uncertainty about an action into a specific, timely observation.</li>
-                  <li>Partial visibility and changing plans complicate verification: checking too early, too late, or against an obsolete expectation can mislead.</li>
-                </ul></section>
-                <div class="framework-example"><span>A continuing reminder</span><p>A planned reminder prompts a check that the call has ended. After a requested calendar edit, inspect the resulting event to confirm the intended change.</p></div>
-                <p class="framework-boundary"><strong>Boundary.</strong> An external evaluator checking success does not establish an observation-and-verification mechanism inside the service.</p>
-                <section class="channel-related"><div class="channel-works-heading"><h5>Works in the survey</h5><span>17 works</span></div><p class="related-intro">All entries in the A → S implementation table. <a href="assets/always-on-personal-ai.pdf#nameddest=table.caption.55">Table 6 ↗</a></p><div class="channel-work-table-wrap"><table class="channel-work-table"><thead><tr><th scope="col">Work</th><th scope="col">Guidance, use, and evaluation</th></tr></thead><tbody><tr><th scope="row"><strong>KnowNo</strong><div class="channel-work-links"><a href="https://proceedings.mlr.press/v229/ren23a.html" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Uncertain action options <span class="channel-work-arrow">→</span> Ask user to resolve options</p><small><strong>Reported evaluation:</strong> Success/help-rate tradeoff</small></td></tr><tr><th scope="row"><strong>OmniManip</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2501.03841" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Manipulation constraints <span class="channel-work-arrow">→</span> Pre-/in-action checks</p><small><strong>Reported evaluation:</strong> Manipulation tasks</small></td></tr><tr><th scope="row"><strong>ICWM</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.26025" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Unknown interaction state <span class="channel-work-arrow">→</span> Probe before control</p><small><strong>Reported evaluation:</strong> Probing contribution</small></td></tr><tr><th scope="row"><strong>Ask-before-Plan</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2406.12639" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Missing/infeasible constraints <span class="channel-work-arrow">→</span> Ask targeted questions</p><small><strong>Reported evaluation:</strong> Clarification and plan quality</small></td></tr><tr><th scope="row"><strong>Inner Monologue</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2207.05608" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Planner information needs <span class="channel-work-arrow">→</span> Request missing scene facts</p><small><strong>Reported evaluation:</strong> Feedback-source comparison</small></td></tr><tr><th scope="row"><strong>ContextAgent</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2505.14668" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=contextagent#evidence">HALO evidence →</a></div></th><td><p>Planned tool dependencies <span class="channel-work-arrow">→</span> Read location, then weather</p><small><strong>Reported evaluation:</strong> Tool-selection accuracy</small></td></tr></tbody><tbody id="channel-more-as"><tr><th scope="row"><strong>Alpha-Service</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2510.14359" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=ai4service#evidence">HALO evidence →</a></div></th><td><p>Dispatched service tasks <span class="channel-work-arrow">→</span> Set visual triggers/queries</p><small><strong>Reported evaluation:</strong> Service demonstrations</small></td></tr><tr><th scope="row"><strong>PWR</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.04970" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=pro2bench2026#evidence">HALO evidence →</a></div></th><td><p>Step cues and timestamps <span class="channel-work-arrow">→</span> Select clips and track steps</p><small><strong>Reported evaluation:</strong> Plan-condition comparison</small></td></tr><tr><th scope="row"><strong>DoReMi</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2307.00329" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Plan constraints <span class="channel-work-arrow">→</span> Monitor visual violations</p><small><strong>Reported evaluation:</strong> Detection and task success</small></td></tr><tr><th scope="row"><strong>Code-as-Monitor</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2412.04455" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Geometric task constraints <span class="channel-work-arrow">→</span> Track points, lines, surfaces</p><small><strong>Reported evaluation:</strong> Geometry/view ablations</small></td></tr><tr><th scope="row"><strong>AssistantX</strong><div class="channel-work-links"><a href="https://arxiv.org/html/2409.17655v3" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=assistantx#evidence">HALO evidence →</a></div></th><td><p>Expected task outcomes <span class="channel-work-arrow">→</span> Check messages/robot state</p><small><strong>Reported evaluation:</strong> Agent-module ablations</small></td></tr><tr><th scope="row"><strong>VeriGUI</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2604.05477" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Expected interface effects <span class="channel-work-arrow">→</span> Check post-action screens</p><small><strong>Reported evaluation:</strong> Execution-error recovery</small></td></tr><tr><th scope="row"><strong>VisCritic</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.24525" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Executed UI action <span class="channel-work-arrow">→</span> Compare before/after views</p><small><strong>Reported evaluation:</strong> Visual/text critic comparison</small></td></tr><tr><th scope="row"><strong>VAGEN</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2602.00575" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Unresolved task state <span class="channel-work-arrow">→</span> Acquire more evidence</p><small><strong>Reported evaluation:</strong> Progressive tool checks</small></td></tr><tr><th scope="row"><strong>NavMCP</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2608.30396" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Navigation progress <span class="channel-work-arrow">→</span> Update the next observation</p><small><strong>Reported evaluation:</strong> Within-episode comparisons</small></td></tr><tr><th scope="row"><strong>Foresight</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.23085" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Robot action sequence <span class="channel-work-arrow">→</span> Interpret visual failure cues</p><small><strong>Reported evaluation:</strong> Latent-feature ablation</small></td></tr><tr><th scope="row"><strong>PITCH</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2509.24073" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=lunchnow2025#evidence">HALO evidence →</a></div></th><td><p>Earlier daily plan <span class="channel-work-arrow">→</span> Ask about completion later</p><small><strong>Reported evaluation:</strong> Daily-dialogue analysis</small></td></tr></tbody></table></div><a class="channel-index-link" href="#research" data-index-channel="A→S">Explore these works in the full index →</a></section>
-              </article>
-              <article class="framework-panel channel-detail" id="framework-panel-ms" role="tabpanel" aria-labelledby="framework-tab-ms" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>M → S / Memory-guided observation</span></div>
-                <h4>From prior knowledge to selective attention</h4><p class="framework-definition">Use retained personal state to guide new sampling, attention, compression, or interpretation. Personal priors can change what is observed and how the same evidence is understood.</p>
-                <section class="channel-continuity"><h5>Why it matters for always-on</h5><p>Remembered routines can make ongoing observation more selective. As routines change, the service must preserve opportunities to acquire evidence that corrects its own assumptions.</p></section>
-                <section class="channel-difficulty"><div class="difficulty-heading"><h5>Why it is difficult</h5><span class="difficulty-badge difficulty-high">High</span></div><p class="difficulty-context">Difficulty under continuing operation</p><ul>
-                  <li>A stale prior can suppress the very observations needed to discover that the prior is wrong.</li>
-                  <li>Keeping corrective evidence available competes with sensing budgets, privacy constraints, and the cost of asking the user.</li>
-                </ul></section>
-                <div class="framework-example"><span>A continuing reminder</span><p>A remembered routine guides when to check availability for a reminder. Leave opportunities to notice an unexpected schedule change instead of always skipping that period.</p></div>
-                <p class="framework-boundary"><strong>Boundary.</strong> Retrieving memory only to compose an answer is M → A. M → S requires an effect on observation or interpretation.</p>
-                <section class="channel-related"><div class="channel-works-heading"><h5>Works in the survey</h5><span>11 works</span></div><p class="related-intro">All entries in the M → S implementation table. <a href="assets/always-on-personal-ai.pdf#nameddest=table.caption.55">Table 6 ↗</a></p><div class="channel-work-table-wrap"><table class="channel-work-table"><thead><tr><th scope="col">Work</th><th scope="col">Guidance, use, and evaluation</th></tr></thead><tbody><tr><th scope="row"><strong>ProAgent</strong><span class="channel-route-label">via Action</span><div class="channel-work-links"><a href="https://arxiv.org/abs/2512.06721" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=proagent#evidence">HALO evidence →</a></div></th><td><p>Retained personas <span class="channel-work-arrow">→</span> Adjust sampling via Action</p><small><strong>Reported evaluation:</strong> Sampling/loop ablations</small></td></tr><tr><th scope="row"><strong>VisionClaw</strong><span class="channel-route-label">via Action</span><div class="channel-work-links"><a href="https://arxiv.org/abs/2604.03486" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=visionclaw2026#evidence">HALO evidence →</a></div></th><td><p>Personal calendar/email <span class="channel-work-arrow">→</span> Direct external searches</p><small><strong>Reported evaluation:</strong> Combined-system study</small></td></tr><tr><th scope="row"><strong>ProAct</strong><span class="channel-route-label">via Action</span><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.25971" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=proact2026#evidence">HALO evidence →</a></div></th><td><p>Memory gaps and goals <span class="channel-work-arrow">→</span> Search missing subtopics</p><small><strong>Reported evaluation:</strong> Directed-search ablation</small></td></tr><tr><th scope="row"><strong>Personal VAD</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/1908.04284" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Enrolled voice embedding <span class="channel-work-arrow">→</span> Detect target-speaker speech</p><small><strong>Reported evaluation:</strong> Detection precision–recall</small></td></tr><tr><th scope="row"><strong>VoiceFilter-Lite</strong><div class="channel-work-links"><a href="https://www.isca-archive.org/interspeech_2020/wang20z_interspeech.html" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Enrolled voice embedding <span class="channel-work-arrow">→</span> Suppress competing speech</p><small><strong>Reported evaluation:</strong> Recognition error/noise</small></td></tr><tr><th scope="row"><strong>SocialMind</strong><div class="channel-work-links"><a href="https://arxiv.org/html/2412.04036v1" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=socialmind#evidence">HALO evidence →</a></div></th><td><p>Stored face identities <span class="channel-work-arrow">→</span> Identify known partners</p><small><strong>Reported evaluation:</strong> Persona-module ablation</small></td></tr></tbody><tbody id="channel-more-ms"><tr><th scope="row"><strong>M3-Agent</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2508.09736" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=m3agent#evidence">HALO evidence →</a></div></th><td><p>Face/voice identity nodes <span class="channel-work-arrow">→</span> Ground new event records</p><small><strong>Reported evaluation:</strong> Identity-link ablation</small></td></tr><tr><th scope="row"><strong>Memento</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2601.17622" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=mementoar2026#evidence">HALO evidence →</a></div></th><td><p>Stored memory referents <span class="channel-work-arrow">→</span> Locate objects in view</p><small><strong>Reported evaluation:</strong> Multi-day usage study</small></td></tr><tr><th scope="row"><strong>AiGet</strong><div class="channel-work-links"><a href="https://arxiv.org/html/2501.16240v2" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=aiget#evidence">HALO evidence →</a></div></th><td><p>User interests/expertise <span class="channel-work-arrow">→</span> Interpret scene familiarity</p><small><strong>Reported evaluation:</strong> Profile/rule ablations</small></td></tr><tr><th scope="row"><strong>SpeechLess</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2602.00793" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=speechless2026#evidence">HALO evidence →</a></div></th><td><p>Personal spatial episodes <span class="channel-work-arrow">→</span> Resolve partial intent</p><small><strong>Reported evaluation:</strong> Speech-mode comparison</small></td></tr><tr><th scope="row"><strong>IPI-Agent</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.27074" target="_blank" rel="noopener noreferrer">Paper ↗</a><a href="halo/?system=ipibench2026#evidence">HALO evidence →</a></div></th><td><p>Retained monitoring tasks <span class="channel-work-arrow">→</span> Match task cues to frames</p><small><strong>Reported evaluation:</strong> Control/gating ablations</small></td></tr></tbody></table></div><p class="channel-table-note">Guidance may be realized through Action; the table records the reported route and evaluation.</p><a class="channel-index-link" href="#research" data-index-channel="M→S">Explore these works in the full index →</a></section>
-              </article>
-              <article class="framework-panel channel-detail" id="framework-panel-am" role="tabpanel" aria-labelledby="framework-tab-am" tabindex="0" hidden>
-                <div class="detail-eyebrow"><span>A → M / Outcome-attributed revision</span></div>
-                <h4>From outcomes to justified updates</h4><p class="framework-definition">Link externally observed consequences, including those of silence, to earlier decisions. Use that attribution to govern persistent changes to personal state or decision policies.</p>
-                <section class="channel-continuity"><h5>Why it matters for always-on</h5><p>Feedback can arrive well after an intervention and affect many future interactions. Persistent updates need evidence that supports both the proposed change and its scope.</p></section>
-                <section class="channel-difficulty"><div class="difficulty-heading"><h5>Why it is difficult</h5><span class="difficulty-badge difficulty-high">High</span></div><p class="difficulty-context">Difficulty under continuing operation</p><ul>
-                  <li>Sparse, delayed outcomes mix several possible causes, including other actions and changes in the user&#x27;s circumstances.</li>
-                  <li>Evidence that supports correcting one task record may not justify changing a general intervention policy.</li>
-                </ul></section>
-                <div class="framework-example"><span>A continuing reminder</span><p>After a reminder is dismissed, determine whether timing, obsolete content, or task completion explains the response before deciding what should change persistently.</p></div>
-                <p class="framework-boundary"><strong>Boundary.</strong> Logging the dismissal is S → M. Linking it to a decision and judging which lasting revision it supports is A → M.</p>
-                <section class="channel-related"><div class="channel-works-heading"><h5>Works in the survey</h5><span>9 works</span></div><p class="related-intro">All entries in the A → M implementation table. <a href="assets/always-on-personal-ai.pdf#nameddest=table.caption.90">Table 11 ↗</a></p><div class="channel-work-table-wrap"><table class="channel-work-table"><thead><tr><th scope="col">Work</th><th scope="col">Guidance, use, and evaluation</th></tr></thead><tbody><tr><th scope="row"><strong>Memory-R2</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.21768" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Re-rolled outcomes <span class="channel-work-arrow">→</span> Memory operations</p><small><strong>Reported evaluation:</strong> Matched intermediate states</small></td></tr><tr><th scope="row"><strong>HiMPO</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2606.16285" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Information gain <span class="channel-work-arrow">→</span> Write credit</p><small><strong>Reported evaluation:</strong> Before/after-write comparison</small></td></tr><tr><th scope="row"><strong>EvolveMem</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.13941" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Evaluation feedback <span class="channel-work-arrow">→</span> Retrieval configuration</p><small><strong>Reported evaluation:</strong> Configuration revision</small></td></tr><tr><th scope="row"><strong>MemQ</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2605.08374" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Delayed utility <span class="channel-work-arrow">→</span> Linked record updates</p><small><strong>Reported evaluation:</strong> Provenance-based propagation</small></td></tr><tr><th scope="row"><strong>ImplicitRM</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2603.23184" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Behavioral feedback <span class="channel-work-arrow">→</span> Reward estimation</p><small><strong>Reported evaluation:</strong> Implicit-feedback modeling</small></td></tr><tr><th scope="row"><strong>OpenClaw-RL</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2603.10165" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Next-interaction signals <span class="channel-work-arrow">→</span> Policy updates</p><small><strong>Reported evaluation:</strong> Simulated preferences</small></td></tr></tbody><tbody id="channel-more-am"><tr><th scope="row"><strong>RLinf-USER</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2602.07837" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Robot experience <span class="channel-work-arrow">→</span> Replay and training</p><small><strong>Reported evaluation:</strong> Real-robot task learning</small></td></tr><tr><th scope="row"><strong>AgentFlow</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2510.05592" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Terminal reward <span class="channel-work-arrow">→</span> Planner updates</p><small><strong>Reported evaluation:</strong> Turn-level reward assignment</small></td></tr><tr><th scope="row"><strong>ZeroGUI</strong><div class="channel-work-links"><a href="https://arxiv.org/abs/2505.23762" target="_blank" rel="noopener noreferrer">Paper ↗</a></div></th><td><p>Screenshots and votes <span class="channel-work-arrow">→</span> Success rewards</p><small><strong>Reported evaluation:</strong> GUI reward reliability</small></td></tr></tbody></table></div><a class="channel-index-link" href="#research" data-index-channel="A→M">Explore these works in the full index →</a></section>
+            </div>
+          </div>
+          <div class="prop-group prop-group--evolving">
+            <p class="prop-group-head"><span class="prop-group-name">Self-evolving loop</span><span class="prop-group-note">an extension · mechanism <i>θ</i> revised</span></p>
+            <div class="prop-group-cards">
+              <article class="prop prop--evolve">
+                <p class="prop-label">Extension</p>
+                <h3>Mechanism revision</h3>
+                <p>A continuing loop can retain information while its mechanism stays fixed. A self-evolving extension uses operating experience to make <mark class="hl">durable revisions to this mechanism</mark>, which later steps then use.</p>
+                <div class="def-sim" data-def="revision"></div>
+                <p class="math"><i>θ</i><sub><i>t</i>+1</sub> = REVISE(<i>θ</i><sub><i>t</i></sub>; <i>τ</i><sub><i>t</i></sub>)</p>
               </article>
             </div>
           </div>
         </div>
-        <div class="shared-conditions"><span>SHARED CONDITIONS</span><p>Privacy <i>·</i> Resources <i>·</i> Uncertainty <i>·</i> User authority</p><small>Every module and connection operates within these constraints.</small></div>
-      </div>
-    </section>
+        <p class="service-note">The user <mark class="hl">steers the loop instead of running it</mark>, setting only its direction and boundaries, while the assistant decides when to act, revises how it works, and asks for confirmation whenever an action needs authorization from the user.</p>
 
-    <section class="section live-demo-section" id="live-demo" aria-labelledby="live-demo-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">PLAY THE FRAMEWORK</span><h2 id="live-demo-title">Two worlds. One continuing loop.</h2><p class="section-deck" id="village-deck">Explore NTU’s academic areas, residences, NIE and sports facilities, or enter an ECCV poster hall through a pair of glasses. Follow how observations, memory, and action connect as you play.</p></div>
-        <div id="village-demo" class="village-demo" aria-label="First-person Always-On interactive experiences"></div>
-        <p class="demo-caption">Interactive simulation · Fictional observations and local demo state. Service runs while the demo is open. <a href="#framework">Explore the framework ↑</a></p>
-      </div>
-    </section>
-
-    <section class="section roadmap" id="closure" aria-labelledby="closure-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">03 / LEVELS OF LOOP CLOSURE</span><h2 id="closure-title">From remembering<br><span class="muted">to learning responsibly.</span></h2><p class="section-deck">Five cumulative levels extend a session-local L0 baseline. Continuing operation arrives at L3; self-evolution requires the additional commitments of L5.</p></div>
-        <ol class="level-list">
-          <li><span class="level-id">L1</span><div><h3>Retain personal state</h3><p>Keep usable user-specific state across interactions.</p></div><span class="level-keyword">PERSISTENCE</span></li>
-          <li><span class="level-id">L2</span><div><h3>Use what is retained</h3><p>Let retained state inform a later Sensing or Action decision.</p></div><span class="level-keyword">REUSE</span></li>
-          <li class="level-highlight"><span class="level-id">L3</span><div><h3>Sustain a continuing loop</h3><p>Create scheduled or event-triggered decision opportunities between requests, including waiting and silence.</p></div><span class="level-keyword">ALWAYS-ON BASELINE</span></li>
-          <li><span class="level-id">L4</span><div><h3>Close the outcome-feedback path</h3><p>Link external outcome evidence to earlier decisions and use it to check or correct assistance.</p></div><span class="level-keyword">FEEDBACK</span></li>
-          <li class="level-evolution"><span class="level-id">L5</span><div><h3>Govern persistent policy revision</h3><p>Use attributed outcomes to propose, validate, and durably commit changes to future behavior.</p></div><span class="level-keyword">SELF-EVOLUTION</span></li>
-        </ol>
-        <p class="section-note">A level describes supported closure requirements. It does not, by itself, establish service quality or lasting user benefit.</p>
-        <details class="figure-disclosure"><summary>View the paper’s loop-closure diagram <span aria-hidden="true">+</span></summary><figure class="paper-figure"><button type="button" class="figure-zoom" data-zoom-image="assets/closure-levels.png" aria-label="Enlarge the loop-closure diagram" aria-haspopup="dialog" aria-controls="image-lightbox"><img src="assets/closure-levels.webp" width="2400" height="1389" alt="Five cumulative loop closure levels above L0: durable state, state-informed decisions, continuing operation, outcome feedback, and validated policy revision." loading="lazy"></button><figcaption>Detailed loop-closure schematic from the working draft.</figcaption></figure></details>
-      </div>
-    </section>
-
-    <section class="section halo-section" id="halo" aria-labelledby="halo-title">
-      <div class="container">
-        <div class="halo-heading"><div><span class="section-number">04 / FROM ARCHITECTURE TO EVIDENCE</span><h2 id="halo-title" data-terminal-heading aria-label="Meet HALO."><span class="halo-terminal-output" aria-hidden="true"><span class="halo-typewriter">Meet HALO.</span><span class="halo-cursor"></span></span></h2><p class="halo-expansion">Harness for Always-on Loop Oversight</p></div><div class="halo-stat"><strong>31</strong><span>configurations reviewed<br>across 30 works</span></div></div>
-        <p class="halo-intro">A working connection is a mechanism claim. A useful continuing service needs evidence about its effects. HALO keeps those judgments distinct and traceable.</p>
-        <div class="halo-modes"><article><span class="mode-label">READ MODE</span><h3>Review what the sources establish.</h3><p>Inspect papers and available artifacts. Link channel judgments to source locations, evaluated configurations, and the comparisons reported by the original study.</p><span class="mode-footer">Used for the review in this survey</span></article><article><span class="mode-label">RUN MODE</span><h3>Test a scoped configuration.</h3><p>Connect an executable system through a suitable interface or adapter. Record manipulation checks, traces, and measured endpoints under specified conditions.</p><span class="mode-footer">Protocol for scoped execution</span></article></div>
-        <div class="evidence-forms"><h3>Four forms of supporting evidence</h3><div><span>Mechanism description</span><span>Traced use</span><span>Controlled effect</span><span>Controlled service outcome</span></div><p>These forms are not cumulative. Each claim retains its configuration, comparison, setting, horizon, and uncertainty.</p></div>
-        <div class="halo-finding"><span class="finding-mark" aria-hidden="true">↳</span><p><strong>The integration gap.</strong> Retention and reuse are better documented than feedback into persistent updates. Strong components and selected connections leave open the question of reliable joint operation and lasting benefit.</p></div>
-        <a class="button secondary" href="halo/" style="margin-top:28px">Open the HALO workspace <span aria-hidden="true">↗</span></a>
-        <p class="halo-footnote">The read-mode inventory is a narrative selection, not a field-prevalence estimate. Empirical results belong to the original studies.</p>
-      </div>
-    </section>
-
-    <section class="section applications" id="applications" aria-labelledby="applications-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">05 / APPLICATIONS</span><h2 id="applications-title">A shared loop.<br><span class="muted">Different worlds to operate in.</span></h2><p class="section-deck">The observation domain, people involved, and outcome horizon change what reliable assistance requires.</p></div>
-        <div class="application-explorer" id="application-explorer">
-          <div class="application-explorer-top"><div><h3>Where do the systems operate?</h3><p>Interaction domain × participant scope × outcome horizon.<br>Explore every work through three glass panels.</p></div></div>
-          <div class="application-families" id="application-families" role="group" aria-label="Application family"></div>
-          <div class="application-filters"><label>Find a system<input id="application-search" type="search" placeholder="Name, mechanism, or bottleneck…" autocomplete="off"></label><label>Participant scope<select id="application-participants"><option value="">All participants</option><option>Individual</option><option>Group</option><option>Public</option></select></label><button type="button" id="application-reset">Reset</button><p id="application-count" role="status">Loading application cases…</p></div>
-          <div id="application-space" class="application-space"></div>
-          <p class="application-panels-note">Coordinates describe the selected case and evaluated outcome. “Within-session” includes immediate endpoints; “Unmeasured” has no measured outcome horizon. Cases spanning several categories appear at each matching location and are counted once in the work list.</p>
-        </div>
-
-        <details class="figure-disclosure application-paper-figure"><summary>View the paper’s application landscape <span aria-hidden="true">+</span></summary><figure class="paper-figure"><button type="button" class="figure-zoom" data-zoom-image="assets/applications.png" aria-label="Enlarge the application landscape" aria-haspopup="dialog" aria-controls="image-lightbox"><img src="assets/applications.webp" width="2400" height="1289" alt="Application landscape for always-on personal AI across everyday assistance, conversation, digital workspaces, and physical collaboration." loading="lazy"></button><figcaption><span>THE APPLICATION LANDSCAPE</span> Service settings expose different sensing, memory, and action bottlenecks.</figcaption></figure></details>
-        <div class="research-priorities"><span class="section-number">TWO PRIORITIES AHEAD</span><div><h3>Keep corrective evidence available.</h3><p>Memory-guided observation should still let the assistant notice when routines, preferences, and circumstances change.</p></div><div><h3>Make persistent changes earn their place.</h3><p>Connect attributed outcomes to acceptance checks and later user benefit before committing a policy revision.</p></div></div>
-      </div>
-    </section>
-
-    <section class="section research-library" id="research" aria-labelledby="research-title">
-      <div class="container">
-        <div class="section-heading"><span class="section-number">06 / RESEARCH INDEX</span><h2 id="research-title">Explore the work<br><span class="muted">behind the framework.</span></h2><p class="section-deck">Every cited work in the survey's method, policy, channel, evaluation, and application tables. Search across the original table descriptions and follow each entry back to its source.</p></div>
-        <div id="research-explorer" class="works-explorer">
-          <div class="research-filters">
-            <label class="research-search">Search works<input id="research-search" type="search" placeholder="Title, method, mechanism, or bottleneck…" autocomplete="off"></label>
-            <label>Module<select id="research-module"><option value="">All modules</option><option>Sensing</option><option>Memory</option><option>Action</option><option>Applications</option></select></label>
-            <label>Category<select id="research-category"><option value="">All categories</option><option>Methods</option><option>Local policy</option><option>Channel</option><option>Evaluation</option><option>Application</option></select></label>
-            <label>Channel<select id="research-channel"><option value="">All channels</option><option value="S→M">S → M</option><option value="M→A">M → A</option><option value="A→S">A → S</option><option value="M→S">M → S</option><option value="A→M">A → M</option></select></label>
+        <div class="adjacent">
+          <div class="adjacent-copy">
+            <h3>Which kind of agent is it?</h3>
+            <p>Several kinds of agent are close to always-on personal intelligence and easy to confuse with it. Choose the properties an agent has, and the table keeps the kinds that fit.</p>
+            <div data-adjacent-toggles></div>
           </div>
-          <div class="research-toolbar"><p id="research-count" role="status">Loading the survey index…</p><div><label class="research-sort">Sort<select id="research-sort"><option value="year">Newest first</option><option value="name">Name A–Z</option></select></label><button type="button" id="research-reset">Reset</button><button type="button" id="research-export">Export filtered CSV ↓</button></div></div>
-          <div id="research-coverage" class="research-coverage" aria-label="Coverage of the filtered references"></div>
-          <div class="research-table-wrap"><table class="research-table"><caption class="sr-only">Works cited in the survey tables</caption><thead><tr><th scope="col">Work / source</th><th scope="col">In the survey</th><th scope="col">Explore</th></tr></thead><tbody id="research-rows"></tbody></table></div>
-          <div class="research-pagination"><button type="button" id="research-prev">← Previous</button><span id="research-page"></span><button type="button" id="research-next">Next →</button></div>
-          <p class="research-scope">Counts describe this survey's table selection. One reference can appear in several categories; a table entry does not by itself establish a complete always-on service.</p>
-          <noscript><p>Enable JavaScript to filter the index, or <a href="assets/always-on-personal-ai.pdf">read the complete tables in the survey PDF</a>.</p></noscript>
+          <div data-adjacent></div>
+        </div>
+
+        <h3 class="subhead" id="modules">Three modules and six coupling channels</h3>
+        <p class="subhead-note">Each module has a space, which defines what it can do and represent, and a local policy that decides what to use from this space.</p>
+        <div class="fw" data-framework>
         </div>
       </div>
     </section>
 
-
-    <section class="section resources" id="resources" aria-labelledby="resources-title">
-      <div class="container resource-inner"><div><span class="section-number">EXPLORE FURTHER</span><h2 id="resources-title">Read. Connect. Build.</h2><p>Explore the full survey and the collection of related research.</p></div><div class="resource-links"><a href="assets/always-on-personal-ai.pdf"><span>Full paper <small>Current working draft · PDF</small></span><b aria-hidden="true">↗</b></a><a href="#research"><span>Research index <small>All cited works from the survey tables</small></span><b aria-hidden="true">↗</b></a><a href="https://github.com/Always-On-Agent"><span>Always-On-Agent <small>Our GitHub organization</small></span><b aria-hidden="true">↗</b></a></div></div>
+    <!-- ============ demo ============ -->
+    <!-- The playable episodes live on play.html; this section only points there. Hovering an episode
+         plays a short loop of its room (assets/play/preview/); the only link is "Open the demo". -->
+    <section class="section section--shelf section--teaser" id="live-demo">
+      <div class="wrap pg-teaser">
+        <div class="pg-teaser-copy">
+          <p class="pg-teaser-kicker">Demo</p>
+          <h2 id="live-demo-title">Play the loop</h2>
+          <p class="pg-teaser-text">Eight playable episodes, from smart glasses to a home robot.</p>
+          <a class="pg-pill pg-pill--start" href="play.html">Open the demo</a>
+          <ol class="pg-teaser-list" aria-label="Episodes">
+            <li data-preview="workbench"><b>01</b>One hint at the workbench</li>
+            <li data-preview="second-visit"><b>02</b>The second visit</li>
+            <li data-preview="group-talk"><b>03</b>A private cue in a group talk</li>
+            <li data-preview="daily-plan"><b>04</b>Morning plan, evening check-in</li>
+            <li data-preview="export-check"><b>05</b>Did the export work?</li>
+            <li data-preview="governed-revision"><b>06</b>An agent that edits its own rules</li>
+            <li data-preview="robot-cup"><b>07</b>Fetching the cup</li>
+            <li data-preview="care-visits"><b>08</b>A week of visits</li>
+          </ol>
+        </div>
+        <div class="pg-teaser-art" aria-hidden="true">
+          <img class="pg-teaser-island" src="assets/play/island.webp" width="1672" height="941" alt="" loading="lazy" decoding="async">
+          <span class="pg-teaser-tag"></span>
+        </div>
+      </div>
     </section>
 
-    <section class="section citation-section" id="cite" aria-labelledby="cite-title">
-      <div class="container citation-inner"><div><span class="section-number">CITATION</span><h2 id="cite-title">Cite this work.</h2><p>BibTeX for the current working draft.</p></div><div class="citation-box"><div class="citation-toolbar"><span>BibTeX</span><button type="button" id="copy-citation">Copy citation <span aria-hidden="true">⧉</span></button><span id="copy-status" role="status" aria-live="polite"></span></div><pre><code id="bibtex">@misc{liu2026alwayson,
-  title = {Always-On Personal AI: A Roadmap towards
-           a Continuing and Self-Evolving Loop},
+    <!-- ============ applications ============ -->
+    <section class="section" id="applications">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§6.1</span> Applications and bottlenecks</p>
+          <h2>Where always-on assistance operates</h2>
+          <p class="lede">Each application case is described by an operating regime: the <mark class="hl">interaction domain</mark>, the <mark class="hl">participants</mark> involved, and the <mark class="hl">outcome horizon</mark> at which a consequence becomes observable.</p>
+        </header>
+        <div data-applications></div>
+      </div>
+    </section>
+
+    <!-- ============ levels ============ -->
+    <section class="section section--tint" id="levels">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§6.3</span> Levels of loop closure</p>
+          <h2>How far the loop closes</h2>
+        </header>
+        <div data-levels></div>
+      </div>
+    </section>
+
+    <!-- ============ HALO ============ -->
+    <section class="section" id="halo">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§7</span> Harness for Always-On Loop Oversight</p>
+          <h2>HALO: reading and running the loop</h2>
+          <p class="lede">HALO assesses the loop completeness of existing systems. <mark class="hl">Read mode</mark> reviews a work’s papers and released code, much like a code review. <mark class="hl">Run mode</mark> runs its code on fixed inputs with channels or evidence steps removed, much like an A/B test.</p>
+        </header>
+        <div data-halo></div>
+      </div>
+    </section>
+
+    <!-- ============ open problems ============ -->
+    <section class="section" id="open">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">§8</span> Trends and open problems</p>
+          <h2>Where the evidence is still thin</h2>
+          <p class="lede">Sections 3 to 7 show where current always-on systems fall short, and this section states the resulting gaps as <mark class="hl">15 open problems in four parts</mark>. The first three follow the framework from running the loop to revising it, and the fourth asks how to evaluate all of this over months of real use. Open a problem to see why it remains open and the question it poses.</p>
+        </header>
+        <div class="open-grid">
+          <article class="open-card">
+            <p class="open-num"><b>A</b><span>Part A · §8.1 · 5 problems</span></p>
+            <h3>Sustaining the continuing loop</h3>
+            <p class="open-q">How can an assistant decide what to observe, what to believe, and when to act when no one is asking, while pending commitments share one budget?</p>
+            <ul class="open-list"><li><details><summary>Observing between requests<span class="op-tag">Main finding</span></summary><p class="op-why">A request-driven agent looks only where the user points, whereas an always-on assistant relies on its own memory to decide when and where to look between requests. Yet if a stored belief goes stale, it can steer sensors away from the very place where a silent change just happened.</p><p class="op-q">What keeps memory-guided sensing from blinding the assistant to unannounced changes, and how can the assistant account for the stretches of time it chose not to observe?</p></details></li><li><details><summary>Updating beliefs without being told</summary><p class="op-why">People rarely announce that their habits have changed, so the assistant simply observes a deviation, such as a morning briefing skipped for two weeks during a business trip.</p><p class="op-q">When a user silently breaks a routine between requests, how does an always-on assistant tell a lasting change from a temporary exception? And once it updates that belief, what ensures the correction reaches every summary and pending task built on the old value?</p></details></li><li><details><summary>Keeping and closing commitments</summary><p class="op-why">Unlike a single-session task, an always-on commitment can sit waiting for days while the target event moves, the assistant restarts, or the user quietly finishes the job on their own.</p><p class="op-q">Once a commitment outlives the conversation that created it, what prevents a restart or schedule change from dropping or duplicating the action, and how does the assistant close a commitment whose completion leaves no observable trace?</p></details></li><li><details><summary>Deciding when to act, wait, or ask</summary><p class="op-why">Every unprompted message spends the user’s attention immediately, whereas the cost of staying silent may surface only days later as a missed deadline. Moreover, suggestions that help in week one can turn into annoying noise by week six.</p><p class="op-q">In unprompted interactions, how does an always-on assistant weigh immediate interruption cost against delayed benefit as user fatigue builds up over weeks?</p></details></li><li><details><summary>Sharing limited resources across pending tasks</summary><p class="op-why">A single-task agent spends the whole device budget on the active request, but an always-on assistant juggles multiple pending commitments that all compete for the same battery, computation, and sensors.</p><p class="op-q">When multiple background commitments compete for one observation budget, which checks take priority? And if a backup check, such as reading a task log, covers for a skipped sensor check, how can the assistant detect that both rely on the same revocable account or permission?</p></details></li></ul>
+          </article>
+          <article class="open-card">
+            <p class="open-num"><b>B</b><span>Part B · §8.2 · 4 problems</span></p>
+            <h3>Authority, privacy, and safety</h3>
+            <p class="open-q">What has the user authorized, where does the assistant run, whose information does it hold, and how can people check what it does when no one is watching?</p>
+            <ul class="open-list"><li><details><summary>Consent that outlasts the conversation</summary><p class="op-why">In a turn-based chat, the user is present whenever a permission is used, whereas in a continuing loop, a permission granted once keeps authorizing actions the assistant initiates days later while the user is away.</p><p class="op-q">When a user narrows or revokes a standing permission, what ensures the change immediately halts every scheduled check, queued action, and delegated tool, and which background actions must still pause and wait for fresh human sign-off?</p></details></li><li><details><summary>Where the assistant runs and what it can reach</summary><p class="op-why">Running an always-on assistant in the cloud keeps it alive when the user’s devices are off, while running it locally keeps data on-device and lowers latency. Either way, a code sandbox cannot stop an assistant from misusing a legitimate account it was granted, nor does killing the process undo emails already sent.</p><p class="op-q">Where should each part of the continuing loop run, and what catches or reverses an unauthorized external action when code sandboxes and stop buttons cannot?</p></details></li><li><details><summary>Whose context the assistant holds</summary><p class="op-why">An always-on assistant can capture bystanders who never consented to recording, and a fact captured privately today can be surfaced days later in front of a different audience.</p><p class="op-q">What prevents an always-on assistant from leaking information captured in one context to a new audience days later, and how can deleting a source record purge every summary, cache, and learned routine derived from it?</p></details></li><li><details><summary>Overseeing an assistant that acts on its own</summary><p class="op-why">While the user is away for days, untrusted emails or web pages can plant instructions that enter Memory and steer later actions, yet the user only has time to read a brief summary of what happened.</p><p class="op-q">When an assistant operates unattended for days, how can a brief summary expose every high-risk or externally influenced action without overwhelming the user, backed by audit logs and safety checks that the assistant itself cannot edit?</p></details></li></ul>
+          </article>
+          <article class="open-card">
+            <p class="open-num"><b>C</b><span>Part C · §8.3 · 4 problems</span></p>
+            <h3>Self-evolution and recursive revision</h3>
+            <p class="open-q">How can an assistant learn from implicit, delayed outcomes, show that a revision helped, and keep revisions, including revisions of the revision procedure, within the user’s bounds?</p>
+            <ul class="open-list"><li><details><summary>Learning from implicit, delayed outcomes<span class="op-tag">Main finding</span></summary><p class="op-why">In daily use, feedback rarely names the decision it concerns: a dismissed reminder could mean the timing rule is flawed, the stored meeting time was wrong, or the user already finished the task. Staying silent leaves even less trace, because an unsent reminder draws no reply.</p><p class="op-q">When feedback arrives hours later, or never arrives because the assistant stayed silent, how does a self-evolving loop attribute the outcome to the right earlier decision and tell whether to fix a stale memory record or rewrite a decision rule?</p></details></li><li><details><summary>Telling whether a revision helped</summary><p class="op-why">Offline agents can replay the same benchmark before and after an update, but revising a live assistant changes what it observes and records in the user’s subsequent days.</p><p class="op-q">Because a live revision alters the future observations used to judge it, what evidence proves that a new mechanism genuinely improved assistance without degrading existing perception skills or breaking commitments made under the old rule?</p></details></li><li><details><summary>Keeping self-evolution within the user’s bounds</summary><p class="op-why">Left unchecked, a self-evolving assistant can generalize a narrow permission, such as sharing one work calendar, into a general rule that shares private calendars too, or even rewrite the file that lists which actions require approval.</p><p class="op-q">What stops a self-evolving loop from drifting beyond the permissions under which a rule was learned, and where is the line between routine revisions that can run within preset bounds and scope-widening revisions that require human approval?</p></details></li><li><details><summary>Revising the revision procedure</summary><p class="op-why">Recursive self-improvement modifies not only the assistant’s mechanism, but also the proposer and verifier that generate and check future revisions.</p><p class="op-q">If a recursive loop can rewrite its own verifier, what anchors the safety, privacy, and authority checks so the assistant cannot weaken the very tests that govern it? Under slow human feedback that cannot be replayed, what criterion tells the search when to stop?</p></details></li></ul>
+          </article>
+          <article class="open-card">
+            <p class="open-num"><b>D</b><span>Part D · §8.4 · 2 problems</span></p>
+            <h3>Longitudinal evaluation and real deployment</h3>
+            <p class="open-q">How can we evaluate an assistant whose decisions shape its later inputs, and show over months that it helps the user more than it burdens them?</p>
+            <ul class="open-list"><li><details><summary>Evaluating a loop whose decisions shape later inputs</summary><p class="op-why">Replaying recorded logs tests how two versions react to the exact same past inputs, but in real deployment, each version’s actions change what the user does next and which events the sensors capture.</p><p class="op-q">Once an assistant’s decisions actively reshape its future inputs, how can we fairly compare two evolving versions in closed-loop deployment, and what independent ground-truth records are needed to reveal the events and side effects the assistant itself missed?</p></details></li><li><details><summary>Measuring benefit and burden over months</summary><p class="op-why">Short-term benchmarks reward immediate task completion, yet over months of real use, initial helpfulness can fade while interruptions, confirmation fatigue, and subtle privacy or permission leaks quietly accumulate.</p><p class="op-q">After months of daily use, how do we measure whether the assistant’s ongoing help still outweighs the trouble it causes? And what checks verify that privacy and permissions have not quietly slipped over time?</p></details></li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ works ============ -->
+    <section class="section section--tint" id="works">
+      <div class="wrap">
+        <div class="works-intro">
+          <header class="section-head works-head">
+            <p class="eyebrow"><span class="num">Index</span> Works in the survey</p>
+            <h2>Explore the reviewed work</h2>
+            <p class="lede">Every work in the survey’s tables, from smart glasses to home robots. Search them below, or pick one off the wall.</p>
+          </header>
+          <div class="wall" data-wall aria-hidden="true"></div>
+        </div>
+        <div data-works></div>
+      </div>
+    </section>
+
+    <!-- ============ questions ============ -->
+    <section class="section" id="questions">
+      <div class="wrap faq-wrap">
+        <header class="faq-head">
+          <h2>Questions</h2>
+        </header>
+        <div class="faq">
+          <details><summary>What makes an assistant always-on?</summary><div class="faq-a"><p>It keeps two properties for the same user. <b>Operational continuity</b> is the ability to keep operating between explicit requests and to decide when to act or wait. <b>State durability</b> is the ability to preserve user-specific state for later use and to carry unresolved commitments across interaction boundaries. Each property alone is common, so an assistant needs both.</p></div></details>
+          <details><summary>How is a system’s level decided?</summary><div class="faq-a"><p>Each level keeps the capabilities of the level below and adds one more, from L0, which keeps nothing across interactions, to L5, which revises its mechanism only within the limits set by the user and the world. L3 is the first always-on level, because the assistant begins to decide for itself whether or when to act without a request. Each system is placed at the highest level that its reported evidence supports, so a placement is a lower bound. See the <a href="#levels">levels</a>.</p></div></details>
+          <details><summary>Why are products placed next to research systems?</summary><div class="faq-a"><p>Both are placed by the same criteria. Products, marked †, are placed from documentation, released code, announcements, field reports, or third-party test runs, not from controlled evaluations.</p></div></details>
+          <details><summary>What does self-evolving mean here?</summary><div class="faq-a"><p>A continuing loop can retain information while its mechanism stays fixed. A self-evolving assistant uses operating experience to make durable revisions to this mechanism, which later steps then use. To count one, the survey looks for a chain of evidence: a record, an outcome, its attribution, the revision, and the later use of the revised mechanism.</p></div></details>
+          <details><summary>What does HALO check?</summary><div class="faq-a"><p>HALO assesses the loop completeness of existing systems. Read mode reviews a work’s papers and released code, much like a code review: three agents read the sources, and a majority vote decides each cell. Run mode runs its code on fixed inputs with channels or evidence steps removed, much like an A/B test. See <a href="#halo">HALO</a>.</p></div></details>
+          <details><summary>How can I suggest a work or a correction?</summary><div class="faq-a"><p>Open an issue or a pull request on the <a href="https://github.com/Always-On-Intelligence/awesome-always-on-personal-intelligence">reading list</a>. It follows the survey’s sections and is updated as new work appears.</p></div></details>
+          <details><summary>When will the paper be released?</summary><div class="faq-a"><p>The paper is a working draft. This page follows the draft of November 2026, and a link to the paper will appear at the top of the page when it is released.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ cite ============ -->
+    <section class="section cite" id="cite">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow"><span class="num">Cite</span> BibTeX</p>
+          <h2>Citation</h2>
+        </header>
+        <div class="cite-bar">
+          <button type="button" class="btn btn--ghost" data-copy="#bibtex">Copy</button>
+        </div>
+<pre id="bibtex">@misc{alwayson2026roadmap,
+  title  = {Always-On Personal Intelligence: A Roadmap Towards
+            Continuing, Self-Evolving Loops},
   author = {{Authors to be announced}},
-  year = {2026},
-  note = {Working draft},
-  url = {https://always-on-agent.github.io/}
-}</code></pre><a class="download-bib" href="citation.bib" download>Download .bib ↓</a></div></div>
+  year   = {2026},
+  note   = {Working draft},
+  url    = {https://always-on-intelligence.github.io/}
+}</pre>
+      </div>
     </section>
   </main>
-  <dialog id="image-lightbox" class="image-lightbox" aria-label="Enlarged figure" aria-describedby="image-lightbox-help">
-    <button type="button" class="image-lightbox-close" aria-label="Close enlarged image" autofocus>×</button>
-    <img id="image-lightbox-image" alt="">
-    <p id="image-lightbox-help">Click the image to close · Esc</p>
-  </dialog>
-  <footer><div class="container footer-inner"><a class="brand" href="#top"><img src="assets/icon.webp" width="32" height="32" alt=""><span>Always-On<span class="brand-light"> Agent</span></span></a><p>A continuing loop, built around people.</p><a href="https://github.com/Always-On-Agent/Always-On-Agent.github.io">Website source ↗</a></div></footer>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>Always-On Personal Intelligence · Working draft, 2026</span>
+      <span><a href="#halo">HALO</a> · <a href="https://github.com/Always-On-Intelligence/awesome-always-on-personal-intelligence">Reading list</a> · <a href="https://github.com/Always-On-Intelligence">GitHub</a></span>
+    </div>
+  </footer>
 </body>
 </html>

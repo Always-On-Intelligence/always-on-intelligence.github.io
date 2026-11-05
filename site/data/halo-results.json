@@ -1,0 +1,4284 @@
+{
+ "run": {
+  "backbone": "GPT-6-Astra (low effort)",
+  "judge": "GPT-6-Astra (high effort)",
+  "cases": [
+   {
+    "id": "abot-claw",
+    "name": "ABot-Claw",
+    "domain": "physical",
+    "report": "https://arxiv.org/abs/2604.10096",
+    "code": "https://github.com/amap-cvlab/ABot-Claw",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "sensed frames, detections and robot poses admitted to SpatialMemory",
+     "M→A": "SpatialMemory query results returned to the OpenClaw agent",
+     "A→S": "the agent's task description conditioning the VLAC critic",
+     "M→S": "a memory evidence image used as the VLAC reference image",
+     "A→M": "the agent's action context written to SpatialMemory, and the robots' execution history",
+     "attribution": "VLAC compares the frame that follows an action with the reference"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 2,
+      "cut_wins": 0,
+      "tie": 10,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.75
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        3.0833
+       ],
+       "critic_calls": [
+        0.5,
+        0.5
+       ],
+       "failed_requests": [
+        1.5833,
+        1.5833
+       ],
+       "observations": [
+        7.0,
+        7.4167
+       ],
+       "robot_actions": [
+        6.75,
+        7.1667
+       ],
+       "turns": [
+        10.5,
+        10.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 6,
+      "cut_wins": 2,
+      "tie": 4,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.4167
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        4.0833
+       ],
+       "critic_calls": [
+        0.5,
+        0.25
+       ],
+       "failed_requests": [
+        1.5833,
+        1.8333
+       ],
+       "observations": [
+        7.0,
+        5.3333
+       ],
+       "robot_actions": [
+        6.75,
+        4.5833
+       ],
+       "turns": [
+        10.5,
+        9.4167
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 4,
+      "tie": 8,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.75
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        3.0
+       ],
+       "critic_calls": [
+        0.5,
+        0.5833
+       ],
+       "failed_requests": [
+        1.5833,
+        1.5833
+       ],
+       "observations": [
+        7.0,
+        6.75
+       ],
+       "robot_actions": [
+        6.75,
+        6.5833
+       ],
+       "turns": [
+        10.5,
+        10.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 2,
+      "tie": 10,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.75
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        3.0
+       ],
+       "critic_calls": [
+        0.5,
+        0.5833
+       ],
+       "failed_requests": [
+        1.5833,
+        1.5833
+       ],
+       "observations": [
+        7.0,
+        7.0
+       ],
+       "robot_actions": [
+        6.75,
+        6.4167
+       ],
+       "turns": [
+        10.5,
+        10.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 0,
+      "tie": 12,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.75
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        3.0
+       ],
+       "critic_calls": [
+        0.5,
+        0.5
+       ],
+       "failed_requests": [
+        1.5833,
+        1.5833
+       ],
+       "observations": [
+        7.0,
+        7.0
+       ],
+       "robot_actions": [
+        6.75,
+        6.75
+       ],
+       "turns": [
+        10.5,
+        10.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 2,
+      "tie": 10,
+      "metrics": {
+       "task_success": [
+        0.75,
+        0.75
+       ],
+       "replied": [
+        1.5,
+        1.5
+       ],
+       "memory_writes": [
+        1.3333,
+        1.3333
+       ],
+       "memory_queries": [
+        3.0,
+        3.0
+       ],
+       "critic_calls": [
+        0.5,
+        0.5
+       ],
+       "failed_requests": [
+        1.5833,
+        1.5833
+       ],
+       "observations": [
+        7.0,
+        7.1667
+       ],
+       "robot_actions": [
+        6.75,
+        6.5
+       ],
+       "turns": [
+        10.5,
+        10.5833
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "aiget",
+    "name": "AiGet",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2501.16240",
+    "code": "https://github.com/Synteraction-Lab/AiGet",
+    "items": 6,
+    "samples": 3,
+    "sites": {
+     "M→S": "user profile inserted into the perception prompt (context_description)",
+     "M→A": "user profile inserted into the generation prompt (knowledge_generation_filter)",
+     "A→M": "shown suggestions written to the suggestion history that later generation calls read"
+    },
+    "tests": [
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 5,
+      "cut_wins": 10,
+      "tie": 3,
+      "metrics": {
+       "revisit_mean_max_similarity": [
+        0.4267,
+        0.4621
+       ],
+       "shown": [
+        1.7778,
+        1.7222
+       ],
+       "revisit_repeats": [
+        0.0,
+        0.0
+       ],
+       "shown_revisit": [
+        1.3333,
+        1.3889
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 6,
+      "cut_wins": 6,
+      "tie": 6,
+      "metrics": {
+       "revisit_mean_max_similarity": [
+        0.4267,
+        0.4591
+       ],
+       "shown": [
+        1.7778,
+        1.8333
+       ],
+       "revisit_repeats": [
+        0.0,
+        0.0
+       ],
+       "shown_revisit": [
+        1.3333,
+        1.4444
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A",
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 13,
+      "cut_wins": 4,
+      "tie": 1,
+      "metrics": {
+       "revisit_mean_max_similarity": [
+        0.4267,
+        0.438
+       ],
+       "shown": [
+        1.7778,
+        1.8333
+       ],
+       "revisit_repeats": [
+        0.0,
+        0.0
+       ],
+       "shown_revisit": [
+        1.3333,
+        1.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output_revisit",
+      "pairs": 18,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 3,
+      "metrics": {
+       "revisit_mean_max_similarity": [
+        0.4267,
+        0.7459
+       ],
+       "shown": [
+        1.7778,
+        1.7778
+       ],
+       "revisit_repeats": [
+        0.0,
+        1.0556
+       ],
+       "shown_revisit": [
+        1.3333,
+        1.6667
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "assistantx",
+    "name": "AssistantX",
+    "domain": "physical",
+    "report": "https://arxiv.org/abs/2409.17655",
+    "code": "https://github.com/AssistantX-Agent/AssistantX",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "M→S": "persistent relational graph (priori_knowledge) in the perception prompt",
+     "M→A": "persistent relational graph (priori_knowledge) in the planning and action prompts",
+     "A→S": "robot's own messages in the perception prompt; Send QR code arguments labelling the locker event"
+    },
+    "tests": [
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 8,
+      "cut_wins": 1,
+      "tie": 3,
+      "metrics": {
+       "stopped": [
+        0.8333,
+        0.5833
+       ],
+       "task_success": [
+        1.0,
+        0.5833
+       ],
+       "qr_codes_unused": [
+        0.0,
+        0.0
+       ],
+       "steps": [
+        3.9167,
+        4.4167
+       ],
+       "moves": [
+        2.25,
+        1.6667
+       ],
+       "qr_codes_sent": [
+        2.25,
+        1.6667
+       ],
+       "undelivered": [
+        0.0,
+        0.0
+       ],
+       "messages_sent": [
+        3.0833,
+        3.4167
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 5,
+      "cut_wins": 0,
+      "tie": 7,
+      "metrics": {
+       "stopped": [
+        0.8333,
+        0.75
+       ],
+       "task_success": [
+        1.0,
+        0.9167
+       ],
+       "qr_codes_unused": [
+        0.0,
+        0.0
+       ],
+       "steps": [
+        3.9167,
+        4.3333
+       ],
+       "moves": [
+        2.25,
+        2.1667
+       ],
+       "qr_codes_sent": [
+        2.25,
+        2.1667
+       ],
+       "undelivered": [
+        0.0,
+        0.0
+       ],
+       "messages_sent": [
+        3.0833,
+        3.5833
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A",
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 11,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "stopped": [
+        0.8333,
+        0.6667
+       ],
+       "task_success": [
+        1.0,
+        0.6667
+       ],
+       "qr_codes_unused": [
+        0.0,
+        0.0
+       ],
+       "steps": [
+        3.9167,
+        4.75
+       ],
+       "moves": [
+        2.25,
+        1.8333
+       ],
+       "qr_codes_sent": [
+        2.25,
+        1.8333
+       ],
+       "undelivered": [
+        0.0,
+        0.3333
+       ],
+       "messages_sent": [
+        3.0833,
+        3.4167
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 9,
+      "cut_wins": 0,
+      "tie": 3,
+      "metrics": {
+       "stopped": [
+        0.8333,
+        0.75
+       ],
+       "task_success": [
+        1.0,
+        0.8333
+       ],
+       "qr_codes_unused": [
+        0.0,
+        0.0
+       ],
+       "steps": [
+        3.9167,
+        4.5
+       ],
+       "moves": [
+        2.25,
+        2.0833
+       ],
+       "qr_codes_sent": [
+        2.25,
+        2.0833
+       ],
+       "undelivered": [
+        0.0,
+        0.0
+       ],
+       "messages_sent": [
+        3.0833,
+        3.75
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "contextagent",
+    "name": "ContextAgent",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2505.14668",
+    "code": "https://github.com/openaiotlab/ContextAgent",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "A→S": "information-gathering calls of the planned tool chain delivered to the tool executor (src/icl/inference_api.py run_tools -> src/utils.py execute_tools_with_memory)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 9,
+      "cut_wins": 2,
+      "tie": 4,
+      "metrics": {
+       "sensing_results_delivered": [
+        1.5333,
+        0.0
+       ],
+       "proactive": [
+        0.8667,
+        0.8667
+       ],
+       "sensing_calls_planned": [
+        1.5333,
+        1.5333
+       ],
+       "tool_errors": [
+        0.0,
+        0.0
+       ],
+       "effector_calls_run": [
+        0.0667,
+        0.0667
+       ],
+       "proactive_score": [
+        3.4667,
+        3.4667
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "eaia",
+    "name": "EAIA",
+    "domain": "digital",
+    "report": "https://www.langchain.com/blog/introducing-ambient-agents",
+    "code": "https://github.com/langchain-ai/executive-ai-assistant",
+    "items": 3,
+    "samples": 3,
+    "sites": {
+     "A→S": "the Question tool call reaches the Agent Inbox as the interrupt request the user answers (human_inbox.py:79-89)",
+     "M→A": "stored prompts read by draft_response (draft_response.py:102-125) and rewrite (rewrite.py:38-49); duplicates revision in the test phase",
+     "S→M": "user feedback, edits, and answers reach the reflection input (human_inbox.py); same site as outcome",
+     "A→M": "the assistant's own draft or tool calls reach the reflection input (human_inbox.py); same site as record",
+     "record": "reflection input keeps only the user's messages, without the assistant's draft or tool calls",
+     "outcome": "EAIA's memory switch off during learning: no feedback reaches the reflection graph",
+     "attribution": "each feedback reaches reflection with the previous email's trajectory",
+     "revision": "reflection runs but update_general's prompt write is discarded; later drafts read the original prompts (covers later_use)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "record"
+      ],
+      "field": "output",
+      "pairs": 9,
+      "original": 5,
+      "cut_wins": 1,
+      "tie": 3,
+      "metrics": {
+       "reflection_runs": [
+        4.5556,
+        5.3333
+       ],
+       "prompts_changed": [
+        2.1111,
+        3.0
+       ],
+       "backbone_calls": [
+        22.8889,
+        27.1111
+       ],
+       "jordan_handoff": [
+        0.0,
+        0.0
+       ],
+       "rule_checks_passed": [
+        0.6926,
+        0.5444
+       ],
+       "confirm_by_friday": [
+        0.0,
+        0.0
+       ],
+       "no_greeting": [
+        1.0,
+        0.9444
+       ],
+       "signoff_thanks_alex": [
+        0.8333,
+        0.5
+       ],
+       "user_calls": [
+        5.3333,
+        5.3333
+       ],
+       "errors": [
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "outcome"
+      ],
+      "field": "output",
+      "pairs": 9,
+      "original": 9,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "reflection_runs": [
+        4.5556,
+        0.0
+       ],
+       "prompts_changed": [
+        2.1111,
+        0.0
+       ],
+       "backbone_calls": [
+        22.8889,
+        14.3333
+       ],
+       "jordan_handoff": [
+        0.0,
+        0.0
+       ],
+       "rule_checks_passed": [
+        0.6926,
+        0.1889
+       ],
+       "confirm_by_friday": [
+        0.0,
+        0.0
+       ],
+       "no_greeting": [
+        1.0,
+        0.5
+       ],
+       "signoff_thanks_alex": [
+        0.8333,
+        0.0
+       ],
+       "user_calls": [
+        5.3333,
+        5.3333
+       ],
+       "errors": [
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 9,
+      "original": 6,
+      "cut_wins": 2,
+      "tie": 1,
+      "metrics": {
+       "reflection_runs": [
+        4.5556,
+        5.3333
+       ],
+       "prompts_changed": [
+        2.1111,
+        3.0
+       ],
+       "backbone_calls": [
+        22.8889,
+        25.2222
+       ],
+       "jordan_handoff": [
+        0.0,
+        0.1667
+       ],
+       "rule_checks_passed": [
+        0.6926,
+        0.5259
+       ],
+       "confirm_by_friday": [
+        0.0,
+        0.5
+       ],
+       "no_greeting": [
+        1.0,
+        0.6667
+       ],
+       "signoff_thanks_alex": [
+        0.8333,
+        0.4444
+       ],
+       "user_calls": [
+        5.3333,
+        5.3333
+       ],
+       "errors": [
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "revision"
+      ],
+      "field": "output",
+      "pairs": 9,
+      "original": 9,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "reflection_runs": [
+        4.5556,
+        5.3333
+       ],
+       "prompts_changed": [
+        2.1111,
+        0.0
+       ],
+       "backbone_calls": [
+        22.8889,
+        24.3333
+       ],
+       "jordan_handoff": [
+        0.0,
+        0.0
+       ],
+       "rule_checks_passed": [
+        0.6926,
+        0.1889
+       ],
+       "confirm_by_friday": [
+        0.0,
+        0.0
+       ],
+       "no_greeting": [
+        1.0,
+        0.5
+       ],
+       "signoff_thanks_alex": [
+        0.8333,
+        0.0
+       ],
+       "user_calls": [
+        5.3333,
+        5.3333
+       ],
+       "errors": [
+        0.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 9,
+      "original": 2,
+      "cut_wins": 2,
+      "tie": 5,
+      "metrics": {
+       "reflection_runs": [
+        4.5556,
+        4.7778
+       ],
+       "prompts_changed": [
+        2.1111,
+        2.1111
+       ],
+       "backbone_calls": [
+        22.8889,
+        22.8889
+       ],
+       "jordan_handoff": [
+        0.0,
+        0.0
+       ],
+       "rule_checks_passed": [
+        0.6926,
+        0.6445
+       ],
+       "confirm_by_friday": [
+        0.0,
+        0.0
+       ],
+       "no_greeting": [
+        1.0,
+        0.8889
+       ],
+       "signoff_thanks_alex": [
+        0.8333,
+        0.8333
+       ],
+       "user_calls": [
+        5.3333,
+        5.3333
+       ],
+       "errors": [
+        0.0,
+        0.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "egocentric-copilot",
+    "name": "Egocentric Co-Pilot",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2603.01104",
+    "code": "https://github.com/YoungSeng/Egocentric-Co-Pilot",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "frames retained in the orchestrator frame buffer (image_queue); caption and speech events admitted to the HCC event history",
+     "M→A": "retained frames delivered to the memory-query branch; HCC summaries and recent events delivered to the answer",
+     "A→S": "the interaction mode sets the glasses frame interval and JPEG quality (send_text_parameters)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "final_quality": [
+        80.0,
+        25.0
+       ],
+       "hcc_correct": [
+        1.0,
+        1.0
+       ],
+       "memory_fact_recall": [
+        0.0,
+        0.0
+       ],
+       "model_calls": [
+        7.0,
+        7.0
+       ],
+       "label_fact_recall": [
+        0.875,
+        0.0
+       ],
+       "replies": [
+        5.0,
+        5.0
+       ],
+       "buffer_frames": [
+        146.0,
+        260.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output_hcc",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "final_quality": [
+        80.0,
+        80.0
+       ],
+       "hcc_correct": [
+        1.0,
+        0.0
+       ],
+       "memory_fact_recall": [
+        0.0,
+        0.0
+       ],
+       "model_calls": [
+        7.0,
+        4.0
+       ],
+       "label_fact_recall": [
+        0.875,
+        0.875
+       ],
+       "replies": [
+        5.0,
+        5.0
+       ],
+       "buffer_frames": [
+        146.0,
+        1.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output_hcc",
+      "pairs": 12,
+      "original": 9,
+      "cut_wins": 0,
+      "tie": 3,
+      "metrics": {
+       "final_quality": [
+        80.0,
+        80.0
+       ],
+       "hcc_correct": [
+        1.0,
+        0.25
+       ],
+       "memory_fact_recall": [
+        0.0,
+        0.0
+       ],
+       "model_calls": [
+        7.0,
+        7.0
+       ],
+       "label_fact_recall": [
+        0.875,
+        0.875
+       ],
+       "replies": [
+        5.0,
+        5.0
+       ],
+       "buffer_frames": [
+        146.0,
+        146.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "lightmem-ego",
+    "name": "LightMem-Ego",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2607.11487",
+    "code": "https://github.com/zjunlp/LightMem-Ego",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "S→M": "frames and ASR transcripts admitted into the short-term micro-event store (M_st), the source of M_lt",
+     "M→A": "retrieved M_st/M_lt/interaction-cache evidence delivered to the answer prompt",
+     "A→M": "answered turns written to the interaction cache that resolves and boosts the next question"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 14,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "q2_followup_resolved": [
+        1.0,
+        1.0
+       ],
+       "mst_refined": [
+        5.0,
+        0.0
+       ],
+       "mlt_episodes": [
+        1.0,
+        0.0
+       ],
+       "model_calls": [
+        13.0,
+        2.0
+       ],
+       "q2_fact_recall": [
+        0.6,
+        0.0
+       ],
+       "mst_events": [
+        5.0,
+        0.0
+       ],
+       "q1_fact_recall": [
+        1.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 14,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "q2_followup_resolved": [
+        1.0,
+        0.0
+       ],
+       "mst_refined": [
+        5.0,
+        5.0
+       ],
+       "mlt_episodes": [
+        1.0,
+        1.0
+       ],
+       "model_calls": [
+        13.0,
+        13.0
+       ],
+       "q2_fact_recall": [
+        0.6,
+        0.0
+       ],
+       "mst_events": [
+        5.0,
+        5.0
+       ],
+       "q1_fact_recall": [
+        1.0,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output_q2",
+      "pairs": 15,
+      "original": 3,
+      "cut_wins": 3,
+      "tie": 9,
+      "metrics": {
+       "q2_followup_resolved": [
+        1.0,
+        0.0
+       ],
+       "mst_refined": [
+        5.0,
+        5.0
+       ],
+       "mlt_episodes": [
+        1.0,
+        1.0
+       ],
+       "model_calls": [
+        13.0,
+        13.0
+       ],
+       "q2_fact_recall": [
+        0.6,
+        0.6
+       ],
+       "mst_events": [
+        5.0,
+        5.0
+       ],
+       "q1_fact_recall": [
+        1.0,
+        1.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "m3-agent",
+    "name": "M3-Agent",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2508.09736",
+    "code": "https://github.com/ByteDance-Seed/M3-Agent",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "each clip's episodic and semantic memories are inserted into the memory graph (memorization_memory_graphs.py:66-67)",
+     "M→S": "face and voice nodes kept from earlier clips identify the people in a new clip (face_processing.py:160, voice_processing.py:205)",
+     "M→A": "memories retrieved from the graph are returned to the control model (control.py:117-131)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "characters": [
+        3.4167,
+        6.5
+       ],
+       "correct": [
+        0.875,
+        0.0
+       ],
+       "empty_searches": [
+        0.25,
+        8.0
+       ],
+       "identities_reused": [
+        10.5,
+        10.5
+       ],
+       "text_memories": [
+        62.25,
+        0.0
+       ],
+       "control_rounds": [
+        2.5417,
+        5.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "characters": [
+        3.4167,
+        3.4167
+       ],
+       "correct": [
+        0.875,
+        0.0
+       ],
+       "empty_searches": [
+        0.25,
+        8.0
+       ],
+       "identities_reused": [
+        10.5,
+        10.5
+       ],
+       "text_memories": [
+        62.25,
+        62.25
+       ],
+       "control_rounds": [
+        2.5417,
+        5.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 6,
+      "cut_wins": 1,
+      "tie": 5,
+      "metrics": {
+       "characters": [
+        3.4167,
+        9.4167
+       ],
+       "correct": [
+        0.875,
+        0.7917
+       ],
+       "empty_searches": [
+        0.25,
+        1.5
+       ],
+       "identities_reused": [
+        10.5,
+        0.0
+       ],
+       "text_memories": [
+        62.25,
+        66.1667
+       ],
+       "control_rounds": [
+        2.5417,
+        3.1667
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "omi",
+    "name": "Omi",
+    "domain": "wearable",
+    "report": "https://docs.omi.me/doc/developer/apps/Notifications",
+    "code": "https://github.com/BasedHardware/omi",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "S→M": "transcripts become stored conversations, vectors and extracted memories; chat turns become chat history",
+     "M→A": "stored facts, conversations, tasks, notifications and chat history read by the mentor and the chat agent",
+     "A→S": "open tasks supplied to the extraction of a new transcript (dedup and completion)",
+     "M→S": "enrolled speech profile and stored people label who is speaking in the incoming transcript",
+     "A→M": "delivered mentor notifications, chat answers and created tasks written back to the user store"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 10,
+      "cut_wins": 3,
+      "tie": 2,
+      "metrics": {
+       "notifications": [
+        0.2,
+        0.2
+       ],
+       "backbone_calls": [
+        11.9333,
+        10.8
+       ],
+       "memories_written": [
+        10.4,
+        0.0
+       ],
+       "failed_conversations": [
+        0.0,
+        0.0
+       ],
+       "tasks_last_day": [
+        1.8667,
+        1.8667
+       ],
+       "repeated_notifications": [
+        0.0,
+        0.0
+       ],
+       "duplicate_tasks_last_day": [
+        0.4,
+        0.4
+       ],
+       "chat_expected_hits": [
+        0.9333,
+        0.3
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 14,
+      "cut_wins": 0,
+      "tie": 1,
+      "metrics": {
+       "notifications": [
+        0.2,
+        0.2
+       ],
+       "backbone_calls": [
+        11.9333,
+        10.6
+       ],
+       "memories_written": [
+        10.4,
+        10.4
+       ],
+       "failed_conversations": [
+        0.0,
+        0.0
+       ],
+       "tasks_last_day": [
+        1.8667,
+        1.8667
+       ],
+       "repeated_notifications": [
+        0.0,
+        0.0
+       ],
+       "duplicate_tasks_last_day": [
+        0.4,
+        0.4
+       ],
+       "chat_expected_hits": [
+        0.9333,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 2,
+      "cut_wins": 3,
+      "tie": 10,
+      "metrics": {
+       "notifications": [
+        0.2,
+        0.2667
+       ],
+       "backbone_calls": [
+        11.9333,
+        12.1333
+       ],
+       "memories_written": [
+        10.4,
+        10.4
+       ],
+       "failed_conversations": [
+        0.0,
+        0.0
+       ],
+       "tasks_last_day": [
+        1.8667,
+        2.2
+       ],
+       "repeated_notifications": [
+        0.0,
+        0.0
+       ],
+       "duplicate_tasks_last_day": [
+        0.4,
+        0.0
+       ],
+       "chat_expected_hits": [
+        0.9333,
+        1.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output_tasks",
+      "pairs": 15,
+      "original": 3,
+      "cut_wins": 0,
+      "tie": 12,
+      "metrics": {
+       "notifications": [
+        0.2,
+        0.2
+       ],
+       "backbone_calls": [
+        11.9333,
+        12.0
+       ],
+       "memories_written": [
+        10.4,
+        10.4
+       ],
+       "failed_conversations": [
+        0.0,
+        0.0
+       ],
+       "tasks_last_day": [
+        1.8667,
+        2.2
+       ],
+       "repeated_notifications": [
+        0.0,
+        0.0
+       ],
+       "duplicate_tasks_last_day": [
+        0.4,
+        0.6
+       ],
+       "chat_expected_hits": [
+        0.9333,
+        1.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output_capture",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "notifications": [
+        0.2,
+        0.0
+       ],
+       "backbone_calls": [
+        11.9333,
+        10.2667
+       ],
+       "memories_written": [
+        10.4,
+        4.0
+       ],
+       "failed_conversations": [
+        0.0,
+        0.0
+       ],
+       "tasks_last_day": [
+        1.8667,
+        2.2
+       ],
+       "repeated_notifications": [
+        0.0,
+        0.0
+       ],
+       "duplicate_tasks_last_day": [
+        0.4,
+        0.4
+       ],
+       "chat_expected_hits": [
+        0.9333,
+        0.9667
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "ouroboros",
+    "name": "Ouroboros",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2608.08311",
+    "code": "https://github.com/razzant/ouroboros",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "the owner's messages written to the room's chat log (dialogue memory)",
+     "M→A": "memory blocks (story, room, identity, scratchpad, knowledge, Pattern Register, reflections, backlog) assembled into the action context",
+     "A→M": "Ouroboros's replies, execution reflections and their memory actions written to memory",
+     "record": "the experience review receives Ouroboros's own tool calls and final answer",
+     "outcome": "tool results (the `make check` verdicts) reach the experience review and its trigger",
+     "attribution": "each task's results are attached to that task's own calls",
+     "revision": "a reviewed commit of the application prompt lands in the repository the runtime loads",
+     "later_use": "test tasks build their context from the landed prompts/SYSTEM.md (cut together with revision)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "record"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 0,
+      "tie": 12,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.75
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        1.5
+       ],
+       "backbone_calls": [
+        23.1667,
+        22.0833
+       ],
+       "test_ci_pass": [
+        2.0,
+        2.0
+       ],
+       "test_failed_checks": [
+        0.25,
+        0.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        1.75
+       ],
+       "reflections": [
+        1.4167,
+        1.25
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.0
+       ],
+       "promoted": [
+        0.0833,
+        0.0
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "outcome"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.5833
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        25.0
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.8333
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.1667
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.0
+       ],
+       "reflections": [
+        1.4167,
+        0.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.0
+       ],
+       "promoted": [
+        0.0833,
+        0.0
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 3,
+      "cut_wins": 1,
+      "tie": 8,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.5833
+       ],
+       "review_passed": [
+        0.0,
+        0.1667
+       ],
+       "revision_landed": [
+        0.0,
+        0.1667
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        27.75
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.9167
+       ],
+       "test_failed_checks": [
+        0.25,
+        0.4167
+       ],
+       "review_attempts": [
+        0.0,
+        0.1667
+       ],
+       "test_first_check_pass": [
+        1.75,
+        1.6667
+       ],
+       "reflections": [
+        1.4167,
+        1.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        1.3333
+       ],
+       "promoted": [
+        0.0833,
+        0.6667
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.5833
+       ]
+      }
+     },
+     {
+      "cut": [
+       "revision"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 0,
+      "tie": 12,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.75
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        1.5833
+       ],
+       "backbone_calls": [
+        23.1667,
+        23.1667
+       ],
+       "test_ci_pass": [
+        2.0,
+        2.0
+       ],
+       "test_failed_checks": [
+        0.25,
+        0.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        1.75
+       ],
+       "reflections": [
+        1.4167,
+        1.4167
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.1667
+       ],
+       "promoted": [
+        0.0833,
+        0.0833
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0833
+       ]
+      }
+     },
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 1,
+      "tie": 11,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.75
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        1.6667
+       ],
+       "backbone_calls": [
+        23.1667,
+        22.6667
+       ],
+       "test_ci_pass": [
+        2.0,
+        2.0
+       ],
+       "test_failed_checks": [
+        0.25,
+        0.1667
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        1.8333
+       ],
+       "reflections": [
+        1.4167,
+        1.5
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.0
+       ],
+       "promoted": [
+        0.0833,
+        0.0
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 11,
+      "original": 10,
+      "cut_wins": 0,
+      "tie": 1,
+      "metrics": {
+       "learn_ci_pass": [
+        1.7273,
+        1.5455
+       ],
+       "review_passed": [
+        0.0,
+        0.0909
+       ],
+       "revision_landed": [
+        0.0,
+        0.0909
+       ],
+       "learn_failed_checks": [
+        1.6364,
+        2.3636
+       ],
+       "backbone_calls": [
+        23.3636,
+        30.2727
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.7273
+       ],
+       "test_failed_checks": [
+        0.2727,
+        2.0909
+       ],
+       "review_attempts": [
+        0.0,
+        0.0909
+       ],
+       "test_first_check_pass": [
+        1.7273,
+        0.1818
+       ],
+       "reflections": [
+        1.4545,
+        2.0
+       ],
+       "reviewer_calls": [
+        0.1818,
+        0.7273
+       ],
+       "promoted": [
+        0.0909,
+        0.2727
+       ],
+       "plan_reviews": [
+        0.0909,
+        0.2727
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 11,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.6667
+       ],
+       "review_passed": [
+        0.0,
+        0.1667
+       ],
+       "revision_landed": [
+        0.0,
+        0.1667
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        27.9167
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.8333
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.0
+       ],
+       "review_attempts": [
+        0.0,
+        0.1667
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.1667
+       ],
+       "reflections": [
+        1.4167,
+        2.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.6667
+       ],
+       "promoted": [
+        0.0833,
+        0.1667
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.1667
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M",
+       "record"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.6667
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        27.25
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.75
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.0
+       ],
+       "reflections": [
+        1.4167,
+        2.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.0
+       ],
+       "promoted": [
+        0.0833,
+        0.0
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M",
+       "outcome"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.6667
+       ],
+       "review_passed": [
+        0.0,
+        0.0
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        25.25
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.75
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.0
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.0
+       ],
+       "reflections": [
+        1.4167,
+        0.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.0
+       ],
+       "promoted": [
+        0.0833,
+        0.0
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M",
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.6667
+       ],
+       "review_passed": [
+        0.0,
+        0.0833
+       ],
+       "revision_landed": [
+        0.0,
+        0.0833
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        29.1667
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.75
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.0833
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.0
+       ],
+       "reflections": [
+        1.4167,
+        1.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        1.0
+       ],
+       "promoted": [
+        0.0833,
+        0.6667
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M",
+       "revision"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "learn_ci_pass": [
+        1.75,
+        1.6667
+       ],
+       "review_passed": [
+        0.0,
+        0.1667
+       ],
+       "revision_landed": [
+        0.0,
+        0.0
+       ],
+       "learn_failed_checks": [
+        1.5833,
+        2.3333
+       ],
+       "backbone_calls": [
+        23.1667,
+        28.25
+       ],
+       "test_ci_pass": [
+        2.0,
+        1.75
+       ],
+       "test_failed_checks": [
+        0.25,
+        2.25
+       ],
+       "review_attempts": [
+        0.0,
+        0.1667
+       ],
+       "test_first_check_pass": [
+        1.75,
+        0.0
+       ],
+       "reflections": [
+        1.4167,
+        2.0
+       ],
+       "reviewer_calls": [
+        0.1667,
+        0.6667
+       ],
+       "promoted": [
+        0.0833,
+        0.1667
+       ],
+       "plan_reviews": [
+        0.0833,
+        0.1667
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "pahf",
+    "name": "PAHF",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2602.16173",
+    "code": "https://github.com/facebookresearch/PAHF",
+    "items": 6,
+    "samples": 3,
+    "sites": {
+     "S→M": "user answers and post-action feedback admitted as preference notes to the per-user SQLite memory",
+     "M→A": "retrieved preference notes summarized into the action prompt",
+     "A→S": "the robot's clarification question delivered to the user, whose answer is acquired",
+     "A→M": "the robot's clarification question summarized together with the user's answer into the memory note"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 16,
+      "cut_wins": 0,
+      "tie": 2,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.3333
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.1667
+       ],
+       "notes_after_learning": [
+        1.7222,
+        0.0
+       ],
+       "test1_correct": [
+        0.8889,
+        0.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output_other",
+      "pairs": 18,
+      "original": 0,
+      "cut_wins": 6,
+      "tie": 12,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.3333
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.1667
+       ],
+       "notes_after_learning": [
+        1.7222,
+        0.0
+       ],
+       "test1_correct": [
+        0.8889,
+        0.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 16,
+      "cut_wins": 0,
+      "tie": 2,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.3333
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.1667
+       ],
+       "notes_after_learning": [
+        1.7222,
+        1.7222
+       ],
+       "test1_correct": [
+        0.8889,
+        0.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output_other",
+      "pairs": 18,
+      "original": 0,
+      "cut_wins": 6,
+      "tie": 12,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.3333
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.1667
+       ],
+       "notes_after_learning": [
+        1.7222,
+        1.7222
+       ],
+       "test1_correct": [
+        0.8889,
+        0.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 2,
+      "cut_wins": 2,
+      "tie": 14,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.0
+       ],
+       "test2_correct": [
+        0.0,
+        0.1111
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.5
+       ],
+       "notes_after_learning": [
+        1.7222,
+        0.9444
+       ],
+       "test1_correct": [
+        0.8889,
+        0.8889
+       ],
+       "backbone_calls": [
+        19.1111,
+        17.4444
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output_other",
+      "pairs": 18,
+      "original": 0,
+      "cut_wins": 2,
+      "tie": 16,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.0
+       ],
+       "test2_correct": [
+        0.0,
+        0.1111
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.5
+       ],
+       "notes_after_learning": [
+        1.7222,
+        0.9444
+       ],
+       "test1_correct": [
+        0.8889,
+        0.8889
+       ],
+       "backbone_calls": [
+        19.1111,
+        17.4444
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 18,
+      "original": 0,
+      "cut_wins": 2,
+      "tie": 16,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.0
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.5
+       ],
+       "notes_after_learning": [
+        1.7222,
+        1.6111
+       ],
+       "test1_correct": [
+        0.8889,
+        1.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output_other",
+      "pairs": 18,
+      "original": 0,
+      "cut_wins": 0,
+      "tie": 18,
+      "metrics": {
+       "learn_correct": [
+        0.7778,
+        0.7778
+       ],
+       "test2_correct": [
+        0.0,
+        0.0
+       ],
+       "test_accuracy": [
+        0.4444,
+        0.5
+       ],
+       "notes_after_learning": [
+        1.7222,
+        1.6111
+       ],
+       "test1_correct": [
+        0.8889,
+        1.0
+       ],
+       "backbone_calls": [
+        19.1111,
+        19.1111
+       ],
+       "learn_asked": [
+        0.7778,
+        0.7778
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "pask",
+    "name": "PASK",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2604.08000",
+    "code": "https://github.com/xzf-thu/Pask",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "S→M": "earlier stream turns delivered to the memory writer (bench/03c_memory.py build_memory_prompt)",
+     "M→A": "memory document delivered to the demand-detection prompt (eval/prompts.py build_prompt)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "memory_chars_delivered": [
+        2196.4667,
+        0.0
+       ],
+       "interventions": [
+        3.2667,
+        2.0
+       ],
+       "other_turn_interventions": [
+        2.2667,
+        1.2
+       ],
+       "need_turn_hit_rate": [
+        1.0,
+        0.8
+       ],
+       "need_turn_uses_earlier_rate": [
+        1.0,
+        0.1333
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "memory_chars_delivered": [
+        2196.4667,
+        0.0
+       ],
+       "interventions": [
+        3.2667,
+        2.0
+       ],
+       "other_turn_interventions": [
+        2.2667,
+        1.2
+       ],
+       "need_turn_hit_rate": [
+        1.0,
+        0.8
+       ],
+       "need_turn_uses_earlier_rate": [
+        1.0,
+        0.1333
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "proact",
+    "name": "ProAct",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2605.25971",
+    "code": "https://github.com/AgentACE-AI/ProAct",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "S→M": "user messages and acquired search results admitted to memory (session, knowledge store, extracted profile and facts)",
+     "M→A": "memory (dialogue, profile, knowledge, topics) read by Future-State Prediction, push scoring, planning and the reply",
+     "A→S": "predicted needs (FSP intents) and the planner's queries given to the search as its target",
+     "M→S": "conversation history, stored topics and the profile read by the topic monitor and the search planner",
+     "A→M": "assistant replies, direct pushes and the delivery record admitted to memory"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 14,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "key_fact_recall": [
+        0.5399,
+        0.4593
+       ],
+       "idle_facts_stored": [
+        2.9333,
+        0.0
+       ],
+       "idle_intents": [
+        0.8667,
+        0.9333
+       ],
+       "reply_searched": [
+        0.9333,
+        1.0
+       ],
+       "backbone_calls": [
+        36.1333,
+        34.6667
+       ],
+       "pushed": [
+        0.1333,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 13,
+      "cut_wins": 1,
+      "tie": 1,
+      "metrics": {
+       "key_fact_recall": [
+        0.5399,
+        0.4377
+       ],
+       "idle_facts_stored": [
+        2.9333,
+        0.0
+       ],
+       "idle_intents": [
+        0.8667,
+        0.0
+       ],
+       "reply_searched": [
+        0.9333,
+        1.0
+       ],
+       "backbone_calls": [
+        36.1333,
+        22.8
+       ],
+       "pushed": [
+        0.1333,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 6,
+      "cut_wins": 8,
+      "tie": 1,
+      "metrics": {
+       "key_fact_recall": [
+        0.5399,
+        0.6376
+       ],
+       "idle_facts_stored": [
+        2.9333,
+        2.0667
+       ],
+       "idle_intents": [
+        0.8667,
+        0.7333
+       ],
+       "reply_searched": [
+        0.9333,
+        0.7333
+       ],
+       "backbone_calls": [
+        36.1333,
+        35.9333
+       ],
+       "pushed": [
+        0.1333,
+        0.2667
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 8,
+      "cut_wins": 5,
+      "tie": 2,
+      "metrics": {
+       "key_fact_recall": [
+        0.5399,
+        0.4924
+       ],
+       "idle_facts_stored": [
+        2.9333,
+        2.2
+       ],
+       "idle_intents": [
+        0.8667,
+        0.7333
+       ],
+       "reply_searched": [
+        0.9333,
+        0.9333
+       ],
+       "backbone_calls": [
+        36.1333,
+        34.4667
+       ],
+       "pushed": [
+        0.1333,
+        0.0667
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 9,
+      "cut_wins": 5,
+      "tie": 1,
+      "metrics": {
+       "key_fact_recall": [
+        0.5399,
+        0.6882
+       ],
+       "idle_facts_stored": [
+        2.9333,
+        2.3333
+       ],
+       "idle_intents": [
+        0.8667,
+        0.8
+       ],
+       "reply_searched": [
+        0.9333,
+        1.0
+       ],
+       "backbone_calls": [
+        36.1333,
+        35.1333
+       ],
+       "pushed": [
+        0.1333,
+        0.5333
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "proactive-agent",
+    "name": "Proactive Agent",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2410.12361",
+    "code": "https://github.com/thunlp/ProactiveAgent",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "events kept in the shared event store and gathered into the agent history (activeagent.py:111-115)",
+     "M→A": "the retained event/dialogue history in the proposal prompt (activeagent.py:116-129)",
+     "A→S": "the agent's executed actions turned into observed events by the environment (environment.py:61,121-154)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 5,
+      "cut_wins": 2,
+      "tie": 5,
+      "metrics": {
+       "accepted": [
+        1.0,
+        1.25
+       ],
+       "executed_actions": [
+        2.3333,
+        2.8333
+       ],
+       "failed_steps": [
+        0.0,
+        0.0
+       ],
+       "backbone_calls": [
+        10.6667,
+        12.3333
+       ],
+       "acceptance_rate": [
+        1.0,
+        0.95
+       ],
+       "proposals": [
+        1.0,
+        1.3333
+       ],
+       "observed_action_events": [
+        17.75,
+        17.5
+       ],
+       "label_agreement": [
+        0.4792,
+        0.5208
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 5,
+      "cut_wins": 2,
+      "tie": 5,
+      "metrics": {
+       "accepted": [
+        1.0,
+        0.75
+       ],
+       "executed_actions": [
+        2.3333,
+        2.0833
+       ],
+       "failed_steps": [
+        0.0,
+        0.0
+       ],
+       "backbone_calls": [
+        10.6667,
+        9.6667
+       ],
+       "acceptance_rate": [
+        1.0,
+        1.0
+       ],
+       "proposals": [
+        1.0,
+        0.75
+       ],
+       "observed_action_events": [
+        17.75,
+        17.1667
+       ],
+       "label_agreement": [
+        0.4792,
+        0.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 6,
+      "cut_wins": 2,
+      "tie": 4,
+      "metrics": {
+       "accepted": [
+        1.0,
+        1.0
+       ],
+       "executed_actions": [
+        2.3333,
+        5.3333
+       ],
+       "failed_steps": [
+        0.0,
+        0.0
+       ],
+       "backbone_calls": [
+        10.6667,
+        12.1667
+       ],
+       "acceptance_rate": [
+        1.0,
+        0.7593
+       ],
+       "proposals": [
+        1.0,
+        1.4167
+       ],
+       "observed_action_events": [
+        17.75,
+        0.0
+       ],
+       "label_agreement": [
+        0.4792,
+        0.4583
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "properassistant",
+    "name": "ProPerAssistant",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2509.21730",
+    "code": "https://github.com/jiho283/ProPerSim",
+    "items": 2,
+    "samples": 3,
+    "sites": {
+     "S→M": "John's observed activity written into the assistant's evaluation memory (evaluation.py:157-198,240)",
+     "M→A": "retrieved memory and summaries in the [MEMORY] block of the suggestion prompt (suggestion.py:108)",
+     "A→M": "the assistant's suggestion written into its own memory record at level AS (evaluation.py:193-194)",
+     "record": "the assistant's own two candidates enter the preference data (reverie.py:462, agent.py:294-305)",
+     "outcome": "the user agent's ratings decide chosen/rejected (reverie.py:453-461)",
+     "attribution": "each rating is linked to the candidate it rated (reverie.py:462)",
+     "revision": "the nightly DPO update writes the new policy into the model (agent.py:457); prompt-level here"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 1,
+      "cut_wins": 2,
+      "tie": 3,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        0.6667
+       ],
+       "test_recommendations": [
+        1.5,
+        1.5
+       ],
+       "backbone_calls": [
+        22.8333,
+        24.5
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        0.6667
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.3334
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.2778
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 3,
+      "cut_wins": 2,
+      "tie": 1,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        1.5
+       ],
+       "test_recommendations": [
+        1.5,
+        2.1667
+       ],
+       "backbone_calls": [
+        22.8333,
+        24.0
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        1.5
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.4445
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.0556
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 1,
+      "cut_wins": 3,
+      "tie": 2,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        1.1667
+       ],
+       "test_recommendations": [
+        1.5,
+        2.1667
+       ],
+       "backbone_calls": [
+        22.8333,
+        25.5
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        1.1667
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.3889
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.2222
+       ]
+      }
+     },
+     {
+      "cut": [
+       "record"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 1,
+      "cut_wins": 2,
+      "tie": 3,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        0.6667
+       ],
+       "test_recommendations": [
+        1.5,
+        1.0
+       ],
+       "backbone_calls": [
+        22.8333,
+        22.0
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        0.0
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.1667
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.1111
+       ]
+      }
+     },
+     {
+      "cut": [
+       "outcome"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 1,
+      "cut_wins": 2,
+      "tie": 3,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        0.6667
+       ],
+       "test_recommendations": [
+        1.5,
+        1.0
+       ],
+       "backbone_calls": [
+        22.8333,
+        22.0
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        0.0
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.1667
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.1111
+       ]
+      }
+     },
+     {
+      "cut": [
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 3,
+      "cut_wins": 0,
+      "tie": 3,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        0.6667
+       ],
+       "test_recommendations": [
+        1.5,
+        0.6667
+       ],
+       "backbone_calls": [
+        22.8333,
+        21.0
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        0.6667
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.0556
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.1111
+       ]
+      }
+     },
+     {
+      "cut": [
+       "revision"
+      ],
+      "field": "output",
+      "pairs": 6,
+      "original": 1,
+      "cut_wins": 2,
+      "tie": 3,
+      "metrics": {
+       "learn_preference_pairs": [
+        0.6667,
+        0.6667
+       ],
+       "test_recommendations": [
+        1.5,
+        1.0
+       ],
+       "backbone_calls": [
+        22.8333,
+        22.0
+       ],
+       "pairs_in_policy": [
+        0.6667,
+        0.0
+       ],
+       "test_mean_rating": [
+        3.3334,
+        3.1667
+       ],
+       "learn_mean_rating": [
+        3.1111,
+        3.1111
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "user-as-code",
+    "name": "User as Code",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2606.16707",
+    "code": "https://github.com/19PINE-AI/user-as-code",
+    "items": 5,
+    "samples": 3,
+    "sites": {
+     "S→M": "user sessions become Phase-1 facts, archive chunks and the retained history the constraint IR is written from",
+     "M→A": "structured code, retrieved facts and archive excerpts delivered to the answer",
+     "revision": "the compiled constraint module (a reusable alert rule) is written to the programs directory; later updates execute the newest stored module (covers later_use)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "update_errors": [
+        0.0,
+        0.0
+       ],
+       "pretrigger_alerts": [
+        0.0,
+        0.0
+       ],
+       "trigger_rubric_passed": [
+        1.0,
+        0.0
+       ],
+       "modules_stored": [
+        2.4,
+        2.4
+       ],
+       "answer_expected_hits": [
+        0.9667,
+        0.0
+       ],
+       "trigger_alerts": [
+        1.2,
+        0.0
+       ],
+       "facts_stored": [
+        17.8,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output_answer",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "update_errors": [
+        0.0,
+        0.0
+       ],
+       "pretrigger_alerts": [
+        0.0,
+        0.0
+       ],
+       "trigger_rubric_passed": [
+        1.0,
+        1.0
+       ],
+       "modules_stored": [
+        2.4,
+        2.4
+       ],
+       "answer_expected_hits": [
+        0.9667,
+        0.0
+       ],
+       "trigger_alerts": [
+        1.2,
+        1.2
+       ],
+       "facts_stored": [
+        17.8,
+        17.8
+       ]
+      }
+     },
+     {
+      "cut": [
+       "revision"
+      ],
+      "field": "output_alerts",
+      "pairs": 15,
+      "original": 15,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "update_errors": [
+        0.0,
+        0.0
+       ],
+       "pretrigger_alerts": [
+        0.0,
+        0.0
+       ],
+       "trigger_rubric_passed": [
+        1.0,
+        0.0
+       ],
+       "modules_stored": [
+        2.4,
+        0.0
+       ],
+       "answer_expected_hits": [
+        0.9667,
+        0.9667
+       ],
+       "trigger_alerts": [
+        1.2,
+        0.0
+       ],
+       "facts_stored": [
+        17.8,
+        17.8
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "vinci",
+    "name": "Vinci",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2412.21080",
+    "code": "https://github.com/OpenGVLab/vinci",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "silent timestamped activity descriptions are appended to the session history (internvl.py:146, 279)",
+     "M→A": "the last ten history entries are prepended to the question by add_history (internvl.py:206)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 11,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "answer_chars": [
+        41.25,
+        100.2917
+       ],
+       "history_entries": [
+        7.25,
+        0.0
+       ],
+       "history_entries_at_question": [
+        7.25,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 11,
+      "cut_wins": 1,
+      "tie": 0,
+      "metrics": {
+       "answer_chars": [
+        41.25,
+        100.2917
+       ],
+       "history_entries": [
+        7.25,
+        7.25
+       ],
+       "history_entries_at_question": [
+        7.25,
+        0.0
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "vinci2",
+    "name": "Vinci2",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2607.11523",
+    "code": "https://github.com/SitongGong/EgoMemo",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "clip captions, entities and relations, visual embeddings and activity captions are written to memory (memory_bridge.py:262-344)",
+     "M→A": "memory reaches the proactive reasoner: retrieval, the recent activity caption and the caption time ranges (pipeline_v2_patch.py:680-697, 778)",
+     "A→M": "the reasoner's own reminders and search requests are kept and shown to it in later windows (pipeline_v2_patch.py:771-775, 850-856)"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 3,
+      "cut_wins": 0,
+      "tie": 9,
+      "metrics": {
+       "searches": [
+        0.6667,
+        0.25
+       ],
+       "stored_captions": [
+        4.0,
+        0.0
+       ],
+       "kg_nodes": [
+        47.1667,
+        0.0
+       ],
+       "activity_captions": [
+        2.0,
+        0.0
+       ],
+       "reminders": [
+        0.25,
+        0.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 3,
+      "cut_wins": 0,
+      "tie": 9,
+      "metrics": {
+       "searches": [
+        0.6667,
+        0.25
+       ],
+       "stored_captions": [
+        4.0,
+        4.0
+       ],
+       "kg_nodes": [
+        47.1667,
+        47.1667
+       ],
+       "activity_captions": [
+        2.0,
+        2.0
+       ],
+       "reminders": [
+        0.25,
+        0.5
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 1,
+      "cut_wins": 0,
+      "tie": 11,
+      "metrics": {
+       "searches": [
+        0.6667,
+        1.0
+       ],
+       "stored_captions": [
+        4.0,
+        4.0
+       ],
+       "kg_nodes": [
+        47.1667,
+        47.1667
+       ],
+       "activity_captions": [
+        2.0,
+        2.0
+       ],
+       "reminders": [
+        0.25,
+        0.3333
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "visionclaw",
+    "name": "VisionClaw",
+    "domain": "wearable",
+    "report": "https://arxiv.org/abs/2604.03486",
+    "code": "https://github.com/Intent-Lab/VisionClaw",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "what the user says or shows is written to notes (save_note) or, through the action agent, to the connected calendar and Notion",
+     "M→A": "notes (recall_notes), parked results (call-start drain), the task-ledger briefing and connected-app reads reach the voice model and the action agent",
+     "A→M": "delegated tasks and their results go to the task ledger and, when no one is listening, to parked results",
+     "A→S": "the voice model's execute(attach_view=True) sends the current camera frame for the action agent to read"
+    },
+    "tests": [
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 9,
+      "cut_wins": 0,
+      "tie": 3,
+      "metrics": {
+       "ledger_entries": [
+        1.0,
+        1.0833
+       ],
+       "final_facts_stated": [
+        0.9375,
+        0.4444
+       ],
+       "agent_calls": [
+        2.5,
+        2.75
+       ],
+       "frames_attached": [
+        0.8333,
+        0.8333
+       ],
+       "voice_model_calls": [
+        7.25,
+        7.0833
+       ],
+       "notes_saved": [
+        1.0,
+        0.0
+       ],
+       "app_writes_attempted": [
+        0.75,
+        0.75
+       ],
+       "app_writes_kept": [
+        0.75,
+        0.0
+       ],
+       "delegated_turns": [
+        1.0,
+        1.0833
+       ],
+       "parked_relayed": [
+        0.25,
+        0.25
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 12,
+      "cut_wins": 0,
+      "tie": 0,
+      "metrics": {
+       "ledger_entries": [
+        1.0,
+        1.0
+       ],
+       "final_facts_stated": [
+        0.9375,
+        0.0
+       ],
+       "agent_calls": [
+        2.5,
+        2.5833
+       ],
+       "frames_attached": [
+        0.8333,
+        0.8333
+       ],
+       "voice_model_calls": [
+        7.25,
+        6.5
+       ],
+       "notes_saved": [
+        1.0,
+        1.25
+       ],
+       "app_writes_attempted": [
+        0.75,
+        0.5
+       ],
+       "app_writes_kept": [
+        0.75,
+        0.5
+       ],
+       "delegated_turns": [
+        1.0,
+        1.0
+       ],
+       "parked_relayed": [
+        0.25,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 4,
+      "cut_wins": 0,
+      "tie": 8,
+      "metrics": {
+       "ledger_entries": [
+        1.0,
+        0.0
+       ],
+       "final_facts_stated": [
+        0.9375,
+        0.6875
+       ],
+       "agent_calls": [
+        2.5,
+        2.5833
+       ],
+       "frames_attached": [
+        0.8333,
+        0.8333
+       ],
+       "voice_model_calls": [
+        7.25,
+        7.0
+       ],
+       "notes_saved": [
+        1.0,
+        1.0
+       ],
+       "app_writes_attempted": [
+        0.75,
+        0.75
+       ],
+       "app_writes_kept": [
+        0.75,
+        0.75
+       ],
+       "delegated_turns": [
+        1.0,
+        1.0
+       ],
+       "parked_relayed": [
+        0.25,
+        0.0
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 2,
+      "cut_wins": 0,
+      "tie": 10,
+      "metrics": {
+       "ledger_entries": [
+        1.0,
+        1.0
+       ],
+       "final_facts_stated": [
+        0.9375,
+        0.9375
+       ],
+       "agent_calls": [
+        2.5,
+        2.5833
+       ],
+       "frames_attached": [
+        0.8333,
+        0.0
+       ],
+       "voice_model_calls": [
+        7.25,
+        7.3333
+       ],
+       "notes_saved": [
+        1.0,
+        1.0
+       ],
+       "app_writes_attempted": [
+        0.75,
+        0.75
+       ],
+       "app_writes_kept": [
+        0.75,
+        0.75
+       ],
+       "delegated_turns": [
+        1.0,
+        1.0
+       ],
+       "parked_relayed": [
+        0.25,
+        0.25
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "visualclaw",
+    "name": "VisualClaw",
+    "domain": "digital",
+    "report": "https://arxiv.org/abs/2606.16295",
+    "code": "https://github.com/UCSC-VLAA/VisualClaw",
+    "items": 4,
+    "samples": 3,
+    "sites": {
+     "S→M": "the round's request text written into the episodic memory unit (runner.py:752-797, 1020-1025)",
+     "M→A": "retrieved memory units rendered and prepended to the agent prompt (runner.py:919-934)",
+     "A→M": "the agent's conclusion and its pass/fail outcome written into the memory unit (runner.py:752-797)",
+     "M→S": "remembered text naming _clip_frames/ makes the Codex engine attach the keyframes (codex_cli.py:159)",
+     "record": "the evolver's failure samples carry the agent's answers from agent_logs/<qid>/answer.txt",
+     "outcome": "the evolver receives only the rounds the scorer failed, labelled reward -1.0",
+     "attribution": "each failure label is shown with that round's own answer",
+     "revision": "the evolver writes new SKILL.md cards into the bank (evolver.py:260-270), which the test invocation loads"
+    },
+    "tests": [
+     {
+      "cut": [
+       "M→A"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 6,
+      "cut_wins": 2,
+      "tie": 4,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.6667
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.75
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        4.3333
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.5
+       ],
+       "skills_written_learning": [
+        0.9167,
+        1.25
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.625
+       ]
+      }
+     },
+     {
+      "cut": [
+       "A→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 5,
+      "cut_wins": 3,
+      "tie": 4,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.6667
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.6667
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        3.6667
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.1667
+       ],
+       "skills_written_learning": [
+        0.9167,
+        1.0833
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.6875
+       ]
+      }
+     },
+     {
+      "cut": [
+       "S→M"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 4,
+      "cut_wins": 1,
+      "tie": 7,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7167
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.6667
+       ],
+       "memory_hits_test": [
+        20.0,
+        10.0833
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        3.5
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.3333
+       ],
+       "skills_written_learning": [
+        0.9167,
+        1.0833
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.7083
+       ]
+      }
+     },
+     {
+      "cut": [
+       "M→S"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 0,
+      "cut_wins": 2,
+      "tie": 10,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.5833
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        3.0
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.25
+       ],
+       "skills_written_learning": [
+        0.9167,
+        0.9167
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.7917
+       ]
+      }
+     },
+     {
+      "cut": [
+       "record"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 2,
+      "cut_wins": 3,
+      "tie": 7,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.5833
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        3.0
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.5
+       ],
+       "skills_written_learning": [
+        0.9167,
+        0.8333
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.7917
+       ]
+      }
+     },
+     {
+      "cut": [
+       "outcome"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 3,
+      "cut_wins": 3,
+      "tie": 6,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.5833
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        2.9167
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.25
+       ],
+       "skills_written_learning": [
+        0.9167,
+        0.9167
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.7708
+       ]
+      }
+     },
+     {
+      "cut": [
+       "attribution"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 2,
+      "cut_wins": 3,
+      "tie": 7,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.5833
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        1.9167
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.1667
+       ],
+       "skills_written_learning": [
+        0.9167,
+        0.5833
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.7083
+       ]
+      }
+     },
+     {
+      "cut": [
+       "revision"
+      ],
+      "field": "output",
+      "pairs": 12,
+      "original": 2,
+      "cut_wins": 3,
+      "tie": 7,
+      "metrics": {
+       "learn_pass_rate": [
+        0.7,
+        0.7
+       ],
+       "evolver_calls_learning": [
+        0.5833,
+        0.5833
+       ],
+       "memory_hits_test": [
+        20.0,
+        20.0
+       ],
+       "evolved_skill_injections_test": [
+        3.0,
+        0.0
+       ],
+       "test_rounds_with_frames_from_retained_text": [
+        0.25,
+        0.0
+       ],
+       "skills_written_learning": [
+        0.9167,
+        0.0
+       ],
+       "test_pass_rate": [
+        0.7917,
+        0.75
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "works": {
+  "aiget": "aiget",
+  "alpha-service": "ai4service",
+  "bee": "bee2026",
+  "contextagent": "contextagent",
+  "egocentric-copilot": "egocopilot2026",
+  "ipi-agent": "ipibench2026",
+  "lightmem-ego": "lightmemego2026",
+  "m3-agent": "m3agent",
+  "memento": "mementoar2026",
+  "omi": "omisite2026",
+  "plan-watch-recover": "pro2bench2026",
+  "proagent": "proagent",
+  "pro2assist": "pro2assist2026",
+  "sensible-agent": "sensibleagent2025",
+  "socialmind": "socialmind",
+  "speechless": "speechless2026",
+  "vinci": "vinci",
+  "vinci2": "vinci2",
+  "visionclaw": "visionclaw2026",
+  "abot-claw": "abotclaw2026",
+  "assistantx": "assistantx",
+  "elliq": "elliq2024",
+  "hobbit": "hobbit2018",
+  "movecare": "movecare2023",
+  "philia": "philia2026",
+  "strands": "strands2017",
+  "awarellm": "awarellm2026",
+  "dot": "dots2026",
+  "eaia": "langchaineai2025",
+  "long-term-toa": "longtermtoa2026",
+  "muse": "muse2026",
+  "ouroboros": "ouroboros2026",
+  "pahf": "pahf2026",
+  "pask": "pask2026",
+  "pitch": "lunchnow2025",
+  "proact": "proact2026",
+  "proactive-agent": "luproactiveagent2024",
+  "properassistant": "propersim",
+  "user-as-code": "userascode2026",
+  "visualclaw": "visualclaw2026"
+ }
+}

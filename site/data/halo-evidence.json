@@ -1,0 +1,1522 @@
+{
+ "vinci": {
+  "name": "Vinci",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§1 system overview; §3.3 Memory module; Fig. 2",
+    "url": "https://arxiv.org/html/2412.21080v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.3 Memory module; §§4.3–4.5",
+    "url": "https://arxiv.org/html/2412.21080v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§3.1 Input processing; §3.6 System integration",
+    "url": "https://arxiv.org/html/2412.21080v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.3 Memory module; Fig. 2",
+    "url": "https://arxiv.org/html/2412.21080v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§3.3 Memory module; §§3.4–3.6",
+    "url": "https://arxiv.org/html/2412.21080v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "vinci2": {
+  "name": "Vinci2",
+  "summary": "Streaming multimodal memory supports timed intervention and recall across temporal horizons.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§4.1 Streaming Memory Construction; Appendix B.1; Appendix C.1 EgoServe (EgoLife Subset)",
+    "url": "https://arxiv.org/html/2607.11523v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§4.2 Caption Reconstruction and Reasoning, Eq. (7); Fig. 3; Appendix C.1",
+    "url": "https://arxiv.org/html/2607.11523v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§4.1–4.2; Appendix C.1 EgoServe (EgoLife Subset)",
+    "url": "https://arxiv.org/html/2607.11523v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§4.1 Streaming Memory Construction; §4.2 Streaming Retrieval-Augmented Reasoning",
+    "url": "https://arxiv.org/html/2607.11523v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.1 Streaming Memory Construction; §4.2 Caption Reconstruction and Reasoning, Eq. (7)",
+    "url": "https://arxiv.org/html/2607.11523v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "visionclaw2026": {
+  "name": "VisionClaw",
+  "summary": "Glasses perception is combined with delegated digital tools and memory services.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.4 Agentic Execution Layer; §6.3 Save and Recall; Appendix C Gemini Live prompt",
+    "url": "https://arxiv.org/html/2604.03486v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.4; §6.3 Recall; §6.4 Interaction Evolves with More Personal Data; Appendix C",
+    "url": "https://arxiv.org/html/2604.03486v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Appendix C, Task Description Quality; §3.4; §6.3 Retrieve and Shop",
+    "url": "https://arxiv.org/html/2604.03486v2"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§6.3 Retrieve; §6.4 Agents Enable Open-Ended Multi-Turn Conversations",
+    "url": "https://arxiv.org/html/2604.03486v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§6.3 Recall; §6.4 Interaction Evolves with More Personal Data",
+    "url": "https://arxiv.org/html/2604.03486v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "contextagent": {
+  "name": "ContextAgent",
+  "summary": "Sensory context and supplied personas support proactive need prediction and tool use.",
+  "cells": {
+   "S→M": {
+    "mark": "◐",
+    "where": "§3.2 Task Construction, persona fields; §4.1 Persona Context",
+    "url": "https://arxiv.org/html/2505.14668v2"
+   },
+   "M→A": {
+    "mark": "◐",
+    "where": "§3.2; §4.1 Persona Context; §4.2 Context-aware Reasoner; §5.3 Persona Context",
+    "url": "https://arxiv.org/html/2505.14668v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§4.2 Context-aware Proactive Reasoning; Appendix A hiking exemplar; Appendix C Table 5; Appendix D Tool Definition",
+    "url": "https://arxiv.org/html/2505.14668v2"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§4.1 Sensory Context and Persona Context; §4.2",
+    "url": "https://arxiv.org/html/2505.14668v2"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§3.2 Task Construction; §4.1 Persona Context; §4.2 Context-aware Proactive Reasoning",
+    "url": "https://arxiv.org/html/2505.14668v2"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "proagent": {
+  "name": "ProAgent",
+  "summary": "Persona-aware reasoning coordinates proactive delivery and on-demand sensing.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§4.2.1 Persona Contexts; §4.2.2 Context-Aware Persona Updating",
+    "url": "https://arxiv.org/html/2512.06721v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§4.2.3 Context-Aware Persona Retrieval; §4.3.1 Proactive Intent Reasoning",
+    "url": "https://arxiv.org/html/2512.06721v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§4.4.2 Agent-in-the-Loop Adaptive Perception; §5.1.2 Configuration",
+    "url": "https://arxiv.org/html/2512.06721v2"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§4.2.3 Context-Aware Persona Retrieval; §4.3.1 Reasoner Inputs and Context-Aware CoT Reasoning",
+    "url": "https://arxiv.org/html/2512.06721v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§4.2.2, interaction tuple r_i=(c_i,a_i,f_i); §5.6.2 Impact of Human Feedback",
+    "url": "https://arxiv.org/html/2512.06721v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "aiget": {
+  "name": "AiGet",
+  "summary": "Profiles and familiarity/focus rules select context-relevant knowledge on glasses.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§5.1.2 Context Analysis, profile and interest-selection footnote; Appendix B.2 User Profile Sample; §6 continued use",
+    "url": "https://arxiv.org/html/2501.16240v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§5.1.2–5.1.3; Table 2 history filtering; §5.3 baseline definitions",
+    "url": "https://arxiv.org/html/2501.16240v2"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§5.1.1 LLM Request Trigger; §5.1.4–5.1.5",
+    "url": "https://arxiv.org/html/2501.16240v2"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§5.1.2 Context Analysis; Fig. 3",
+    "url": "https://arxiv.org/html/2501.16240v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§5.1.3 Knowledge Generation and Prioritization; Table 2 Novelty/history filtering; §5.2 long knowledge history",
+    "url": "https://arxiv.org/html/2501.16240v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "ai4service": {
+  "name": "Alpha-Service",
+  "summary": "A modular runtime combines sensory triggers, task dispatch, tools, and long-term context.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.5 Memory Unit: Long-Term Context Storage",
+    "url": "https://arxiv.org/html/2510.14359v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.3 Synthesis and Response Generation; §3.5",
+    "url": "https://arxiv.org/html/2510.14359v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3.3 Decomposition and Dispatch; §4.1 Input Unit, Listings 1–2",
+    "url": "https://arxiv.org/html/2510.14359v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.3 CPU; §3.5 Memory Unit; §4.1 case study",
+    "url": "https://arxiv.org/html/2510.14359v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§3.5 Memory Unit: Long-Term Context Storage",
+    "url": "https://arxiv.org/html/2510.14359v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "mementoar2026": {
+  "name": "Memento",
+  "summary": "Context-bound AR memories recur across interactions and support user-controlled resurfacing.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Fig. 2; §2.2.3 Personal Memory Generation",
+    "url": "https://arxiv.org/html/2601.17622v4"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§2.2.4 Context-aware Memory Retrieval; §2.2.5; §3 use cases",
+    "url": "https://arxiv.org/html/2601.17622v4"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§2.2.4 existence verification; §2.2.5 Referent detection",
+    "url": "https://arxiv.org/html/2601.17622v4"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§2.2.4–2.2.5 Referent detection",
+    "url": "https://arxiv.org/html/2601.17622v4"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Fig. 2; §2.2.3 Personal Memory Generation; §2.2.5 Content visualization",
+    "url": "https://arxiv.org/html/2601.17622v4"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "socialmind": {
+  "name": "SocialMind",
+  "summary": "Historical conversations supply identity-indexed personas for live social suggestions.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§4.3.1 Implicit Persona Extraction; §4.3.2 Persona Management",
+    "url": "https://arxiv.org/html/2412.04036v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§4.3.3 Persona Retrieval; §4.4.2 Knowledge Integration",
+    "url": "https://arxiv.org/html/2412.04036v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§4.2; §4.5.2 Intention Infer-based Suggestion Generation; §4.5.3 Proactive Response Update",
+    "url": "https://arxiv.org/html/2412.04036v1"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§4.3.1 database organization; §4.3.3 Persona Retrieval",
+    "url": "https://arxiv.org/html/2412.04036v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "",
+    "url": "https://arxiv.org/html/2412.04036v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "speechless2026": {
+  "name": "SpeechLess",
+  "summary": "Spatial memory resolves underspecified intent and reduces repeated verbal input.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.1 Remembrance/Removal; §3.5 Personal Memory Store Manager",
+    "url": "https://arxiv.org/html/2602.00793v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.3 Memory Retriever; §3.4 Response Composer",
+    "url": "https://arxiv.org/html/2602.00793v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3.4 Response Composer; §3.6 User Verification Interface",
+    "url": "https://arxiv.org/html/2602.00793v2"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§3 Interaction Paradigm; §3.2 Contextual Dimension Encoder; §3.3; Fig. 3",
+    "url": "https://arxiv.org/html/2602.00793v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§3.5 Personal Memory Store Manager; §3.6 User Verification Interface",
+    "url": "https://arxiv.org/html/2602.00793v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "m3agent": {
+  "name": "M3-Agent",
+  "summary": "Entity-centric multimodal memory supports consistent identity representation and long-video reasoning.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§4.1 Long-Term Memory; §4.2 Memorization",
+    "url": "https://arxiv.org/html/2508.09736v4"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§4.3 Control, Algorithm 1; §5.5 Control case study",
+    "url": "https://arxiv.org/html/2508.09736v4"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§4.3 Algorithm 1; §4.4 Control training environment; §5.5 Control trajectory",
+    "url": "https://arxiv.org/html/2508.09736v4"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§4.2 Consistent Entity Representation and Memory Generation; Appendix 10 tools",
+    "url": "https://arxiv.org/html/2508.09736v4"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.1–4.3; Algorithm 1; §4.4 Training",
+    "url": "https://arxiv.org/html/2508.09736v4"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "lightmemego2026": {
+  "name": "LightMem-Ego",
+  "summary": "A phone/glasses client feeds aligned event memory for everyday recall.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§§3.1–3.4",
+    "url": "https://arxiv.org/html/2607.11487v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§§3.4–3.5; §4",
+    "url": "https://arxiv.org/html/2607.11487v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§§3.1–3.5",
+    "url": "https://arxiv.org/html/2607.11487v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§§3.2–3.5",
+    "url": "https://arxiv.org/html/2607.11487v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§§3.2–3.5",
+    "url": "https://arxiv.org/html/2607.11487v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "sensibleagent2025": {
+  "name": "Sensible Agent",
+  "summary": "Context-sensitive prompt formats and output modalities support proactive XR interaction.",
+  "cells": {
+   "S→M": {
+    "mark": "○",
+    "where": "§5.1; §8.3; §9",
+    "url": "https://arxiv.org/html/2509.09255v2"
+   },
+   "M→A": {
+    "mark": "○",
+    "where": "§5.1; §5.2.2; §9",
+    "url": "https://arxiv.org/html/2509.09255v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§4.2/§4.3; §5.1",
+    "url": "https://arxiv.org/html/2509.09255v2"
+   },
+   "M→S": {
+    "mark": "○",
+    "where": "§5.1 Context Parsing; §8.3; §9",
+    "url": "https://arxiv.org/html/2509.09255v2"
+   },
+   "A→M": {
+    "mark": "○",
+    "where": "§8.3 Modeling Modality Preferences; §9 Limitations",
+    "url": "https://arxiv.org/html/2509.09255v2"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "egocopilot2026": {
+  "name": "Egocentric Co-Pilot",
+  "summary": "A glasses assistant combines compressed temporal context with visual and symbolic tools.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.1; §4.3; Appendix A",
+    "url": "https://arxiv.org/html/2603.01104v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.1; §4.2/Table 2",
+    "url": "https://arxiv.org/html/2603.01104v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3.2; §3.4; §4.3",
+    "url": "https://arxiv.org/html/2603.01104v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.1; §3.2; Fig. 4/§4.3",
+    "url": "https://arxiv.org/html/2603.01104v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§3.1 event-log definition; §3.4; Appendix A MCP tools",
+    "url": "https://arxiv.org/html/2603.01104v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "pro2assist2026": {
+  "name": "Pro²Assist",
+  "summary": "Multiscale temporal and procedural context improves step-aware assistance.",
+  "cells": {
+   "S→M": {
+    "mark": "◐",
+    "where": "§4.3.2; §4.4.2; §6",
+    "url": "https://arxiv.org/html/2605.04227v2"
+   },
+   "M→A": {
+    "mark": "◐",
+    "where": "§4.3.2; §4.4.1; §6",
+    "url": "https://arxiv.org/html/2605.04227v2"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§4.2; §4.3.1; §4.4",
+    "url": "https://arxiv.org/html/2605.04227v2"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§4.3.2; §4.4.1; §6",
+    "url": "https://arxiv.org/html/2605.04227v2"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.3.2; §4.4.1–4.4.2; Algorithm 1; §6",
+    "url": "https://arxiv.org/html/2605.04227v2"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "pro2bench2026": {
+  "name": "Pro$^2$Bench",
+  "summary": "A cached procedural plan guides observation and recovery during a task.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 2.2–2.5",
+    "url": "https://arxiv.org/html/2606.04970v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 2.2 and 2.5; source",
+    "url": "https://arxiv.org/html/2606.04970v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Sections 2.3–2.4; source",
+    "url": "https://arxiv.org/html/2606.04970v1"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Sections 2.4–2.5; source",
+    "url": "https://arxiv.org/html/2606.04970v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§2.2 Planner, source; §§2.3–2.5, sourceand 0351–0353",
+    "url": "https://arxiv.org/html/2606.04970v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "ipibench2026": {
+  "name": "IPIBench",
+  "summary": "Editable proactive requests and temporal gating stabilize streaming interaction.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 4.1–4.2",
+    "url": "https://arxiv.org/html/2605.27074v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 4.2–4.3; source",
+    "url": "https://arxiv.org/html/2605.27074v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Section 4.3; source",
+    "url": "https://arxiv.org/html/2605.27074v1"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Sections 4.2–4.3; source",
+    "url": "https://arxiv.org/html/2605.27074v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.2 Interaction-Control Policy; §4.3 proposals generated after task insertion",
+    "url": "https://arxiv.org/html/2605.27074v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "omi2026": {
+  "name": "Omi",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Processing Flow; Memory Extraction Process",
+    "url": "https://docs.omi.me/doc/developer/backend/StoringConversations"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Proactive Notifications: How It Works; Available Scopes",
+    "url": "https://docs.omi.me/doc/developer/apps/Notifications"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "The Agentic Tool System; Calendar Tools; External Integration Tools",
+    "url": "https://docs.omi.me/doc/developer/backend/chat_system"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "include_speech_profile; Speech Profile & Speaker Embedding; Teaching another person’s voice",
+    "url": "https://docs.omi.me/doc/developer/backend/transcription"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Chat Sessions & Context; Response Generation",
+    "url": "https://docs.omi.me/doc/developer/backend/chat_system"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "bee2026": {
+  "name": "Bee",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Intro; What we have learned; privacy paragraph",
+    "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "What we have learned; Daily Insights",
+    "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "Capture description; shipped Actions",
+    "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "Capture description; Daily Insights",
+    "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Tool catalog: bee_get_todo_suggestions, bee_accept_todo_suggestion, bee_dismiss_todo_suggestion; API Todos",
+    "url": "https://docs.bee.computer/docs/mcp"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "assistantx": {
+  "name": "AssistantX",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§IV-A, Fig. 4; §IV-D, Eq. (5)",
+    "url": "https://arxiv.org/html/2409.17655v3"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§IV-A; §IV-C, Eqs. (3)–(4)",
+    "url": "https://arxiv.org/html/2409.17655v3"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§IV-B, Eq. (2); Fig. 5",
+    "url": "https://arxiv.org/html/2409.17655v3"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§IV-A final paragraph; §IV-B, Eq. (2)",
+    "url": "https://arxiv.org/html/2409.17655v3"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§IV-A graph-update paragraph; §IV-D, Eq. (5)",
+    "url": "https://arxiv.org/html/2409.17655v3"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "hobbit": {
+  "name": "Hobbit",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.3 items (5)–(6); §4.2 final paragraph; §4.3 calendar paragraph",
+    "url": "https://doi.org/10.1155/2018/1754657"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§4.1; §4.2 final paragraph; §4.3",
+    "url": "https://doi.org/10.1155/2018/1754657"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3.4.1; §4.9 and Fig. 13",
+    "url": "https://doi.org/10.1155/2018/1754657"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§3.3 item (5); §3.4.1; §6.1.4",
+    "url": "https://doi.org/10.1155/2018/1754657"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.9; §4.1; §6.1",
+    "url": "https://doi.org/10.1155/2018/1754657"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "strands": {
+  "name": "STRANDS",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§5 final paragraph; §9",
+    "url": "https://arxiv.org/pdf/1604.04384v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§8; §9 and Fig. 7",
+    "url": "https://arxiv.org/pdf/1604.04384v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§5 localization paragraph; §7",
+    "url": "https://arxiv.org/pdf/1604.04384v2"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§5 localization paragraph: fixed laser map and localization within it",
+    "url": "https://arxiv.org/pdf/1604.04384v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§8 second paragraph",
+    "url": "https://arxiv.org/pdf/1604.04384v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "philia": {
+  "name": "PHILIA",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§2.4.1; §3.3 Agent-to-Policy Long-Term Memory Grounding, Fig. 3",
+    "url": "https://arxiv.org/html/2607.11377v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§2.4.1",
+    "url": "https://arxiv.org/html/2607.11377v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§2.1 final paragraphs; §2.2 Plans and Workflows; §2.4.1",
+    "url": "https://arxiv.org/html/2607.11377v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§2.4.1 paragraph beginning This establishes a controlled path; §2.2 Agent Control Plane; §1 control plane vs robot-local runtimes",
+    "url": "https://arxiv.org/html/2607.11377v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§2.2 Semantic State and Long-Horizon Context; §2.4.1",
+    "url": "https://arxiv.org/html/2607.11377v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "abot-claw": {
+  "name": "ABot-Claw",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§2.3 Memory entities; §3.3",
+    "url": "https://arxiv.org/html/2604.10096v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§2.3 Navigable return protocol; §4.3.2, Fig. 8",
+    "url": "https://arxiv.org/html/2604.10096v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§4.2.1, Fig. 5; §2.4",
+    "url": "https://arxiv.org/html/2604.10096v2"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§2.3; §2.5; §3.3; §4.3.2",
+    "url": "https://arxiv.org/html/2604.10096v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§2.4 Closing the execution loop; §2.5 Update, refinement, or replanning",
+    "url": "https://arxiv.org/html/2604.10096v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "movecare": {
+  "name": "MoveCare",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Intelligent Virtual Caregiver: reactive and periodic workflows; Fig. 7",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Scenarios: Body Weight Measurement, Neuropsychological Tests; Reminders",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Scenarios: Body Weight Measurement; Call for Help",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Scenarios: Body Weight Measurement; User Location",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Scenarios: Call for Help, Body Weight Measurement; Report Generation",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "elliq": {
+  "name": "ElliQ",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Official ElliQ 3 announcement, memory paragraphs; FAQ onboarding/health sections",
+    "url": "https://www.intuitionrobotics.com/post/new-year-new-elliq"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "The Robot, paragraphs on learned personality and previous interactions",
+    "url": "https://www.jarlife.net/4982-elliq-an-ai-driven-social-robot-to-alleviate-loneliness-progress-and-lessons-learned.html"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "FAQ: Is ElliQ listening to me all the time?",
+    "url": "https://elliq.com/pages/faqs"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "The Robot; official ElliQ 3 memory paragraphs; FAQ listening/camera sections",
+    "url": "https://www.jarlife.net/4982-elliq-an-ai-driven-social-robot-to-alleviate-loneliness-progress-and-lessons-learned.html"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "Official ElliQ 3 memory paragraphs; paper Implementation/Challenges; privacy policy §§4–7",
+    "url": "https://www.intuitionrobotics.com/post/new-year-new-elliq"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "pask2026": {
+  "name": "PASK",
+  "summary": "Streaming demand detection is combined with persistent user/global memory and asynchronous maintenance.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§4.1; §4.3; §5",
+    "url": "https://arxiv.org/html/2604.08000v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.1; §§4.1–4.2",
+    "url": "https://arxiv.org/html/2604.08000v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§3.1; §5",
+    "url": "https://arxiv.org/html/2604.08000v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§2.2; §3.1; §4.2",
+    "url": "https://arxiv.org/html/2604.08000v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§4.1 global history, §4.2 query tuple and §4.3 post-session maintenance; §5",
+    "url": "https://arxiv.org/html/2604.08000v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "userascode2026": {
+  "name": "User as Code",
+  "summary": "Append-only extraction plus typed executable state supports recall, aggregates, and unsolicited alerts.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.2; §§1–2",
+    "url": "https://arxiv.org/html/2606.16707v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.1; §3.3",
+    "url": "https://arxiv.org/html/2606.16707v1"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "§3.3.2",
+    "url": "https://arxiv.org/html/2606.16707v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.3.1; §3.4",
+    "url": "https://arxiv.org/html/2606.16707v1"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§§3.2.1, 3.3.1–3.3.2",
+    "url": "https://arxiv.org/html/2606.16707v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": true,
+   "later_use": true
+  }
+ },
+ "lunchnow2025": {
+  "name": "PITCH",
+  "summary": "Scheduled morning planning and evening reflection reuse the same day’s conversation.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§§3.1.1–3.1.2; §3.1.5",
+    "url": "https://arxiv.org/html/2509.24073v4"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.1.2",
+    "url": "https://arxiv.org/html/2509.24073v4"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3.1.2; §5.1",
+    "url": "https://arxiv.org/html/2509.24073v4"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.1.2 and Fig. 1",
+    "url": "https://arxiv.org/html/2509.24073v4"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§§3.1.2 and 3.1.5",
+    "url": "https://arxiv.org/html/2509.24073v4"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "ouroboros2026": {
+  "name": "Ouroboros",
+  "summary": "A persistent runtime records error classes and admits reviewed harness repairs.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3 Operational identity and memory; §4 Multi-channel state",
+    "url": "https://arxiv.org/html/2608.08311v3"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3; §4",
+    "url": "https://arxiv.org/html/2608.08311v3"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§3 Task outcomes and verification; §4 Evolution during deployment",
+    "url": "https://arxiv.org/html/2608.08311v3"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3; §4",
+    "url": "https://arxiv.org/html/2608.08311v3"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§3 Task outcomes and verification, Operational identity and memory, Two modes of core evolution; §4 Evolution during deployment",
+    "url": "https://arxiv.org/html/2608.08311v3"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": true,
+   "later_use": true
+  }
+ },
+ "visualclaw2026-claude-code": {
+  "name": "VisualClaw",
+  "summary": "Cascaded capture and failure-derived skills improve video QA and workspace tasks.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "§3.4; §4.1; §4.2; §5.3",
+    "url": "https://arxiv.org/html/2606.16295v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "§3.3; §4.1; §4.2; §5.3",
+    "url": "https://arxiv.org/html/2606.16295v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "§4.2",
+    "url": "https://arxiv.org/html/2606.16295v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.2 frame gate, §3.3 prompt injection, §4.2 native tool loop",
+    "url": "https://arxiv.org/html/2606.16295v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§3.4 and §4.2",
+    "url": "https://arxiv.org/html/2606.16295v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": true,
+   "later_use": true
+  }
+ },
+ "luproactiveagent2024": {
+  "name": "Proactive Agent",
+  "summary": "Event history supports prediction of useful proactive tasks.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Section 3.4 and Figure 3; Section 3.2",
+    "url": "https://arxiv.org/html/2410.12361v3"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4; source",
+    "url": "https://arxiv.org/html/2410.12361v3"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Section 3.4, Task Execution; source; pinned HTML rechecked 2026-09-12",
+    "url": "https://arxiv.org/html/2410.12361v3"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.4/Fig. 3",
+    "url": "https://arxiv.org/html/2410.12361v3"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§3.4/Fig. 3",
+    "url": "https://arxiv.org/html/2410.12361v3"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "pahf2026": {
+  "name": "PAHF",
+  "summary": "Pre-action clarification and post-action preference correction support continual personalization.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4",
+    "url": "https://arxiv.org/html/2602.16173v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4; physical; Section 4.2",
+    "url": "https://arxiv.org/html/2602.16173v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Section 3.2, Pre-Action Interaction; physical; Section 4.1",
+    "url": "https://arxiv.org/html/2602.16173v1"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "§3.2 Pre-Action Interaction and §3.4 Memory interaction",
+    "url": "https://arxiv.org/html/2602.16173v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4; physical; Section 4.1",
+    "url": "https://arxiv.org/html/2602.16173v1"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "awarellm2026": {
+  "name": "AwareLLM",
+  "summary": "Physiological and workspace context supports personalized intervention.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 4.2 and 5; Appendix D.1.2 and D.4/D.5",
+    "url": "https://arxiv.org/html/2605.09625v3"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 4.1, 4.4.4 and 4.5.3; source",
+    "url": "https://arxiv.org/html/2605.09625v3"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "Sections 4.4.2–4.4.5 and Appendix D; source",
+    "url": "https://arxiv.org/html/2605.09625v3"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Section 4.4.4; source; Appendix D.4–D.5",
+    "url": "https://arxiv.org/html/2605.09625v3"
+   },
+   "A→M": {
+    "mark": "◐",
+    "where": "§§4.4–4.5; Appendix D.4–D.5, summary schema and loop inputs",
+    "url": "https://arxiv.org/html/2605.09625v3"
+   }
+  },
+  "chain": {
+   "record": false,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "proact2026": {
+  "name": "ProAct",
+  "summary": "Persistent memory guides preparation for anticipated needs during idle time.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 3.1–3.4; Appendix J; Appendix U",
+    "url": "https://arxiv.org/html/2605.25971v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 3.2–3.4; source",
+    "url": "https://arxiv.org/html/2605.25971v2"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4; source",
+    "url": "https://arxiv.org/html/2605.25971v2"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "§3.4 Memory-aware acquisition",
+    "url": "https://arxiv.org/html/2605.25971v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§§3.2 and 3.4 Artifact generation, Utility-aware delivery, Memory update",
+    "url": "https://arxiv.org/html/2605.25971v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "longtermtoa2026": {
+  "name": "Long-term TOA",
+  "summary": "Dormant-period monitors and updated intents support cross-time follow-ups.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Sections 3.1, 3.4–3.6",
+    "url": "https://arxiv.org/html/2601.09382v1"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 3.1–3.2 and 3.5–3.6; source",
+    "url": "https://arxiv.org/html/2601.09382v1"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Sections 3.2 and 3.4; source; Appendix D.1",
+    "url": "https://arxiv.org/html/2601.09382v1"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Sections 3.1–3.2 and 3.4; source",
+    "url": "https://arxiv.org/html/2601.09382v1"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§§3.2, 3.4–3.6",
+    "url": "https://arxiv.org/html/2601.09382v1"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "propersim": {
+  "name": "ProPerSim",
+  "summary": "Rated recommendations support repeated personalization in a simulated home.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Section 5, Internal State; Section 6.2/Table 1 day sequence",
+    "url": "https://arxiv.org/html/2509.21730v2"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Sections 3 and 5; source",
+    "url": "https://arxiv.org/html/2509.21730v2"
+   },
+   "A→S": {
+    "mark": "◐",
+    "where": "Sections 3, 4.2 and 6.2; source",
+    "url": "https://arxiv.org/html/2509.21730v2"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "Sections 4.2 and 5; source",
+    "url": "https://arxiv.org/html/2509.21730v2"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "§5 Internal State and User Preference Alignment",
+    "url": "https://arxiv.org/html/2509.21730v2"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": true,
+   "later_use": true
+  }
+ },
+ "chatgptdots2026": {
+  "name": "Dot",
+  "summary": "An always-on agent with its own cloud computer that keeps notes, decides when to wake and continue, and checks the tasks it delegates.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "Tasks and memory: Persistent memory, Proactive research (file); Meet dots: Memory and context (file)",
+    "url": "https://learn.chatgpt.com/docs/dots/tasks-and-memory"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Meet dots: intro and Memory and context (file); Tasks and memory: Persistent memory (file)",
+    "url": "https://learn.chatgpt.com/docs/dots"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Meet dots: Tasks and conversations (file); Tasks and memory: Assigned work table, row 'Task your dot created' (file)",
+    "url": "https://learn.chatgpt.com/docs/dots"
+   },
+   "M→S": {
+    "mark": "●",
+    "where": "Tasks and memory: Proactive research (file)",
+    "url": "https://learn.chatgpt.com/docs/dots/tasks-and-memory"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "Tasks and memory: Persistent memory (file), Assigned work (file); Meet dots: How dots work (file)",
+    "url": "https://learn.chatgpt.com/docs/dots/tasks-and-memory"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "metamuse2026": {
+  "name": "Muse",
+  "summary": "Persistent memory, scheduled background work, and explicit permission controls support personal tasks.",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "security article: Our Policy Around Data",
+    "url": "https://introducing.muse.ai/"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "Design article:; security article: Human in the Loop",
+    "url": "https://introducing.muse.ai/"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "design article: task example and browser/background work",
+    "url": "https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "security article Browser Use",
+    "url": "https://introducing.muse.ai/"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "security article Our Policy Around Data",
+    "url": "https://research.meta.ai/blog/security-and-safety-for-ai-agents-our-approach-with-muse"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": false,
+   "attribution": false,
+   "revision": false,
+   "later_use": false
+  }
+ },
+ "langchaineai2025": {
+  "name": "EAIA",
+  "summary": "",
+  "cells": {
+   "S→M": {
+    "mark": "●",
+    "where": "send_message response branch; save_email; reflection_graphs.py update_general",
+    "url": "https://github.com/langchain-ai/executive-ai-assistant/blob/main/eaia/main/human_inbox.py"
+   },
+   "M→A": {
+    "mark": "●",
+    "where": "draft_response store.aget calls; main/fewshot.py get_few_shot_examples",
+    "url": "https://github.com/langchain-ai/executive-ai-assistant/blob/main/eaia/main/draft_response.py"
+   },
+   "A→S": {
+    "mark": "●",
+    "where": "Question instructions; main/human_inbox.py send_message",
+    "url": "https://github.com/langchain-ai/executive-ai-assistant/blob/main/eaia/main/draft_response.py"
+   },
+   "M→S": {
+    "mark": "◐",
+    "where": "get_few_shot_examples and draft_response prompt assembly",
+    "url": "https://github.com/langchain-ai/executive-ai-assistant/blob/main/eaia/main/fewshot.py"
+   },
+   "A→M": {
+    "mark": "●",
+    "where": "send_email_draft edit/response branches; reflection_graphs.py update_general",
+    "url": "https://github.com/langchain-ai/executive-ai-assistant/blob/main/eaia/main/human_inbox.py"
+   }
+  },
+  "chain": {
+   "record": true,
+   "outcome": true,
+   "attribution": true,
+   "revision": true,
+   "later_use": false
+  }
+ }
+}

@@ -1,0 +1,1727 @@
+{
+  "source": "Paper §6.3, Table 20 and Table 21",
+  "intro": "To bring together the applications of §6.1 across the three domains, we divide assistants into six levels by how completely their modules close the always-on loop, following the definition in §2.1. These levels are cumulative: L0 is a session-local baseline that keeps nothing across interactions, L1 adds state durability, L2 lets the retained state guide decisions, and L3 adds operational continuity. From L3 on, both properties hold, so L3 is the first always-on level. L4 adds attribution: the assistant links outcomes to the decisions behind them, so a revision can rest on evidence. L5 adds governed self-evolution: the assistant revises its own mechanism, which extends the loop, and every revision stays within the shared conditions.",
+  "caption": "Reviewed systems by level of closure. Rows follow the three interaction domains, and within each domain we separate research systems from products, including open-source releases. Each system is placed at the highest level that its reported evidence supports, which makes the placement a lower bound. Products are placed from documentation, released code, announcements, field reports, or third-party test runs, not from controlled evaluations. Levels from L3 onward count as always-on, while a system that acts proactively within one session but keeps nothing across sessions stays at L0.",
+  "checklistCaption": "What each loop-closure level adds. Levels are cumulative, and each mini loop shows the modules and the channels a level requires, in the style of Table 2. L0 lacks state durability. L1 adds retention in Memory, which its mini loop draws as S→M. L2 lets retained state guide decisions through at least one of the two edges from Memory, but like L1 it acts only as requested. L3 adds no new channel but decides between requests whether to act, so from L3 on both properties of the continuing loop hold, and the shaded header over L3–L5 marks these always-on levels. L4 adds attribution, which needs at least one of the two edges from Action. A check made during execution through A→S suffices, and A→M is needed when the outcome arrives later. L5 further requires governed self-evolution. ✓ marks what a level requires, and an empty cell means not required.",
+  "levels": [
+    {
+      "id": "L0",
+      "name": "Session local",
+      "short": "Session Local",
+      "mark": null,
+      "tagline": "L0 is a session-local baseline that keeps nothing across interactions.",
+      "adds": null,
+      "criterion": "L0 lacks state durability.",
+      "explanation": "L0 is a session-local baseline that keeps nothing across interactions. A system that acts proactively within one session but keeps nothing across sessions stays at L0.",
+      "checklist": {
+        "durability": false,
+        "continuity": false,
+        "attribution": false,
+        "governed": false
+      },
+      "loop": [
+        "SA"
+      ]
+    },
+    {
+      "id": "L1",
+      "name": "Retained state",
+      "short": "Retained State",
+      "mark": null,
+      "tagline": "At L1, the assistant carries information across sessions.",
+      "adds": "Compared with L0, it adds a memory that one session writes and a later session can read.",
+      "criterion": "L1 adds retention in Memory, which its mini loop draws as S→M.",
+      "explanation": "At L1, the assistant carries information across sessions. Compared with L0, it adds a memory that one session writes and a later session can read. Two reviewed systems stop at L1. MOSS maintains user state across sessions without using it to personalize a later decision, while Hyodol shares its twice-daily check-in records with caregivers but is not shown to use them later.",
+      "checklist": {
+        "durability": true,
+        "continuity": false,
+        "attribution": false,
+        "governed": false
+      },
+      "loop": [
+        "SA",
+        "SM"
+      ]
+    },
+    {
+      "id": "L2",
+      "name": "State-guided decision",
+      "short": "State-Guided Decision",
+      "mark": null,
+      "tagline": "An L2 assistant lets its stored records change later decisions about what to sense or how to act.",
+      "adds": "Compared with L1, it adds a Sensing or Action policy that reads memory together with the current context, but the assistant still acts only as requested.",
+      "criterion": "L2 lets retained state guide decisions through at least one of the two edges from Memory, but like L1 it acts only as requested.",
+      "explanation": "An L2 assistant lets its stored records change later decisions about what to sense or how to act. Compared with L1, it adds a Sensing or Action policy that reads memory together with the current context, but the assistant still acts only as requested. Research systems at L2 mostly study how memory is built and updated. Egocentric assistants observe the world from the user's viewpoint, and they include VisionClaw, M3-Agent, and Vinci. They answer later queries from retained observations, while HealthClaw conditions an action on stored user records. Products reach L2 in the same way, but they draw their records mostly from all-day capture or from accounts the user has connected. The RayNeo iO glasses answer later questions from an all-day audio record, Oura Advisor draws on the ring's continuous health data, and Gemini's Daily Brief reads the user's connected Gmail and Calendar.\n\nTwo kinds of assistant look always-on but stay at L2. Background capture, as in LightMem-Ego and Windows Recall, adds state between requests while Action waits for the user to ask. Scheduled assistants act at every scheduled run instead of choosing whether to act. CareCall calls its users every week, Claude Cowork and Manus run the tasks a user has scheduled with retained context, and the Daily Brief, Oura Advisor's check-ins, and the Today assistant arrive at fixed times. Some research systems at L2 also check outcomes or revise their own rules, which can make them look like L4 or L5, but they stay at L2 because they do not decide whether to act between requests. PAHF, the method in Pro²Bench, PHILIA, and ABot-Claw correct the task in progress. PITCH, Bloom, and MindShift instead link replies or ratings to messages they send at every scheduled time or trigger. Revisions can also persist at L2: VisualClaw adds skill cards, written instructions for performing tasks, after failures so that later steps can use them.",
+      "checklist": {
+        "durability": true,
+        "continuity": false,
+        "attribution": false,
+        "governed": false
+      },
+      "loop": [
+        "SA",
+        "SM",
+        "MA",
+        "MS"
+      ]
+    },
+    {
+      "id": "L3",
+      "name": "Unrequested action",
+      "short": "Unrequested Action",
+      "mark": "(always-on)",
+      "tagline": "L3 is the first always-on level, because the assistant begins to decide for itself whether or when to act without a request, and waiting is one of its choices.",
+      "adds": "Compared with L2, it adds this decision between requests: the assistant proposes an action, then either initiates the interaction or stays silent.",
+      "criterion": "L3 adds no new channel but decides between requests whether to act, so from L3 on both properties of the continuing loop hold, and the shaded header over L3–L5 marks these always-on levels.",
+      "explanation": "L3 is the first always-on level, because the assistant begins to decide for itself whether or when to act without a request, and waiting is one of its choices. Compared with L2, it adds this decision between requests: the assistant proposes an action, then either initiates the interaction or stays silent. Acting as asked at a time, event, or condition that the user fixed carries out an earlier request and stays at L2. The test is who decides whether a run reaches the user. If the user fixes when an automation runs but the assistant judges whether the result is worth sending, the assistant makes that decision. Research systems such as PASK, ProAct, SocialMind, and User as Code act when a monitored signal crosses a threshold that the assistant, not the user, sets. User as Code, for example, writes its own alert rules from facts the user mentions and keeps them for later sessions. They measure these decisions in benchmarks, simulations, or short user studies.",
+      "checklist": {
+        "durability": true,
+        "continuity": true,
+        "attribution": false,
+        "governed": false
+      },
+      "loop": [
+        "SA",
+        "SM",
+        "MA",
+        "MS"
+      ]
+    },
+    {
+      "id": "L4",
+      "name": "Attributed outcomes",
+      "short": "Attributed Outcomes",
+      "mark": null,
+      "tagline": "L4 attributes outcome evidence to the decision behind it, so that the assistant can check or correct its assistance.",
+      "adds": "Compared with L3, L4 adds this attribution, either through an authorized execution whose effect on the world and the user is checked or through the user's reply to a reminder.",
+      "criterion": "L4 adds attribution, which needs at least one of the two edges from Action.",
+      "explanation": "L4 attributes outcome evidence to the decision behind it, so that the assistant can check or correct its assistance. The evidence arrives after the decision, from the world or the user. Compared with L3, L4 adds this attribution, either through an authorized execution whose effect on the world and the user is checked or through the user's reply to a reminder. The link is easiest to make when the outcome names its decision and hardest when the outcome arrives late or only implicitly, and we order the reported evidence by this difficulty. Most reported links come from responses that name the decision, such as a rating, removal, dismissal, or comment tied to the suggestion that caused it. ProPerSim ties each rating to the recommendation that prompted it. Memento responds to removal by stopping the removed memory from resurfacing. Time2Stop uses agreement or disagreement with each intervention to retrain its overuse predictor, a model that estimates excessive use. ProAgent stores each suggestion it delivers with the sensory context and the user's verbal feedback, and infers from them when similar suggestions are unwanted.",
+      "checklist": {
+        "durability": true,
+        "continuity": true,
+        "attribution": true,
+        "governed": false
+      },
+      "loop": [
+        "SA",
+        "SM",
+        "MA",
+        "MS",
+        "AS",
+        "AM"
+      ]
+    },
+    {
+      "id": "L5",
+      "name": "Governed revision",
+      "short": "Governed Revision",
+      "mark": null,
+      "tagline": "An L5 assistant revises its mechanism only within the shared conditions c_t, the limits set by the user and the world.",
+      "adds": "Compared with L4, where several assistants already revise their model or policy, L5 adds this control over the revision itself.",
+      "criterion": "L5 further requires governed self-evolution.",
+      "explanation": "An L5 assistant revises its mechanism only within the shared conditions c_t, the limits set by the user and the world. A control applies these conditions to every revision before it takes effect, so that no revision can change these limits, and the revisions that pass carry over into later runs. Compared with L4, where several assistants already revise their model or policy, L5 adds this control over the revision itself. The control takes either of two forms: the user's approval of each change or limits set in advance on what automatic revision is allowed to change. The two forms differ in cost: approving each change keeps the user in the loop, whereas limits set in advance let the loop keep revising without the user's attention. Only five reviewed works reach L5, all of them research systems, and each only under a stated condition. Ouroboros meets it in its advanced mode: governance files are protected from ordinary writes, and a blocking review checks each change. The spending limit and the stop command also sit outside the code it is allowed to change. Enoch meets it when its human custodian merges every reviewed change. The protections are procedural, however, and the tests use mocked models, substitutes that simulate model responses during testing. HeartSteps, Oralytics, and MiWaves meet it because each revision changes only the parameters of a policy whose form stays fixed. The probability of sending a prompt has fixed bounds that no update can change, and these bounds limit how much of the user's attention the prompts can take. HeartSteps also never prompts a participant who may be driving. In all five, the control either narrows what a revision can change or places a review before each change takes effect. By contrast, the assistants that stay at L4 show how such a control fails when it lies within reach of revision. Hermes Agent writes skills freely by default. Even with write approval on, the agent can still overwrite the configuration files through its shell, the interface for running system commands. OpenClaw stays at L4 even in its review mode, because it records lessons in the file that lists which actions need the user's approval, so a revision can rewrite that list. ProPerSim and EAIA revise their model or prompts from feedback with no reported control that applies the shared conditions to the revision. Self-evolution can therefore appear below L5, but what a revision rests on differs by level. At L3, as in User as Code, a revision is not traced to the outcomes of the assistant's own decisions. At L4, as in these assistants, it can rest on such outcomes but is not governed. Only governed self-evolution defines a level of its own, L5. In §6.4, we examine these revisions in detail.",
+      "checklist": {
+        "durability": true,
+        "continuity": true,
+        "attribution": true,
+        "governed": true
+      },
+      "loop": [
+        "SA",
+        "SM",
+        "MA",
+        "MS",
+        "AS",
+        "AM"
+      ]
+    }
+  ],
+  "placements": {
+    "L0": [
+      {
+        "name": "ContextAgent",
+        "key": "contextagent",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ContextAgent: Context-Aware Proactive LLM Agents with Open-World Sensory Perceptions",
+          "all_authors_short": "Bufang Yang, Lilin Xu, Liekang Zeng et al.",
+          "year": 2025,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2505.14668"
+        }
+      },
+      {
+        "name": "Sensible Agent",
+        "key": "sensibleagent2025",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Sensible Agent: A Framework for Unobtrusive Interaction with Proactive AR Agents",
+          "all_authors_short": "Geonsun Lee, Min Xia, Nels Numan et al.",
+          "year": 2025,
+          "venue": "Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology",
+          "url": "https://arxiv.org/abs/2509.09255"
+        }
+      },
+      {
+        "name": "Pro²Assist",
+        "key": "pro2assist2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Pro²Assist: Continuous Step-aware Proactive Assistance with Multi-modal Egocentric Perception for Long-horizon Procedural Tasks",
+          "all_authors_short": "Lilin Xu, Bufang Yang, Siyang Jiang et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2605.04227"
+        }
+      },
+      {
+        "name": "ProAssist",
+        "key": "proassist2025",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Proactive assistant dialogue generation from streaming egocentric videos",
+          "all_authors_short": "Yichi Zhang, Xin Luna Dong, Zhaojiang Lin et al.",
+          "year": 2025,
+          "venue": "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+          "url": "https://arxiv.org/abs/2506.05904"
+        }
+      },
+      {
+        "name": "ProMemAssist",
+        "key": "promemassist",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ProMemAssist: Exploring Timely Proactive Assistance Through Working Memory Modeling in Multi-Modal Wearable Devices",
+          "all_authors_short": "Kevin Pu, Ting Zhang, Naveen Sendhilnathan et al.",
+          "year": 2025,
+          "venue": "Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology",
+          "url": "https://doi.org/10.1145/3746059.3747770"
+        }
+      },
+      {
+        "name": "LlamaPIE",
+        "key": "llamapie",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "LLAMAPIE: Proactive In-Ear Conversation Assistants",
+          "all_authors_short": "Tuochao Chen, Nicholas Scott Batchelder, Alisa Liu et al.",
+          "year": 2025,
+          "venue": "Findings of the Association for Computational Linguistics: ACL 2025",
+          "url": "https://arxiv.org/abs/2505.04066"
+        }
+      },
+      {
+        "name": "AURA",
+        "key": "aura2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "AURA: Always-On Understanding and Real-Time Assistance via Video Streams",
+          "all_authors_short": "Xudong Lu, Yang Bo, Jinpeng Chen et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2604.04184"
+        }
+      },
+      {
+        "name": "JoyAI-VL",
+        "key": "joyaiinteraction2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "JoyAI-VL-Interaction: Real-Time Vision-Language Interaction Intelligence",
+          "all_authors_short": "Dingyu Yao, Junhao Zhou, Chenxu Yang et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2606.14777"
+        }
+      },
+      {
+        "name": "MICoBot",
+        "key": "micobot2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Mixed-Initiative Dialog for Human-Robot Collaborative Manipulation",
+          "all_authors_short": "Albert Yu, Chengshu Li, Luca Macesanu et al.",
+          "year": 2026,
+          "venue": "International Conference on Robotics and Automation (ICRA)",
+          "url": "https://arxiv.org/abs/2508.05535"
+        }
+      }
+    ],
+    "L1": [
+      {
+        "name": "MOSS",
+        "key": "moss2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "MOSS: Self-Evolution through Source-Level Rewriting in Autonomous Agent Systems",
+          "all_authors_short": "Qianshu Cai, Yonggang Zhang, Xianzhang Jia et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2605.22794"
+        }
+      },
+      {
+        "name": "Hyodol",
+        "key": "hyodolfront2026",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "Detection of Depression Risk among Older Adults Using Home-Deployed Socially Assistive Robots: A Real-World Study",
+          "all_authors_short": "Han Wool Jung, Jooho Lee, Jin Young Park et al.",
+          "year": 2026,
+          "venue": "Frontiers in Psychiatry",
+          "url": "https://doi.org/10.3389/fpsyt.2026.1740539"
+        },
+        "icon": "assets/products/hyodol.webp"
+      }
+    ],
+    "L2": [
+      {
+        "name": "VisionClaw",
+        "key": "visionclaw2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "VisionClaw: Always-On AI Agents through Smart Glasses",
+          "all_authors_short": "Xiaoan Liu, DaeHo Lee, Eric J Gonzalez et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2604.03486"
+        }
+      },
+      {
+        "name": "SpeechLess",
+        "key": "speechless2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "SpeechLess: Micro-utterance with Personalized Spatial Memory-aware Assistant in Everyday Augmented Reality",
+          "all_authors_short": "Yoonsang Kim, Devshree Jadeja, Divyansh Pradhan et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2602.00793"
+        }
+      },
+      {
+        "name": "M3-Agent",
+        "key": "m3agent",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Seeing, Listening, Remembering, and Reasoning: A Multimodal Agent with Long-Term Memory",
+          "all_authors_short": "Lin Long, Yichen He, Wentao Ye et al.",
+          "year": 2025,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2508.09736"
+        }
+      },
+      {
+        "name": "LightMem-Ego",
+        "key": "lightmemego2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "LightMem-Ego: Your AI Memory for Everyday Life",
+          "all_authors_short": "Yijun Chen, Boyi Xiao, Yixian Zhao et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.11487"
+        }
+      },
+      {
+        "name": "Egocentric Co-Pilot",
+        "key": "egocopilot2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Egocentric Co-Pilot: Web-Native Smart-Glasses Agents for Assistive Egocentric AI",
+          "all_authors_short": "Sicheng Yang, Yukai Huang, Weitong Cai et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2603.01104"
+        }
+      },
+      {
+        "name": "Pro²Bench",
+        "key": "pro2bench2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Plan, Watch, Recover: A Benchmark and Architectures for Proactive Procedural Assistance",
+          "all_authors_short": "Kaustav Kundu, Ritvik Shrivastava, Maxim Arap et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2606.04970"
+        }
+      },
+      {
+        "name": "Vinci",
+        "key": "vinci",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Vinci: A Real-time Embodied Smart Assistant based on Egocentric Vision-Language Model",
+          "all_authors_short": "Yifei Huang, Jilan Xu, Baoqi Pei et al.",
+          "year": 2024,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2412.21080"
+        }
+      },
+      {
+        "name": "EgoLife",
+        "key": "egolife",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Egolife: Towards egocentric life assistant",
+          "all_authors_short": "Jingkang Yang, Shuai Liu, Hongming Guo et al.",
+          "year": 2025,
+          "venue": "Proceedings of the Computer Vision and Pattern Recognition Conference",
+          "url": "https://arxiv.org/abs/2503.03803"
+        }
+      },
+      {
+        "name": "IPIBench",
+        "key": "ipibench2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "IPIBench: Evaluating Interactive Proactive Intelligence of MLLMs under Continuous Streams",
+          "all_authors_short": "Jinzhao Li, Yinuo Chen, Wenxuan Song et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2605.27074"
+        }
+      },
+      {
+        "name": "Oura Advisor",
+        "key": "ouraadvisor2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Oura Advisor",
+          "all_authors_short": "Oura",
+          "year": 2026,
+          "url": "https://support.ouraring.com/hc/en-us/articles/39512345699219-Oura-Advisor"
+        },
+        "icon": "assets/products/oura-advisor.webp"
+      },
+      {
+        "name": "RayNeo iO",
+        "key": "rayneoio2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "What Are the Best Smart Glasses With an AI Assistant?",
+          "all_authors_short": "RayNeo",
+          "year": 2026,
+          "url": "https://www.rayneo.com/blogs/news/best-smart-glasses-ai-assistant-rayneo-2026"
+        },
+        "icon": "assets/products/rayneo-io.webp"
+      },
+      {
+        "name": "Even G2",
+        "key": "evenrealitiesg22026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Even G2 AI Glasses",
+          "all_authors_short": "Even Realities",
+          "year": 2026,
+          "url": "https://www.evenrealities.com/ai-glasses"
+        },
+        "icon": "assets/products/even-g2.webp"
+      },
+      {
+        "name": "Memoket Gem",
+        "key": "memoketgem2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Memoket Gem: A Lightweight AI Wristband to Record Conversations",
+          "all_authors_short": "Memoket",
+          "year": 2026,
+          "url": "https://memoket.ai/"
+        },
+        "icon": "assets/products/memoket-gem.webp"
+      },
+      {
+        "name": "Soulog Sense",
+        "key": "soulogsense2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Soulog Sense",
+          "all_authors_short": "Soulog",
+          "year": 2026,
+          "url": "https://www.soulog.com/products/soulogsense"
+        },
+        "icon": "assets/products/soulog-sense.webp"
+      },
+      {
+        "name": "MemoMind One",
+        "key": "memomindone2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "MemoMind One",
+          "all_authors_short": "MemoMind",
+          "year": 2026,
+          "url": "https://www.memo-mind.com/pages/memomind-one"
+        },
+        "icon": "assets/products/memomind-one.webp"
+      },
+      {
+        "name": "SwitchBot AI MindClip",
+        "key": "switchbotmindclip2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "SwitchBot AI MindClip",
+          "all_authors_short": "SwitchBot",
+          "year": 2026,
+          "url": "https://us.switch-bot.com/products/switchbot-ai-mindclip"
+        },
+        "icon": "assets/products/switchbot-ai-mindclip.webp"
+      },
+      {
+        "name": "Forth",
+        "key": "forth2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Forth Band and Cue",
+          "all_authors_short": "Forth",
+          "year": 2026,
+          "url": "https://getforth.co/facts/"
+        },
+        "icon": "assets/products/forth.webp"
+      },
+      {
+        "name": "Oak1",
+        "key": "oak12026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Oak1",
+          "all_authors_short": "Careflick",
+          "year": 2026,
+          "url": "https://careflick.com/"
+        },
+        "icon": "assets/products/oak1.webp"
+      },
+      {
+        "name": "Ona",
+        "key": "ona2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Ona: AI Wearable Note Taker and Voice Recorder",
+          "all_authors_short": "Ona",
+          "year": 2026,
+          "url": "https://onavoice.ai/"
+        },
+        "icon": "assets/products/ona.webp"
+      },
+      {
+        "name": "VisualClaw",
+        "key": "visualclaw2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "VisualClaw: A Real-Time, Personalized Agent for the Physical World",
+          "all_authors_short": "Haoqin Tu, Jianwen Chen, Zijun Wang et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2606.16295"
+        }
+      },
+      {
+        "name": "PAHF",
+        "key": "pahf2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Learning Personalized Agents from Human Feedback",
+          "all_authors_short": "Kaiqu Liang, Julia Kruk, Shengyi Qian et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2602.16173"
+        }
+      },
+      {
+        "name": "KnowAct-GUIClaw",
+        "key": "knowactguiclaw2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "KnowAct-GUIClaw: Know Deeply, Act Perfectly, Personal GUI Assistant with Self-Evolving Memory and Skill",
+          "all_authors_short": "Yunxin Li, Jinchao Li, Shibo Su et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.12625"
+        }
+      },
+      {
+        "name": "HealthClaw",
+        "key": "healthclaw2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "A Self-Evolving Agent for Longitudinal Personal Health Management",
+          "all_authors_short": "Haoran Li, Jiebi Deng, Tong Jin et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.13940"
+        }
+      },
+      {
+        "name": "MemoryBank",
+        "key": "memorybank2023",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "MemoryBank: Enhancing Large Language Models with Long-Term Memory",
+          "all_authors_short": "Wanjun Zhong, Lianghong Guo, Qiqi Gao et al.",
+          "year": 2023,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2305.10250"
+        }
+      },
+      {
+        "name": "MemGPT",
+        "key": "memgpt2023",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "MemGPT: Towards LLMs as Operating Systems",
+          "all_authors_short": "Charles Packer, Sarah Wooders, Kevin Lin et al.",
+          "year": 2024,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2310.08560"
+        }
+      },
+      {
+        "name": "MemoryOS",
+        "key": "memoryos2025",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Memory OS of AI Agent",
+          "all_authors_short": "Jiazheng Kang, Mingming Ji, Zhe Zhao et al.",
+          "year": 2025,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2506.06326"
+        }
+      },
+      {
+        "name": "CareCall",
+        "key": "carecallltm2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Understanding the Impact of Long-Term Memory on Self-Disclosure with Large Language Model-Driven Chatbots for Public Health Intervention",
+          "all_authors_short": "Eunkyung Jo, Yuin Jeong, SoHyun Park et al.",
+          "year": 2024,
+          "venue": "Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems",
+          "url": "https://arxiv.org/abs/2402.11353"
+        }
+      },
+      {
+        "name": "PITCH",
+        "key": "lunchnow2025",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "“Having Lunch Now”: Understanding How Users Engage with a Proactive Agent for Daily Planning and Self-Reflection",
+          "all_authors_short": "Adnan Abbas, Caleb Wohn, Arnav Jagtap et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2509.24073"
+        }
+      },
+      {
+        "name": "Bloom",
+        "key": "bloom2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Bloom: Designing for LLM-Augmented Behavior Change Interactions",
+          "all_authors_short": "Matthew Jörke, Defne Genc, Valentin Teutschbein et al.",
+          "year": 2026,
+          "venue": "Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems",
+          "url": "https://arxiv.org/abs/2510.05449"
+        }
+      },
+      {
+        "name": "MindShift",
+        "key": "mindshift2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "MindShift: Leveraging Large Language Models for Mental-States-Based Problematic Smartphone Use Intervention",
+          "all_authors_short": "Ruolan Wu, Chun Yu, Xiaole Pan et al.",
+          "year": 2024,
+          "venue": "Proceedings of the 2024 CHI Conference on Human Factors in Computing Systems",
+          "url": "https://arxiv.org/abs/2309.16639"
+        }
+      },
+      {
+        "name": "Windows Recall",
+        "key": "msrecall2024",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Update on the Recall Preview Feature for Copilot+ PCs",
+          "all_authors_short": "Microsoft",
+          "year": 2024,
+          "url": "https://blogs.windows.com/windowsexperience/2024/06/07/update-on-the-recall-preview-feature-for-copilot-pcs/"
+        },
+        "icon": "assets/products/windows-recall.webp"
+      },
+      {
+        "name": "Claude Cowork",
+        "key": "claude2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Claude",
+          "all_authors_short": "Anthropic",
+          "year": 2026,
+          "url": "https://claude.com/product/overview"
+        },
+        "icon": "assets/products/claude-cowork.webp"
+      },
+      {
+        "name": "Manus",
+        "key": "manusschedules2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Scheduled Tasks 2.0",
+          "all_authors_short": "Manus",
+          "year": 2026,
+          "url": "https://manus.im/blog/manus-schedules"
+        },
+        "icon": "assets/products/manus.webp"
+      },
+      {
+        "name": "Gemini Daily Brief",
+        "key": "geminidailybrief2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Gemini Daily Brief: Smart Summaries for Busy Minds",
+          "all_authors_short": "Google",
+          "year": 2026,
+          "url": "https://gemini.google/overview/daily-brief/"
+        },
+        "icon": "assets/products/gemini-daily-brief.webp"
+      },
+      {
+        "name": "Today",
+        "key": "todayai2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Today: The AI Personal Agent for Your Whole Day",
+          "all_authors_short": "Today AI",
+          "year": 2026,
+          "url": "https://today.ai/articles/blog/what-is-today"
+        },
+        "icon": "assets/products/today.webp"
+      },
+      {
+        "name": "Hark Pro",
+        "key": "harkpro2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Hark Pro",
+          "all_authors_short": "Hark",
+          "year": 2026,
+          "url": "https://hark.com/"
+        },
+        "icon": "assets/products/hark-pro.webp"
+      },
+      {
+        "name": "Sai",
+        "key": "sai2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Sai",
+          "all_authors_short": "Simular",
+          "year": 2026,
+          "url": "https://sai.work"
+        },
+        "icon": "assets/products/sai.webp"
+      },
+      {
+        "name": "AssistantX",
+        "key": "assistantx",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "AssistantX: An LLM-Powered Proactive Assistant in Collaborative Human-Populated Environments",
+          "all_authors_short": "Nan Sun, Bo Mao, Yongchang Li et al.",
+          "year": 2025,
+          "venue": "2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+          "url": "https://arxiv.org/abs/2409.17655"
+        }
+      },
+      {
+        "name": "ABot-AgentOS",
+        "key": "abotagentos2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory",
+          "all_authors_short": "Jiayi Tian, Shiao Liu, Yuting Xu et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.10350"
+        }
+      },
+      {
+        "name": "PHILIA",
+        "key": "philia2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "A Glimpse into Long-term Physical Coexistence with Intelligent Robots",
+          "all_authors_short": "Weiqi Jin, Peijun Tang, Kuncheng Luo et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.11377"
+        }
+      },
+      {
+        "name": "ABot-Claw",
+        "key": "abotclaw2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents",
+          "all_authors_short": "Dongjie Huo, Haoyun Liu, Guoqing Liu et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2604.10096"
+        }
+      }
+    ],
+    "L3": [
+      {
+        "name": "Vinci2",
+        "key": "vinci2",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Vinci2: Providing Proactive Assistance in Continuous Egocentric Videos",
+          "all_authors_short": "Sitong Gong, Tianyu Yan, Caixin Kang et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.11523"
+        }
+      },
+      {
+        "name": "AiGet",
+        "key": "aiget",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Aiget: Transforming everyday moments into hidden knowledge discovery with ai assistance on smart glasses",
+          "all_authors_short": "Runze Cai, Nuwan Janaka, Hyeongcheol Kim et al.",
+          "year": 2025,
+          "venue": "Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems",
+          "url": "https://arxiv.org/abs/2501.16240"
+        }
+      },
+      {
+        "name": "Alpha-Service",
+        "key": "ai4service",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "AI for Service: Proactive Assistance with AI Glasses",
+          "all_authors_short": "Zichen Wen, Yiyu Wang, Chenfei Liao et al.",
+          "year": 2025,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2510.14359"
+        }
+      },
+      {
+        "name": "SocialMind",
+        "key": "socialmind",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Socialmind: Llm-based proactive ar social assistive system with human-like perception for in-situ live interactions",
+          "all_authors_short": "Bufang Yang, Yunqi Guo, Lilin Xu et al.",
+          "year": 2025,
+          "venue": "Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies",
+          "url": "https://arxiv.org/abs/2412.04036"
+        }
+      },
+      {
+        "name": "Omi",
+        "key": "omisite2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Omi: Wearable AI Notetaker",
+          "all_authors_short": "Based Hardware",
+          "year": 2026,
+          "url": "https://www.omi.me/"
+        },
+        "icon": "assets/products/omi.webp"
+      },
+      {
+        "name": "Bee",
+        "key": "bee2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "Building Bee at Amazon: How the Wearable AI Device Is Evolving",
+          "all_authors_short": "Maria de Lourdes Zollo",
+          "year": 2026,
+          "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+        },
+        "icon": "assets/products/bee.webp"
+      },
+      {
+        "name": "Looki L1",
+        "key": "looki2026",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "What Is a Wearable AI Assistant? How Context Becomes Help",
+          "all_authors_short": "Looki",
+          "year": 2026,
+          "url": "https://www.looki.ai/blogs/news/what-is-a-wearable-ai-assistant-how-real-world-context-becomes-help"
+        },
+        "icon": "assets/products/looki-l1.webp"
+      },
+      {
+        "name": "Smart Stack hints",
+        "key": "smartstackhints2025",
+        "domain": "Wearable",
+        "kind": "Products",
+        "ref": {
+          "title": "watchOS 26 Delivers More Personalised Ways to Stay Active and Connected",
+          "all_authors_short": "Apple",
+          "year": 2025,
+          "url": "https://www.apple.com/uk/newsroom/2025/06/watchos-26-delivers-more-personalized-ways-to-stay-active-and-connected/"
+        },
+        "icon": "assets/products/smart-stack-hints.webp"
+      },
+      {
+        "name": "PASK",
+        "key": "pask2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "PASK: Toward Intent-Aware Proactive Agents with Long-Term Memory",
+          "all_authors_short": "Zhifei Xie, Zongzheng Hu, Fangda Ye et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2604.08000"
+        }
+      },
+      {
+        "name": "Proactive Agent",
+        "key": "luproactiveagent2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Proactive Agent: Shifting LLM Agents from Reactive Responses to Active Assistance",
+          "all_authors_short": "Yaxi Lu, Shenzhi Yang, Cheng Qian et al.",
+          "year": 2024,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2410.12361"
+        }
+      },
+      {
+        "name": "AwareLLM",
+        "key": "awarellm2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "AwareLLM: A Proactive Multimodal Ecosystem for Personalized Human-AI Collaboration to Enhance Productivity",
+          "all_authors_short": "Amog Rao, Utkarsh Agarwal, Amol Harsh et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2605.09625"
+        }
+      },
+      {
+        "name": "ProAct",
+        "key": "proact2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Anticipate and Learn: Unleashing Idle-Time Compute in Proactive Agents",
+          "all_authors_short": "Haoyi Hu, Qirong Lyu, Xianghan Kong et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2605.25971"
+        }
+      },
+      {
+        "name": "User as Code",
+        "key": "userascode2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "User as Code: Executable Memory for Personalized Agents",
+          "all_authors_short": "Bojie Li",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2606.16707"
+        }
+      },
+      {
+        "name": "Muse",
+        "key": "muse2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Introducing Muse: The World's First Personal AI Agent Built for Everyone",
+          "all_authors_short": "Meta",
+          "year": 2026,
+          "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+        },
+        "icon": "assets/products/muse.webp"
+      },
+      {
+        "name": "Brea",
+        "key": "breasite2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Brea: The AI That Gets Things Done",
+          "all_authors_short": "Brea AI LLC",
+          "year": 2026,
+          "url": "https://brea.ai/"
+        },
+        "icon": "assets/products/brea.webp"
+      },
+      {
+        "name": "Orilo",
+        "key": "orilo2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Orilo: Your Personal Voice Agent",
+          "all_authors_short": "Echotime Technology",
+          "year": 2026,
+          "url": "https://orilo.live/"
+        },
+        "icon": "assets/products/orilo.webp"
+      },
+      {
+        "name": "Claude Duet",
+        "key": "claudeduet2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Introducing Claude Duet",
+          "all_authors_short": "Anthropic",
+          "year": 2026,
+          "url": "https://claude.com/resources/articles/claude-duet"
+        },
+        "icon": "assets/products/claude-duet.webp"
+      },
+      {
+        "name": "Orchid",
+        "key": "orchid2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Orchid: An AI Assistant in iMessage",
+          "all_authors_short": "Zero Email, Inc.",
+          "year": 2026,
+          "url": "https://orchid.ai/blog/orchid-ai-assistant-imessage"
+        },
+        "icon": "assets/products/orchid.webp"
+      },
+      {
+        "name": "Pixel Magic Cue",
+        "key": "magiccue2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "4 Ways Pixel's Magic Cue Can Help You Save Time",
+          "all_authors_short": "Google",
+          "year": 2025,
+          "url": "https://blog.google/products-and-platforms/devices/pixel/google-pixel-magic-cue-ai-feature/"
+        },
+        "icon": "assets/products/pixel-magic-cue.webp"
+      },
+      {
+        "name": "Now Nudge",
+        "key": "nownudge2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "How to Use Now Nudge on Samsung Galaxy Phone",
+          "all_authors_short": "Samsung",
+          "year": 2026,
+          "url": "https://www.samsung.com/us/support/answer/ANS10010355/"
+        },
+        "icon": "assets/products/now-nudge.webp"
+      },
+      {
+        "name": "Xiao V Suggestions",
+        "key": "xiaovsuggestions2025",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "vivo X200 Series Frequently Asked Questions",
+          "all_authors_short": "vivo",
+          "year": 2025,
+          "url": "https://www.vivo.com.cn/service/questions/all?categoryId=158&questionId=1744"
+        },
+        "icon": "assets/products/xiao-v-suggestions.webp"
+      },
+      {
+        "name": "OPPO Xiaobu",
+        "key": "coloros172026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "ColorOS 17",
+          "all_authors_short": "OPPO",
+          "year": 2026,
+          "url": "https://www.coloros.com/version/coloros17/"
+        },
+        "icon": "assets/products/oppo-xiaobu.webp"
+      },
+      {
+        "name": "Instinct",
+        "key": "instinct2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Instinct",
+          "all_authors_short": "Instinct",
+          "year": 2026,
+          "url": "https://instinct.com/"
+        },
+        "icon": "assets/products/instinct.webp"
+      },
+      {
+        "name": "Kindroid",
+        "key": "kindroid2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Chat Features and Tools",
+          "all_authors_short": "Kindroid",
+          "year": 2026,
+          "url": "https://kindroid.ai/v2/docs/chat-features-and-tools/"
+        },
+        "icon": "assets/products/kindroid.webp"
+      },
+      {
+        "name": "LIA",
+        "key": "lia2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "LIA: The Personal Assistant for Everyone",
+          "all_authors_short": "LIA",
+          "year": 2026,
+          "url": "https://lia.jeyswork.com/en"
+        },
+        "icon": "assets/products/lia.webp"
+      },
+      {
+        "name": "SPECS Intelligence",
+        "key": "specsintelligence2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "SPECS Intelligence",
+          "all_authors_short": "Specs",
+          "year": 2026,
+          "url": "https://www.specs.com/intelligence"
+        },
+        "icon": "assets/products/specs-intelligence.webp"
+      },
+      {
+        "name": "Violoop",
+        "key": "violoop2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Violoop",
+          "all_authors_short": "Violoop",
+          "year": 2026,
+          "url": "https://violoop.ai/"
+        },
+        "icon": "assets/products/violoop.webp"
+      },
+      {
+        "name": "EgoMem",
+        "key": "egomem2025",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "EgoMem: Lifelong Memory Agent for Full-duplex Omnimodal Models",
+          "all_authors_short": "Yiqun Yao, Naitong Yu, Xiang Li et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2509.11914"
+        }
+      },
+      {
+        "name": "PAM",
+        "key": "pam2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "An Agentic Framework for Proactive Robots with Procedural Assistance Memory",
+          "all_authors_short": "Dohyun Lee, Minho Park, Jeonghoon Park et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2610.21211"
+        }
+      },
+      {
+        "name": "ElliQ",
+        "key": "elliq2024",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "ElliQ, an AI-driven social robot to alleviate loneliness: progress and lessons learned",
+          "all_authors_short": "E. Broadbent, K. Loveys, G. Ilan et al.",
+          "year": 2024,
+          "venue": "The Journal of Aging Research and Lifestyle",
+          "url": "https://doi.org/10.14283/jarlife.2024.2"
+        },
+        "icon": "assets/products/elliq.webp"
+      },
+      {
+        "name": "Amazon Astro",
+        "key": "amazonastro2021",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "Meet Astro, a Home Robot Unlike Any Other",
+          "all_authors_short": "Charlie Tritschler",
+          "year": 2021,
+          "url": "https://www.aboutamazon.com/news/devices/meet-astro-a-home-robot-unlike-any-other"
+        },
+        "icon": "assets/products/amazon-astro.webp"
+      },
+      {
+        "name": "aibo",
+        "key": "aiboguide2026",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "aibo ERS-1000 Help Guide: Getting to Know aibo",
+          "all_authors_short": "Sony Group Corporation",
+          "year": 2026,
+          "url": "https://helpguide.sony.net/aibo/ers1000/v1/en-us/contents/TP0001970093.html"
+        },
+        "icon": "assets/products/aibo.webp"
+      },
+      {
+        "name": "Alexa+",
+        "key": "alexaplussite2026",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "Alexa+",
+          "all_authors_short": "Amazon",
+          "year": 2026,
+          "url": "https://www.amazon.com/alexa"
+        },
+        "icon": "assets/products/alexa.webp"
+      }
+    ],
+    "L4": [
+      {
+        "name": "ProAgent",
+        "key": "proagent",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ProAgent: Harnessing On-Demand Sensory Contexts for Proactive LLM Agent Systems in the Wild",
+          "all_authors_short": "Bufang Yang, Lilin Xu, Liekang Zeng et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2512.06721"
+        }
+      },
+      {
+        "name": "Memento",
+        "key": "mementoar2026",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Memento: Towards Proactive Visualization of Everyday Memories with Personal Wearable AR Assistant",
+          "all_authors_short": "Yoonsang Kim, Yalong Yang, Arie E. Kaufman",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2601.17622"
+        }
+      },
+      {
+        "name": "Long-term TOA",
+        "key": "longtermtoa2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Long-term Task-oriented Agent: Proactive Long-term Intent Maintenance in Dynamic Environments",
+          "all_authors_short": "Qinglong Shi, Donghai Wang, Hantao Zhou et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2601.09382"
+        }
+      },
+      {
+        "name": "ProPerSim",
+        "key": "propersim",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "ProPerSim: Developing Proactive and Personalized AI Assistants through User-Assistant Simulation",
+          "all_authors_short": "Jiho Kim, Junseong Choi, Woosog Chay et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2509.21730"
+        }
+      },
+      {
+        "name": "Time2Stop",
+        "key": "time2stop2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Time2Stop: Adaptive and Explainable Human-AI Loop for Smartphone Overuse Intervention",
+          "all_authors_short": "Adiba Orzikulova, Han Xiao, Zhipeng Li et al.",
+          "year": 2024,
+          "venue": "Proceedings of the CHI Conference on Human Factors in Computing Systems",
+          "url": "https://arxiv.org/abs/2403.05584"
+        }
+      },
+      {
+        "name": "DIAMANTE",
+        "key": "diamante2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Effectiveness of a Digital Health Intervention Leveraging Reinforcement Learning: Results From the Diabetes and Mental Health Adaptive Notification Tracking and Evaluation (DIAMANTE) Randomized Clinical Trial",
+          "all_authors_short": "Adrian Aguilera, Marvyn Arévalo Avalos, Jing Xu et al.",
+          "year": 2024,
+          "venue": "Journal of Medical Internet Research",
+          "url": "https://doi.org/10.2196/60834"
+        }
+      },
+      {
+        "name": "OpenClaw",
+        "key": "openclawsite2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "OpenClaw: Open-Source AI Assistant",
+          "all_authors_short": "OpenClaw",
+          "year": 2026,
+          "url": "https://openclaw.ai/"
+        },
+        "icon": "assets/products/openclaw.webp"
+      },
+      {
+        "name": "Hermes Agent",
+        "key": "hermes2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Hermes Agent: Open-Source AI Agent That Grows with You",
+          "all_authors_short": "Nous Research",
+          "year": 2026,
+          "url": "https://hermes-agent.nousresearch.com/"
+        },
+        "icon": "assets/products/hermes-agent.webp"
+      },
+      {
+        "name": "EAIA",
+        "key": "langchaineai2025",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Introducing Ambient Agents",
+          "all_authors_short": "LangChain",
+          "year": 2025,
+          "url": "https://www.langchain.com/blog/introducing-ambient-agents"
+        },
+        "icon": "assets/products/eaia.webp"
+      },
+      {
+        "name": "Leon",
+        "key": "leon2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Road to 2.0",
+          "all_authors_short": "Louis Grenard",
+          "year": 2026,
+          "url": "https://blog.getleon.ai/road-to-2-0/"
+        },
+        "icon": "assets/products/leon.webp"
+      },
+      {
+        "name": "Inbox Zero",
+        "key": "inboxzerosite2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Inbox Zero",
+          "all_authors_short": "Inbox Zero",
+          "year": 2026,
+          "url": "https://www.getinboxzero.com/"
+        },
+        "icon": "assets/products/inbox-zero.webp"
+      },
+      {
+        "name": "Dot",
+        "key": "dots2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Introducing dots",
+          "all_authors_short": "OpenAI",
+          "year": 2026,
+          "url": "https://openai.com/index/introducing-dots/"
+        },
+        "icon": "assets/products/dot.webp"
+      },
+      {
+        "name": "Pally",
+        "key": "pally2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Pally",
+          "all_authors_short": "Pally Technologies, Inc.",
+          "year": 2026,
+          "url": "https://pally.com/"
+        },
+        "icon": "assets/products/pally.webp"
+      },
+      {
+        "name": "Town",
+        "key": "town2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Town Documentation: Suggestions",
+          "all_authors_short": "Town",
+          "year": 2026,
+          "url": "https://town.com/docs/features/suggestions"
+        },
+        "icon": "assets/products/town.webp"
+      },
+      {
+        "name": "Catch",
+        "key": "catch2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "An Executive Assistant for Travel Planning",
+          "all_authors_short": "Catch",
+          "year": 2026,
+          "url": "https://www.catchagent.ai/blog/solutions/executive-assistant-travel-planning"
+        },
+        "icon": "assets/products/catch.webp"
+      },
+      {
+        "name": "Folk",
+        "key": "folk2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "folk: An AI That Nags You",
+          "all_authors_short": "Nozomio Labs",
+          "year": 2026,
+          "url": "https://www.folk.com/use-cases/ai-that-nags-you"
+        },
+        "icon": "assets/products/folk.webp"
+      },
+      {
+        "name": "Grok Bot",
+        "key": "grokbot2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Grok Bot for Engineering",
+          "all_authors_short": "SpaceXAI",
+          "year": 2026,
+          "url": "https://x.ai/bot/guides/grok-bot-for-engineering"
+        },
+        "icon": "assets/products/grok-bot.webp"
+      },
+      {
+        "name": "Caddy",
+        "key": "caddy2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Caddy: Important Email Alerts",
+          "all_authors_short": "Caddy Technologies",
+          "year": 2026,
+          "url": "https://caddy.app/use-cases/important-email-alerts"
+        },
+        "icon": "assets/products/caddy.webp"
+      },
+      {
+        "name": "Xiaoyi Suggestions",
+        "key": "xiaoyi2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Xiaoyi Suggestions: Frequently Asked Questions",
+          "all_authors_short": "Huawei",
+          "year": 2026,
+          "url": "https://consumer.huawei.com/cn/support/content/zh-cn15965298/"
+        },
+        "icon": "assets/products/xiaoyi-suggestions.webp"
+      },
+      {
+        "name": "HeyClicky",
+        "key": "heyclicky2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "HeyClicky Changelog",
+          "all_authors_short": "Humansongs, Inc.",
+          "year": 2026,
+          "url": "https://heyclicky.com/changelog"
+        },
+        "icon": "assets/products/heyclicky.webp"
+      },
+      {
+        "name": "Vellum",
+        "key": "vellum2026",
+        "domain": "Digital",
+        "kind": "Products",
+        "ref": {
+          "title": "Vellum: Your Personal Intelligence",
+          "all_authors_short": "Vellum",
+          "year": 2026,
+          "url": "https://vellum.ai/"
+        },
+        "icon": "assets/products/vellum.webp"
+      },
+      {
+        "name": "Hobbit",
+        "key": "hobbit2018",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Hobbit: Providing Fall Detection and Prevention for the Elderly in the Real World",
+          "all_authors_short": "Markus Bajones, David Fischinger, Astrid Weiss et al.",
+          "year": 2018,
+          "venue": "Journal of Robotics",
+          "url": "https://doi.org/10.1155/2018/1754657"
+        }
+      },
+      {
+        "name": "STRANDS",
+        "key": "strands2017",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "The STRANDS Project: Long-Term Autonomy in Everyday Environments",
+          "all_authors_short": "Nick Hawes, Christopher Burbridge, Ferdian Jovan et al.",
+          "year": 2017,
+          "venue": "IEEE Robotics & Automation Magazine",
+          "url": "https://arxiv.org/abs/1604.04384"
+        }
+      },
+      {
+        "name": "MoveCare",
+        "key": "movecare2023",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Integrating Social Assistive Robots, IoT, Virtual Communities and Smart Objects to Assist at-Home Independently Living Elders: the MoveCare Project",
+          "all_authors_short": "Matteo Luperto, Javier Monroy, Jennifer Renoux et al.",
+          "year": 2023,
+          "venue": "International Journal of Social Robotics",
+          "url": "https://doi.org/10.1007/s12369-021-00843-0"
+        }
+      },
+      {
+        "name": "GAP",
+        "key": "gaprobot2026",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Robots That Take Initiative: A Framework for Building and Evaluating Proactive Robots",
+          "all_authors_short": "Maithili Patel, Sonia Chernova",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2609.28910"
+        }
+      },
+      {
+        "name": "PALRO",
+        "key": "palro2025",
+        "domain": "Physical",
+        "kind": "Research systems",
+        "ref": {
+          "title": "The Long-Term Use of Communication Robots by Users of Visiting Healthcare Services: Development of an Integrated Vital Signs Measurement System",
+          "all_authors_short": "Toshiaki Takahashi, Shiho Higashimura, Tsuneki Ninomiya et al.",
+          "year": 2025,
+          "venue": "Cureus",
+          "url": "https://doi.org/10.7759/cureus.77635"
+        }
+      },
+      {
+        "name": "Lio",
+        "key": "lio2020",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "Lio – A Personal Robot Assistant for Human-Robot Interaction and Care Applications",
+          "all_authors_short": "Justinas Mišeikis, Pietro Caroni, Patricia Duchamp et al.",
+          "year": 2020,
+          "venue": "IEEE Robotics and Automation Letters",
+          "url": "https://arxiv.org/abs/2006.09019"
+        },
+        "icon": "assets/products/lio.webp"
+      },
+      {
+        "name": "Moflin",
+        "key": "moflin2026",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "Moflin",
+          "all_authors_short": "Casio",
+          "year": 2026,
+          "url": "https://www.casio.com/uk/moflin/"
+        },
+        "icon": "assets/products/moflin.webp"
+      },
+      {
+        "name": "Loona Deskmate",
+        "key": "loonadeskmate2026",
+        "domain": "Physical",
+        "kind": "Products",
+        "ref": {
+          "title": "LOONA DeskMate Launches at CES 2026: An Emotion-Aware Embodied AI Workmate",
+          "all_authors_short": "KEYi Technology",
+          "year": 2026,
+          "url": "https://keyirobot.com/en-sg/blogs/news/loona-deskmate-launches-at-ces-2026-an-emotion-aware-embodied-ai-workmate"
+        },
+        "icon": "assets/products/loona-deskmate.webp"
+      }
+    ],
+    "L5": [
+      {
+        "name": "HeartSteps",
+        "key": "heartstepsrl2020",
+        "domain": "Wearable",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Personalized HeartSteps: A Reinforcement Learning Algorithm for Optimizing Physical Activity",
+          "all_authors_short": "Peng Liao, Kristjan Greenewald, Predrag Klasnja et al.",
+          "year": 2020,
+          "venue": "Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies",
+          "url": "https://arxiv.org/abs/1909.03539"
+        },
+        "conditional": true
+      },
+      {
+        "name": "Ouroboros",
+        "key": "ouroboros2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution",
+          "all_authors_short": "Anton Razzhigaev, Andrei Gritsaev, Andrei Kaznacheev et al.",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2608.08311"
+        },
+        "conditional": true
+      },
+      {
+        "name": "Enoch",
+        "key": "ourark2026",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "Code Is the Body: Agent-Owned Software Bodies for Recursive Evolution and Descent",
+          "all_authors_short": "Roy Zhao, Zhenyu Zhao",
+          "year": 2026,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2607.28691"
+        },
+        "conditional": true
+      },
+      {
+        "name": "Oralytics",
+        "key": "oralytics2025",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "A Deployed Online Reinforcement Learning Algorithm in an Oral Health Clinical Trial",
+          "all_authors_short": "Anna L. Trella, Kelly W. Zhang, Hinal Jajal et al.",
+          "year": 2025,
+          "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+          "url": "https://arxiv.org/abs/2409.02069"
+        },
+        "conditional": true
+      },
+      {
+        "name": "MiWaves",
+        "key": "miwaves2024",
+        "domain": "Digital",
+        "kind": "Research systems",
+        "ref": {
+          "title": "MiWaves Reinforcement Learning Algorithm",
+          "all_authors_short": "Susobhan Ghosh, Yongyi Guo, Pei-Yao Hung et al.",
+          "year": 2024,
+          "venue": "arXiv preprint",
+          "url": "https://arxiv.org/abs/2408.15076"
+        },
+        "conditional": true
+      }
+    ]
+  },
+  "conditions": [
+    {
+      "systems": "Ouroboros",
+      "text": "achieves L5 in its advanced mode, where a blocking review checks each change and the spending limit and stop command sit outside the code it may change."
+    },
+    {
+      "systems": "Enoch",
+      "text": "achieves L5 when its human custodian merges every reviewed change."
+    },
+    {
+      "systems": "HeartSteps, Oralytics, and MiWaves",
+      "text": "achieve L5 because each revision changes only the parameters of a fixed-form policy."
+    }
+  ],
+  "rules": [
+    "Each system is placed at the highest level that its reported evidence supports, which makes the placement a lower bound.",
+    "The placements apply these criteria to the reviewed systems, and some entries cover specific variants of a system. The variants differ in backend or operating mode. VisualClaw refers to its Claude Code backend. Ouroboros lets the owner choose a runtime mode, and the paper does not say which mode its long-running public deployment Hope used. The Ouroboros entry therefore denotes the advanced mode, which lets the agent revise its code while the governance files stay protected from ordinary writes. MemGPT and MemoryOS are placed by their chat evaluations, which leave out MemGPT's general support for timed events. MICoBot retains constraints only within one trial. Bee is placed by its Actions instead of its scheduled Daily Insights, and Xiaoyi Suggestions by Huawei's suggestion cards instead of the assistant's scheduled tasks. EgoMem is placed by the architecture its paper describes, whose proactive initiation is not separately evaluated. Because placements rest on what sources report, the level given to each system is a lower bound. HALO (§7) reviews the channel implementations of 40 works, including the five channels beyond the basic S→A path."
+  ],
+  "recursive": "In its strong sense, recursive self-improvement goes a step further: it also revises the process that produces these revisions, so that each round can change how the next round improves. In an always-on assistant, such recursion is hard to implement and to evaluate, and few of the works we review attempt it. We therefore leave it to future work and state it only as an open problem in §8.3."
+}

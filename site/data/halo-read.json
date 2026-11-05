@@ -1,0 +1,1322 @@
+{
+  "source": "Paper §7.1, Table 22",
+  "caption": "Channel review and chain of evidence for self-evolution. Left: coupling channels, ● reported, ○ explicitly absent, ◐ unreported or insufficiently specified. Right: the chain of evidence of §2.1, ■ stated in the primary source, · not stated. Rec. record, Out. outcome, Attr. attribution, Rev. revision, and Use. later use.",
+  "columns": [
+    "S→M",
+    "M→A",
+    "A→S",
+    "M→S",
+    "A→M"
+  ],
+  "chain": [
+    {
+      "id": "record",
+      "short": "Rec.",
+      "name": "Record"
+    },
+    {
+      "id": "outcome",
+      "short": "Out.",
+      "name": "Outcome"
+    },
+    {
+      "id": "attribution",
+      "short": "Attr.",
+      "name": "Attribution"
+    },
+    {
+      "id": "revision",
+      "short": "Rev.",
+      "name": "Revision"
+    },
+    {
+      "id": "later_use",
+      "short": "Use.",
+      "name": "Later use"
+    }
+  ],
+  "notes": [
+    "Wearable, Physical, and Digital identify the principal interaction domain, and domains may overlap. The basic S→A path is not shown because it is common to every agent system. † Product documentation or an open-source release."
+  ],
+  "counts": {
+    "works": 40,
+    "rows": 40,
+    "reported": {
+      "S→M": 37,
+      "M→A": 37,
+      "A→S": 28,
+      "M→S": 17,
+      "A→M": 25
+    },
+    "stated": {
+      "record": 24,
+      "outcome": 16,
+      "attribution": 18,
+      "revision": 5,
+      "later_use": 4
+    }
+  },
+  "rows": [
+    {
+      "id": "vinci",
+      "name": "Vinci",
+      "key": "vinci",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2412.21080",
+        "code": "https://github.com/OpenGVLab/vinci"
+      },
+      "ref": {
+        "title": "Vinci: A Real-time Embodied Smart Assistant based on Egocentric Vision-Language Model",
+        "all_authors_short": "Yifei Huang, Jilan Xu, Baoqi Pei et al.",
+        "year": 2024,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2412.21080"
+      }
+    },
+    {
+      "id": "vinci2",
+      "name": "Vinci2",
+      "key": "vinci2",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2607.11523",
+        "code": "https://github.com/SitongGong/EgoMemo"
+      },
+      "ref": {
+        "title": "Vinci2: Providing Proactive Assistance in Continuous Egocentric Videos",
+        "all_authors_short": "Sitong Gong, Tianyu Yan, Caixin Kang et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2607.11523"
+      }
+    },
+    {
+      "id": "visionclaw2026",
+      "name": "VisionClaw",
+      "key": "visionclaw2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2604.03486",
+        "code": "https://github.com/Intent-Lab/VisionClaw"
+      },
+      "ref": {
+        "title": "VisionClaw: Always-On AI Agents through Smart Glasses",
+        "all_authors_short": "Xiaoan Liu, DaeHo Lee, Eric J Gonzalez et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2604.03486"
+      }
+    },
+    {
+      "id": "contextagent",
+      "name": "ContextAgent",
+      "key": "contextagent",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "◐",
+        "M→A": "◐",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2505.14668",
+        "code": "https://github.com/openaiotlab/ContextAgent"
+      },
+      "ref": {
+        "title": "ContextAgent: Context-Aware Proactive LLM Agents with Open-World Sensory Perceptions",
+        "all_authors_short": "Bufang Yang, Lilin Xu, Liekang Zeng et al.",
+        "year": 2025,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2505.14668"
+      }
+    },
+    {
+      "id": "proagent",
+      "name": "ProAgent",
+      "key": "proagent",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2512.06721"
+      },
+      "ref": {
+        "title": "ProAgent: Harnessing On-Demand Sensory Contexts for Proactive LLM Agent Systems in the Wild",
+        "all_authors_short": "Bufang Yang, Lilin Xu, Liekang Zeng et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2512.06721"
+      }
+    },
+    {
+      "id": "aiget",
+      "name": "AiGet",
+      "key": "aiget",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2501.16240",
+        "code": "https://github.com/Synteraction-Lab/AiGet"
+      },
+      "ref": {
+        "title": "Aiget: Transforming everyday moments into hidden knowledge discovery with ai assistance on smart glasses",
+        "all_authors_short": "Runze Cai, Nuwan Janaka, Hyeongcheol Kim et al.",
+        "year": 2025,
+        "venue": "Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems",
+        "url": "https://arxiv.org/abs/2501.16240"
+      }
+    },
+    {
+      "id": "ai4service",
+      "name": "Alpha-Service",
+      "key": "ai4service",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2510.14359"
+      },
+      "ref": {
+        "title": "AI for Service: Proactive Assistance with AI Glasses",
+        "all_authors_short": "Zichen Wen, Yiyu Wang, Chenfei Liao et al.",
+        "year": 2025,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2510.14359"
+      }
+    },
+    {
+      "id": "mementoar2026",
+      "name": "Memento",
+      "key": "mementoar2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2601.17622"
+      },
+      "ref": {
+        "title": "Memento: Towards Proactive Visualization of Everyday Memories with Personal Wearable AR Assistant",
+        "all_authors_short": "Yoonsang Kim, Yalong Yang, Arie E. Kaufman",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2601.17622"
+      }
+    },
+    {
+      "id": "socialmind",
+      "name": "SocialMind",
+      "key": "socialmind",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2412.04036"
+      },
+      "ref": {
+        "title": "Socialmind: Llm-based proactive ar social assistive system with human-like perception for in-situ live interactions",
+        "all_authors_short": "Bufang Yang, Yunqi Guo, Lilin Xu et al.",
+        "year": 2025,
+        "venue": "Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies",
+        "url": "https://arxiv.org/abs/2412.04036"
+      }
+    },
+    {
+      "id": "speechless2026",
+      "name": "SpeechLess",
+      "key": "speechless2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2602.00793"
+      },
+      "ref": {
+        "title": "SpeechLess: Micro-utterance with Personalized Spatial Memory-aware Assistant in Everyday Augmented Reality",
+        "all_authors_short": "Yoonsang Kim, Devshree Jadeja, Divyansh Pradhan et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2602.00793"
+      }
+    },
+    {
+      "id": "m3agent",
+      "name": "M3-Agent",
+      "key": "m3agent",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "●",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2508.09736",
+        "code": "https://github.com/ByteDance-Seed/M3-Agent"
+      },
+      "ref": {
+        "title": "Seeing, Listening, Remembering, and Reasoning: A Multimodal Agent with Long-Term Memory",
+        "all_authors_short": "Lin Long, Yichen He, Wentao Ye et al.",
+        "year": 2025,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2508.09736"
+      }
+    },
+    {
+      "id": "lightmemego2026",
+      "name": "LightMem-Ego",
+      "key": "lightmemego2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2607.11487",
+        "code": "https://github.com/zjunlp/LightMem-Ego"
+      },
+      "ref": {
+        "title": "LightMem-Ego: Your AI Memory for Everyday Life",
+        "all_authors_short": "Yijun Chen, Boyi Xiao, Yixian Zhao et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2607.11487"
+      }
+    },
+    {
+      "id": "sensibleagent2025",
+      "name": "Sensible Agent",
+      "key": "sensibleagent2025",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "○",
+        "M→A": "○",
+        "A→S": "●",
+        "M→S": "○",
+        "A→M": "○"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2509.09255"
+      },
+      "ref": {
+        "title": "Sensible Agent: A Framework for Unobtrusive Interaction with Proactive AR Agents",
+        "all_authors_short": "Geonsun Lee, Min Xia, Nels Numan et al.",
+        "year": 2025,
+        "venue": "Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology",
+        "url": "https://arxiv.org/abs/2509.09255"
+      }
+    },
+    {
+      "id": "egocopilot2026",
+      "name": "Egocentric Co-Pilot",
+      "key": "egocopilot2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2603.01104",
+        "code": "https://github.com/YoungSeng/Egocentric-Co-Pilot"
+      },
+      "ref": {
+        "title": "Egocentric Co-Pilot: Web-Native Smart-Glasses Agents for Assistive Egocentric AI",
+        "all_authors_short": "Sicheng Yang, Yukai Huang, Weitong Cai et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2603.01104"
+      }
+    },
+    {
+      "id": "pro2assist2026",
+      "name": "Pro²Assist",
+      "key": "pro2assist2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "◐",
+        "M→A": "◐",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2605.04227"
+      },
+      "ref": {
+        "title": "Pro²Assist: Continuous Step-aware Proactive Assistance with Multi-modal Egocentric Perception for Long-horizon Procedural Tasks",
+        "all_authors_short": "Lilin Xu, Bufang Yang, Siyang Jiang et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2605.04227"
+      }
+    },
+    {
+      "id": "pro2bench2026",
+      "name": "Pro²Bench",
+      "key": "pro2bench2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2606.04970"
+      },
+      "ref": {
+        "title": "Plan, Watch, Recover: A Benchmark and Architectures for Proactive Procedural Assistance",
+        "all_authors_short": "Kaustav Kundu, Ritvik Shrivastava, Maxim Arap et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2606.04970"
+      }
+    },
+    {
+      "id": "ipibench2026",
+      "name": "IPIBench",
+      "key": "ipibench2026",
+      "group": "Wearable",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2605.27074",
+        "code": "https://github.com/lijinzhao30/IPI"
+      },
+      "ref": {
+        "title": "IPIBench: Evaluating Interactive Proactive Intelligence of MLLMs under Continuous Streams",
+        "all_authors_short": "Jinzhao Li, Yinuo Chen, Wenxuan Song et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2605.27074"
+      }
+    },
+    {
+      "id": "omi2026",
+      "name": "Omi",
+      "key": "omisite2026",
+      "group": "Wearable",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://docs.omi.me/doc/developer/apps/Notifications",
+        "code": "https://github.com/BasedHardware/omi"
+      },
+      "ref": {
+        "title": "Omi: Wearable AI Notetaker",
+        "all_authors_short": "Based Hardware",
+        "year": 2026,
+        "url": "https://www.omi.me/"
+      }
+    },
+    {
+      "id": "bee2026",
+      "name": "Bee",
+      "key": "bee2026",
+      "group": "Wearable",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+      },
+      "ref": {
+        "title": "Building Bee at Amazon: How the Wearable AI Device Is Evolving",
+        "all_authors_short": "Maria de Lourdes Zollo",
+        "year": 2026,
+        "url": "https://www.aboutamazon.com/news/devices/bee-amazon-wearable-ai-device-new-features"
+      }
+    },
+    {
+      "id": "assistantx",
+      "name": "AssistantX",
+      "key": "assistantx",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2409.17655",
+        "code": "https://github.com/AssistantX-Agent/AssistantX"
+      },
+      "ref": {
+        "title": "AssistantX: An LLM-Powered Proactive Assistant in Collaborative Human-Populated Environments",
+        "all_authors_short": "Nan Sun, Bo Mao, Yongchang Li et al.",
+        "year": 2025,
+        "venue": "2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+        "url": "https://arxiv.org/abs/2409.17655"
+      }
+    },
+    {
+      "id": "hobbit",
+      "name": "Hobbit",
+      "key": "hobbit2018",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://doi.org/10.1155/2018/1754657"
+      },
+      "ref": {
+        "title": "Hobbit: Providing Fall Detection and Prevention for the Elderly in the Real World",
+        "all_authors_short": "Markus Bajones, David Fischinger, Astrid Weiss et al.",
+        "year": 2018,
+        "venue": "Journal of Robotics",
+        "url": "https://doi.org/10.1155/2018/1754657"
+      }
+    },
+    {
+      "id": "strands",
+      "name": "STRANDS",
+      "key": "strands2017",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/1604.04384",
+        "code": "https://github.com/strands-project"
+      },
+      "ref": {
+        "title": "The STRANDS Project: Long-Term Autonomy in Everyday Environments",
+        "all_authors_short": "Nick Hawes, Christopher Burbridge, Ferdian Jovan et al.",
+        "year": 2017,
+        "venue": "IEEE Robotics & Automation Magazine",
+        "url": "https://arxiv.org/abs/1604.04384"
+      }
+    },
+    {
+      "id": "philia",
+      "name": "PHILIA",
+      "key": "philia2026",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2607.11377"
+      },
+      "ref": {
+        "title": "A Glimpse into Long-term Physical Coexistence with Intelligent Robots",
+        "all_authors_short": "Weiqi Jin, Peijun Tang, Kuncheng Luo et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2607.11377"
+      }
+    },
+    {
+      "id": "abot-claw",
+      "name": "ABot-Claw",
+      "key": "abotclaw2026",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2604.10096",
+        "code": "https://github.com/amap-cvlab/ABot-Claw"
+      },
+      "ref": {
+        "title": "ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents",
+        "all_authors_short": "Dongjie Huo, Haoyun Liu, Guoqing Liu et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2604.10096"
+      }
+    },
+    {
+      "id": "movecare",
+      "name": "MoveCare",
+      "key": "movecare2023",
+      "group": "Physical",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8853423/"
+      },
+      "ref": {
+        "title": "Integrating Social Assistive Robots, IoT, Virtual Communities and Smart Objects to Assist at-Home Independently Living Elders: the MoveCare Project",
+        "all_authors_short": "Matteo Luperto, Javier Monroy, Jennifer Renoux et al.",
+        "year": 2023,
+        "venue": "International Journal of Social Robotics",
+        "url": "https://doi.org/10.1007/s12369-021-00843-0"
+      }
+    },
+    {
+      "id": "elliq",
+      "name": "ElliQ",
+      "key": "elliq2024",
+      "keys": [
+        "elliq2024",
+        "elliqsite2026"
+      ],
+      "group": "Physical",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://doi.org/10.14283/jarlife.2024.2"
+      },
+      "ref": {
+        "title": "ElliQ, an AI-driven social robot to alleviate loneliness: progress and lessons learned",
+        "all_authors_short": "E. Broadbent, K. Loveys, G. Ilan et al.",
+        "year": 2024,
+        "venue": "The Journal of Aging Research and Lifestyle",
+        "url": "https://doi.org/10.14283/jarlife.2024.2"
+      }
+    },
+    {
+      "id": "pask2026",
+      "name": "PASK",
+      "key": "pask2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2604.08000",
+        "code": "https://github.com/xzf-thu/Pask"
+      },
+      "ref": {
+        "title": "PASK: Toward Intent-Aware Proactive Agents with Long-Term Memory",
+        "all_authors_short": "Zhifei Xie, Zongzheng Hu, Fangda Ye et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2604.08000"
+      }
+    },
+    {
+      "id": "userascode2026",
+      "name": "User as Code",
+      "key": "userascode2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": true,
+        "later_use": true
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2606.16707",
+        "code": "https://github.com/19PINE-AI/user-as-code"
+      },
+      "ref": {
+        "title": "User as Code: Executable Memory for Personalized Agents",
+        "all_authors_short": "Bojie Li",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2606.16707"
+      }
+    },
+    {
+      "id": "lunchnow2025",
+      "name": "PITCH",
+      "key": "lunchnow2025",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2509.24073"
+      },
+      "ref": {
+        "title": "“Having Lunch Now”: Understanding How Users Engage with a Proactive Agent for Daily Planning and Self-Reflection",
+        "all_authors_short": "Adnan Abbas, Caleb Wohn, Arnav Jagtap et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2509.24073"
+      }
+    },
+    {
+      "id": "ouroboros2026",
+      "name": "Ouroboros",
+      "key": "ouroboros2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": true,
+        "later_use": true
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2608.08311",
+        "code": "https://github.com/razzant/ouroboros"
+      },
+      "ref": {
+        "title": "Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution",
+        "all_authors_short": "Anton Razzhigaev, Andrei Gritsaev, Andrei Kaznacheev et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2608.08311"
+      }
+    },
+    {
+      "id": "visualclaw2026-claude-code",
+      "name": "VisualClaw",
+      "key": "visualclaw2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": true,
+        "later_use": true
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2606.16295",
+        "code": "https://github.com/UCSC-VLAA/VisualClaw"
+      },
+      "ref": {
+        "title": "VisualClaw: A Real-Time, Personalized Agent for the Physical World",
+        "all_authors_short": "Haoqin Tu, Jianwen Chen, Zijun Wang et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2606.16295"
+      }
+    },
+    {
+      "id": "luproactiveagent2024",
+      "name": "Proactive Agent",
+      "key": "luproactiveagent2024",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2410.12361",
+        "code": "https://github.com/thunlp/ProactiveAgent"
+      },
+      "ref": {
+        "title": "Proactive Agent: Shifting LLM Agents from Reactive Responses to Active Assistance",
+        "all_authors_short": "Yaxi Lu, Shenzhi Yang, Cheng Qian et al.",
+        "year": 2024,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2410.12361"
+      }
+    },
+    {
+      "id": "pahf2026",
+      "name": "PAHF",
+      "key": "pahf2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": false,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2602.16173",
+        "code": "https://github.com/facebookresearch/PAHF"
+      },
+      "ref": {
+        "title": "Learning Personalized Agents from Human Feedback",
+        "all_authors_short": "Kaiqu Liang, Julia Kruk, Shengyi Qian et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2602.16173"
+      }
+    },
+    {
+      "id": "awarellm2026",
+      "name": "AwareLLM",
+      "key": "awarellm2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "●",
+        "A→M": "◐"
+      },
+      "chain": {
+        "record": false,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2605.09625"
+      },
+      "ref": {
+        "title": "AwareLLM: A Proactive Multimodal Ecosystem for Personalized Human-AI Collaboration to Enhance Productivity",
+        "all_authors_short": "Amog Rao, Utkarsh Agarwal, Amol Harsh et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2605.09625"
+      }
+    },
+    {
+      "id": "proact2026",
+      "name": "ProAct",
+      "key": "proact2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2605.25971",
+        "code": "https://github.com/AgentACE-AI/ProAct"
+      },
+      "ref": {
+        "title": "Anticipate and Learn: Unleashing Idle-Time Compute in Proactive Agents",
+        "all_authors_short": "Haoyi Hu, Qirong Lyu, Xianghan Kong et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2605.25971"
+      }
+    },
+    {
+      "id": "longtermtoa2026",
+      "name": "Long-term TOA",
+      "key": "longtermtoa2026",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2601.09382"
+      },
+      "ref": {
+        "title": "Long-term Task-oriented Agent: Proactive Long-term Intent Maintenance in Dynamic Environments",
+        "all_authors_short": "Qinglong Shi, Donghai Wang, Hantao Zhou et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2601.09382"
+      }
+    },
+    {
+      "id": "propersim",
+      "name": "ProPerSim",
+      "key": "propersim",
+      "group": "Digital",
+      "product": false,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "◐",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": true,
+        "later_use": true
+      },
+      "links": {
+        "report": "https://arxiv.org/abs/2509.21730",
+        "code": "https://github.com/jiho283/ProPerSim"
+      },
+      "ref": {
+        "title": "ProPerSim: Developing Proactive and Personalized AI Assistants through User-Assistant Simulation",
+        "all_authors_short": "Jiho Kim, Junseong Choi, Woosog Chay et al.",
+        "year": 2026,
+        "venue": "arXiv preprint",
+        "url": "https://arxiv.org/abs/2509.21730"
+      }
+    },
+    {
+      "id": "chatgptdots2026",
+      "name": "Dot",
+      "key": "dots2026",
+      "group": "Digital",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "●",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://learn.chatgpt.com/docs/dots"
+      },
+      "ref": {
+        "title": "Introducing dots",
+        "all_authors_short": "OpenAI",
+        "year": 2026,
+        "url": "https://openai.com/index/introducing-dots/"
+      }
+    },
+    {
+      "id": "metamuse2026",
+      "name": "Muse",
+      "key": "muse2026",
+      "group": "Digital",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": false,
+        "attribution": false,
+        "revision": false,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+      },
+      "ref": {
+        "title": "Introducing Muse: The World's First Personal AI Agent Built for Everyone",
+        "all_authors_short": "Meta",
+        "year": 2026,
+        "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+      }
+    },
+    {
+      "id": "langchaineai2025",
+      "name": "EAIA",
+      "key": "langchaineai2025",
+      "group": "Digital",
+      "product": true,
+      "cells": {
+        "S→M": "●",
+        "M→A": "●",
+        "A→S": "●",
+        "M→S": "◐",
+        "A→M": "●"
+      },
+      "chain": {
+        "record": true,
+        "outcome": true,
+        "attribution": true,
+        "revision": true,
+        "later_use": false
+      },
+      "links": {
+        "report": "https://www.langchain.com/blog/introducing-ambient-agents",
+        "code": "https://github.com/langchain-ai/executive-ai-assistant"
+      },
+      "ref": {
+        "title": "Introducing Ambient Agents",
+        "all_authors_short": "LangChain",
+        "year": 2025,
+        "url": "https://www.langchain.com/blog/introducing-ambient-agents"
+      }
+    }
+  ]
+}

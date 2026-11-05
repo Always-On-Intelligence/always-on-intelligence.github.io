@@ -3,9 +3,12 @@ if (root) {
   const params = new URLSearchParams(location.search);
   let lang = params.get('lang') === 'zh' ? 'zh' : 'en';
   let scene = ['singapore', 'ntu', 'village'].includes(params.get('scene')) ? 'singapore' : 'eccv';
+  // The 3D worlds load only when a visitor opens one from the case library (or links to ?scene=).
+  const stage = document.querySelector('#world-stage');
+  const deepLink = params.has('scene');
   const zh = lang === 'zh';
   let campusPlace = params.get('campusPlace') || '';
-  const names = zh ? {singapore:'新加坡 · NTU',eccv:'ECCV · EgoPoster'} : {singapore:'Singapore · NTU',eccv:'ECCV · EgoPoster'};
+  const names = zh ? {singapore:'新加坡 · NTU',eccv:'ECCV 2026 · Poster Session 6'} : {singapore:'Singapore · NTU',eccv:'ECCV 2026 · Poster Session 6'};
   const title = document.querySelector('#live-demo-title');
   const deck = document.querySelector('#village-deck');
   if (zh) {
@@ -21,11 +24,11 @@ if (root) {
     <iframe id="always-on-game" title="${names[scene]}" allow="gamepad; fullscreen 'none'"></iframe>
   </div>
   <div class="village-scene-switch" role="group" aria-label="${zh?'切换体验场景':'Choose an experience'}">
-    <button type="button" data-scene="eccv" aria-controls="always-on-game" aria-pressed="${scene==='eccv'}"><span class="scene-index">01</span><span><strong>${names.eccv}</strong><small>${zh?'展台体验 · 看论文、追问与回顾':'Booth experience · Observe, question, revisit'}</small></span><span class="scene-switch-arrow" aria-hidden="true">↗</span></button>
-    <button type="button" data-scene="singapore" aria-controls="always-on-game" aria-pressed="${scene==='singapore'}"><span class="scene-index">02</span><span><strong>${names.singapore}</strong><small>${zh?'开放探索 · 全校园地图 · 行人与交通':'Open exploration · Campus map · People & traffic'}</small></span><span class="scene-switch-arrow" aria-hidden="true">↗</span></button>
+    <button type="button" data-scene="eccv" aria-controls="always-on-game" aria-pressed="${scene==='eccv'}"><span class="scene-index">01</span><span><strong>${names.eccv}</strong><small>${zh?'按真实平面图 1:1 重建 · 477 张 Poster · 导览':'Rebuilt 1:1 from the floor plan · 477 posters · guided walk'}</small></span><span class="scene-switch-arrow" aria-hidden="true">↗</span></button>
+    <button type="button" data-scene="singapore" aria-controls="always-on-game" aria-pressed="${scene==='singapore'}"><span class="scene-index">02</span><span><strong>${names.singapore}</strong><small>${zh?'开放数据搭建的开放世界 · 戴眼镜过一天 S-Lab':'Open world from open data · An S-Lab day with the glasses'}</small></span><span class="scene-switch-arrow" aria-hidden="true">↗</span></button>
   </div>
-  <div class="village-scene-note" role="status">${zh?'切换场景会开始一次新访问，各自的记忆保留在此浏览器。':'Switching starts a new visit. Each scene retains its own memory in this browser.'}</div>
-  <div class="village-footer"><span class="village-credit">${zh ? '脚本化交互演示 · 记忆仅保存在本机' : 'Scripted interactive demo · Memory stays in this browser'}<br><a href="game/credits.html" target="_blank" rel="noopener">${zh ? '源码与场景依据' : 'Source & scene references'}</a></span><div class="village-footer-controls"><button type="button" data-enter-game aria-controls="always-on-game" aria-expanded="false">${zh ? '进入游戏模式' : 'Enter game mode'} ⤢</button></div></div>`;
+  <div class="village-scene-note" role="status">${zh?'切换场景会重新开始这个场景。':'Switching starts a new visit of that scene.'}</div>
+  <div class="village-footer"><span class="village-credit">${zh ? '脚本化交互演示 · 完全在你的浏览器中运行' : 'Scripted interactive demo · Runs entirely in your browser'}<br><a href="game/credits.html" target="_blank" rel="noopener">${zh ? '源码与场景依据' : 'Source & scene references'}</a></span><div class="village-footer-controls"><button type="button" data-enter-game aria-controls="always-on-game" aria-expanded="false">${zh ? '进入游戏模式' : 'Enter game mode'} ⤢</button></div></div>`;
   const frame = root.querySelector('iframe');
   const placeholder = root.querySelector('.village-placeholder');
   const enterButton = root.querySelector('[data-enter-game]');
@@ -90,17 +93,36 @@ if (root) {
       if (params.get('prototypeView') === 'baseline') frameParams.set('prototypeView','baseline');
     }
     if (scene === 'singapore' && campusPlace) frameParams.set('campusPlace',campusPlace);
-    frame.src = `game/?${frameParams}`;
+    // Both scenes run in the three.js worlds (world/). The Minecraft campus (game/) is kept for
+    // local prototype previews only (?campusPrototype=… on localhost).
+    const minecraft = scene === 'singapore' && frameParams.has('campusPrototype');
+    frame.src = minecraft ? `game/?${frameParams}` : `world/?${new URLSearchParams({lang, scene: scene === 'eccv' ? 'eccv' : 'ntu'})}`;
   }
   function start() {
     if (started) return;
     started = true;
     loadScene();
   }
-  const observer = new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting)) { start(); observer.disconnect(); }
-  }, { rootMargin: '300px' });
-  observer.observe(root);
+  function openWorld(next) {
+    if (stage) stage.hidden = false;
+    const wanted = next === 'singapore' ? 'singapore' : 'eccv';
+    if (!started || scene !== wanted) {
+      scene = wanted;
+      root.querySelectorAll('[data-scene]').forEach(item => item.setAttribute('aria-pressed', String(item.dataset.scene === scene)));
+      started = true;
+      loadScene();
+    }
+    (stage || root).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.addEventListener('always-on-open-world', event => openWorld(event.detail?.scene));
+  stage?.querySelector('[data-world-close]')?.addEventListener('click', () => {
+    setGameMode(false);
+    frame.removeAttribute('src');
+    started = false;
+    stage.hidden = true;
+    document.querySelector('#live-demo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  if (deepLink) openWorld(scene);
   root.querySelectorAll('[data-scene]').forEach(button => button.addEventListener('click', () => {
     if (scene === button.dataset.scene) return;
     try { lang = new URL(frame.contentWindow.location.href).searchParams.get('lang') === 'zh' ? 'zh' : 'en'; } catch {}

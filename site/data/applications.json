@@ -1,0 +1,1252 @@
+{
+ "caption": "Systems and supporting methods across application scopes. Groups follow the three interaction domains. Each row identifies a core method, a potential bottleneck, and its location in the framework of §2. The application scope of each case gives its interaction domain, participant scope, and outcome horizon (§2.5).",
+ "notes": [
+  "Framework: M space and A space are the Memory and Action spaces of §2.2, what a module can do and represent; π_S, π_M, π_A are local policies; X→Y denotes a coupling channel; c_t gives shared conditions. θ_t marks a mechanism revision (§2.1). Scope: interaction domain [robot icon] physical, [glasses icon] wearable, [computer icon] digital; participant scope I individual, G bounded group, Pub public; outcome horizon s within-session, c cross-session, l longitudinal, – not reported. † Product."
+ ],
+ "groups": [
+  {
+   "domain": "Wearable",
+   "section": "6.1.1",
+   "title": "Wearable Assistance in Daily Activity and Conversation",
+   "description": "Wearable assistants use what the user sees and hears to help during everyday activity. They guide a task as it happens or recall it afterwards, and the two need evidence at different times and draw on different amounts of the past. First, guidance needs evidence while the task is under way, so it starts from the current scene, as in Vinci and ProAssist. During a procedural task, an assistant also tracks which step the user is on, and procedural-assistance surveys review how systems recognize steps and detect errors. That estimate must be stable, since a single frame can be misread: Pro²Assist therefore updates its progress record only when successive step predictions agree and does not repeat guidance while the step stays the same. Guidance must also arrive at the right moment, so ProMemAssist decides when help will be timely by modeling the user's working memory, the information the user temporarily holds for the current task. Second, recall draws on longer personal histories, which EgoLife provides as daily-life streams for study, and it can wait for better evidence: LightMem-Ego keeps updating current state while a slower consolidation step uses later transcripts to refine its event records.\n\nIn conversations and meetings, the assistant keeps listening while it responds, often with several people present, and it makes two decisions. First, it decides when to speak. Full-duplex research studies systems that listen while speaking and examines when they should take or yield a turn. Second, it decides how to deliver the response. For private delivery, LlamaPIE gives short suggestions in the user's ear. SocialMind instead uses an augmented-reality display, which places digital information over the user's view. Sensible Agent chooses from the current context both the content and the modality, the form in which the response reaches the user. A private cue and a spoken suggestion can carry the same content, but the spoken one interrupts everyone present and discloses the content to them. The choice between them depends on whose information the assistant captured, who will receive the response, and which retained context that audience is allowed to see.",
+   "bottleneck": "Wearable assistance runs into three bottlenecks that no single module resolves: the cost of capture, the repair of wrong records, and timing and audience in conversation. First, the cost of capture links Sensing to Memory: how much to capture cannot be set from sensing cost alone, because what the assistant captures now limits what Memory can recall later. Resource studies measure sensing and inference costs and streaming efficiency, while the other side of the trade-off appears in Memory: more capture preserves more events and adds transmission, storage, and maintenance work, whereas less capture saves resources at the risk of losing personal history. Capture also shares the device budget with delivery and with the checks that other pending tasks need. Second, repair links Memory to later interactions with the user: a wrong record has to be found and corrected, by the user or from the assistant's own later observations, because capturing more does not fix it. For example, Memento's multi-day study reports useful contextual recall alongside mismatches in what memories refer to in the scene, and its targeted removal control lets users stop unwanted memories from recurring. User correction helps only when the user notices the error, so a change that nobody announces must be inferred from the assistant's own later observations.\n\nThird, in conversation, timing and audience link all three modules: a response prepared in the background has to be checked against the topic and the audience at the moment it is delivered. Sensing and Memory often finish their work in the background, so a result can reach Action after the topic or audience has changed, while an immediate response can interrupt a useful exchange. More frequent interventions consume attention and leave more outcomes to interpret. Interaction benchmarks examine response timing, and ProVoice-Bench and long-term streaming voice tasks also test sustained interaction. Across sessions, a commitment made in a meeting can still matter, but a new audience is not always entitled to its details. The people present have often not agreed to be recorded or served. When Sensing detects that the audience has changed, Memory can restrict what it releases and Action can recheck recipients before delivery, and when the topic changes, Action can rewrite or withhold the queued response.",
+   "works": [
+    {
+     "name": "ProAssist",
+     "key": "proassist2025",
+     "keys": [
+      "proassist2025"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Context-triggered step dialogue",
+     "bottleneck": "Event interpretation",
+     "framework": "π_S",
+     "ref": {
+      "title": "Proactive assistant dialogue generation from streaming egocentric videos",
+      "all_authors_short": "Yichi Zhang, Xin Luna Dong, Zhaojiang Lin et al.",
+      "year": 2025,
+      "venue": "Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing",
+      "url": "https://arxiv.org/abs/2506.05904"
+     },
+     "url": "https://arxiv.org/abs/2506.05904",
+     "code": "https://github.com/pro-assist/ProAssist"
+    },
+    {
+     "name": "ProMemAssist",
+     "key": "promemassist",
+     "keys": [
+      "promemassist"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Sensed task state guides help timing",
+     "bottleneck": "Task-state estimation",
+     "framework": "π_S",
+     "ref": {
+      "title": "ProMemAssist: Exploring Timely Proactive Assistance Through Working Memory Modeling in Multi-Modal Wearable Devices",
+      "all_authors_short": "Kevin Pu, Ting Zhang, Naveen Sendhilnathan et al.",
+      "year": 2025,
+      "venue": "Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology",
+      "url": "https://doi.org/10.1145/3746059.3747770"
+     },
+     "url": "https://arxiv.org/abs/2507.21378",
+     "code": null
+    },
+    {
+     "name": "Vinci2",
+     "key": "vinci2",
+     "keys": [
+      "vinci2"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Video memory guides intervention",
+     "bottleneck": "Compression / selection",
+     "framework": "π_M, M→A",
+     "ref": {
+      "title": "Vinci2: Providing Proactive Assistance in Continuous Egocentric Videos",
+      "all_authors_short": "Sitong Gong, Tianyu Yan, Caixin Kang et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.11523"
+     },
+     "url": "https://arxiv.org/abs/2607.11523",
+     "code": "https://github.com/SitongGong/EgoMemo"
+    },
+    {
+     "name": "VisionClaw",
+     "key": "visionclaw2026",
+     "keys": [
+      "visionclaw2026"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual",
+      "Bounded group"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I/G × s",
+     "mechanism": "Visual capture, recall, and actions",
+     "bottleneck": "Capture budget / privacy",
+     "framework": "π_S; c_t",
+     "ref": {
+      "title": "VisionClaw: Always-On AI Agents through Smart Glasses",
+      "all_authors_short": "Xiaoan Liu, DaeHo Lee, Eric J Gonzalez et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2604.03486"
+     },
+     "url": "https://arxiv.org/abs/2604.03486",
+     "code": "https://github.com/Intent-Lab/VisionClaw"
+    },
+    {
+     "name": "Memento",
+     "key": "mementoar2026",
+     "keys": [
+      "mementoar2026"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "AR recall; referent/removal controls",
+     "bottleneck": "Recall relevance / timing",
+     "framework": "π_M, π_A",
+     "ref": {
+      "title": "Memento: Towards Proactive Visualization of Everyday Memories with Personal Wearable AR Assistant",
+      "all_authors_short": "Yoonsang Kim, Yalong Yang, Arie E. Kaufman",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2601.17622"
+     },
+     "url": "https://arxiv.org/abs/2601.17622",
+     "code": null
+    },
+    {
+     "name": "Sensible Agent",
+     "key": "sensibleagent2025",
+     "keys": [
+      "sensibleagent2025"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Context selects content and modality",
+     "bottleneck": "Interruptibility uncertainty",
+     "framework": "π_S, π_A",
+     "ref": {
+      "title": "Sensible Agent: A Framework for Unobtrusive Interaction with Proactive AR Agents",
+      "all_authors_short": "Geonsun Lee, Min Xia, Nels Numan et al.",
+      "year": 2025,
+      "venue": "Proceedings of the 38th Annual ACM Symposium on User Interface Software and Technology",
+      "url": "https://arxiv.org/abs/2509.09255"
+     },
+     "url": "https://arxiv.org/abs/2509.09255",
+     "code": null
+    },
+    {
+     "name": "AiGet",
+     "key": "aiget",
+     "keys": [
+      "aiget"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Wearable × I × c",
+     "mechanism": "Gaze and profile select knowledge",
+     "bottleneck": "Disruption / repetition",
+     "framework": "M→S, A→M",
+     "ref": {
+      "title": "Aiget: Transforming everyday moments into hidden knowledge discovery with ai assistance on smart glasses",
+      "all_authors_short": "Runze Cai, Nuwan Janaka, Hyeongcheol Kim et al.",
+      "year": 2025,
+      "venue": "Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems",
+      "url": "https://arxiv.org/abs/2501.16240"
+     },
+     "url": "https://arxiv.org/abs/2501.16240",
+     "code": "https://github.com/Synteraction-Lab/AiGet"
+    },
+    {
+     "name": "SpeechLess",
+     "key": "speechless2026",
+     "keys": [
+      "speechless2026"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Spatial memory informs intent",
+     "bottleneck": "Stale / ambiguous state",
+     "framework": "π_M, M→S",
+     "ref": {
+      "title": "SpeechLess: Micro-utterance with Personalized Spatial Memory-aware Assistant in Everyday Augmented Reality",
+      "all_authors_short": "Yoonsang Kim, Devshree Jadeja, Divyansh Pradhan et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2602.00793"
+     },
+     "url": "https://arxiv.org/abs/2602.00793",
+     "code": null
+    },
+    {
+     "name": "ProAgent",
+     "key": "proagent",
+     "keys": [
+      "proagent"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Persona priors; feedback updates",
+     "bottleneck": "Prior error / sensing cost",
+     "framework": "M→S, π_S",
+     "ref": {
+      "title": "ProAgent: Harnessing On-Demand Sensory Contexts for Proactive LLM Agent Systems in the Wild",
+      "all_authors_short": "Bufang Yang, Lilin Xu, Liekang Zeng et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2512.06721"
+     },
+     "url": "https://arxiv.org/abs/2512.06721",
+     "code": null
+    },
+    {
+     "name": "Pro²Assist",
+     "key": "pro2assist2026",
+     "keys": [
+      "pro2assist2026"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Motion-based sampling; step checks",
+     "bottleneck": "Step uncertainty / repeats",
+     "framework": "π_S, π_A",
+     "ref": {
+      "title": "Pro²Assist: Continuous Step-aware Proactive Assistance with Multi-modal Egocentric Perception for Long-horizon Procedural Tasks",
+      "all_authors_short": "Lilin Xu, Bufang Yang, Siyang Jiang et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2605.04227"
+     },
+     "url": "https://arxiv.org/abs/2605.04227",
+     "code": null
+    },
+    {
+     "name": "LightMem-Ego",
+     "key": "lightmemego2026",
+     "keys": [
+      "lightmemego2026"
+     ],
+     "domains": [
+      "Wearable",
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable/Digital × I × s",
+     "mechanism": "Async. consolidation for recall",
+     "bottleneck": "Consolidation / recall lag",
+     "framework": "π_M",
+     "ref": {
+      "title": "LightMem-Ego: Your AI Memory for Everyday Life",
+      "all_authors_short": "Yijun Chen, Boyi Xiao, Yixian Zhao et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.11487"
+     },
+     "url": "https://arxiv.org/abs/2607.11487",
+     "code": "https://github.com/zjunlp/LightMem-Ego"
+    },
+    {
+     "name": "Alpha-Service",
+     "key": "ai4service",
+     "keys": [
+      "ai4service"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Wearable × I × –",
+     "mechanism": "Event triggers, memory, and tool use",
+     "bottleneck": "Triggers / authority",
+     "framework": "π_S, π_A; c_t",
+     "ref": {
+      "title": "AI for Service: Proactive Assistance with AI Glasses",
+      "all_authors_short": "Zichen Wen, Yiyu Wang, Chenfei Liao et al.",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2510.14359"
+     },
+     "url": "https://arxiv.org/abs/2510.14359",
+     "code": null
+    },
+    {
+     "name": "SocialMind",
+     "key": "socialmind",
+     "keys": [
+      "socialmind"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × G × s",
+     "mechanism": "Persona-conditioned AR suggestions",
+     "bottleneck": "Audience / context",
+     "framework": "M→S, M→A",
+     "ref": {
+      "title": "Socialmind: Llm-based proactive ar social assistive system with human-like perception for in-situ live interactions",
+      "all_authors_short": "Bufang Yang, Yunqi Guo, Lilin Xu et al.",
+      "year": 2025,
+      "venue": "Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies",
+      "url": "https://arxiv.org/abs/2412.04036"
+     },
+     "url": "https://arxiv.org/abs/2412.04036",
+     "code": null
+    },
+    {
+     "name": "LlamaPIE",
+     "key": "llamapie",
+     "keys": [
+      "llamapie"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × G × s",
+     "mechanism": "Audio-guided in-ear suggestions",
+     "bottleneck": "Turn timing / consent",
+     "framework": "π_A; c_t",
+     "ref": {
+      "title": "LLAMAPIE: Proactive In-Ear Conversation Assistants",
+      "all_authors_short": "Tuochao Chen, Nicholas Scott Batchelder, Alisa Liu et al.",
+      "year": 2025,
+      "venue": "Findings of the Association for Computational Linguistics: ACL 2025",
+      "url": "https://arxiv.org/abs/2505.04066"
+     },
+     "url": "https://arxiv.org/abs/2505.04066",
+     "code": "https://github.com/chentuochao/LlamaPIE"
+    },
+    {
+     "name": "M3-Agent",
+     "key": "m3agent",
+     "keys": [
+      "m3agent"
+     ],
+     "domains": [
+      "Wearable"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Wearable × I × s",
+     "mechanism": "Entity memory from video and audio",
+     "bottleneck": "Identity / memory upkeep",
+     "framework": "S→M, M→A",
+     "ref": {
+      "title": "Seeing, Listening, Remembering, and Reasoning: A Multimodal Agent with Long-Term Memory",
+      "all_authors_short": "Lin Long, Yichen He, Wentao Ye et al.",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2508.09736"
+     },
+     "url": "https://arxiv.org/abs/2508.09736",
+     "code": "https://github.com/ByteDance-Seed/m3-agent"
+    }
+   ]
+  },
+  {
+   "domain": "Digital",
+   "section": "6.1.2",
+   "title": "Digital Workspace and Personal Assistants",
+   "description": "Digital assistants carry plans and personal context across applications and interactions, and some also revise the procedures or code used in later work. The digital-colleague perspective connects persistent workspaces, reusable skills, and governance. PITCH schedules morning planning and evening reflection in Slack, and in the evening, it reuses the morning conversation to ask about progress and departures from the user's plan. However, its field-study dialogues include refusals and misplaced follow-ups. Remembering the plan supplies a topic, but the user's current progress and willingness to engage determine whether a follow-up is appropriate. Product descriptions extend the use of retained context to background work, with different choices about when to run and notify the user. Claude Cowork runs delegated workspace tasks on a schedule. Muse combines scheduled and event-driven work with memory across conversations and selective notification, with Sentinel checks for permission-sensitive operations. OpenAI's Dot keeps working between conversations on its own cloud computer, decides when to pause and wake up, and reaches out with results or with decisions that need the user. Claude Duet carries over the memory, skills, and connected apps of the user's Claude account. It sends a brief each morning and checks the connected accounts every few hours, messaging the user only when something needs attention. Windows Recall illustrates the related storage boundary for screen history.\n\nPersistent workspaces also support reusable procedures. ReasoningBank and Agentic Context Engineering retain guidance derived from feedback. Skill-Guided Continuation Distillation and SkillHarness develop reusable GUI procedures. SE-GA, SCALE, and Darwin Mobile Agent also reuse experience. These methods improve across a stream of separate tasks, the setting of the self-improving agents in §2.5. KnowAct-GUIClaw links reuse to repair: it retrieves stored experience and skills, checks the screen state after each subtask, and repairs a reused skill when it fails before extracting a new one. Its evaluation first adds three components together: a host that manages the user's task, a router that splits requests spanning several apps into subtasks, and experience memory. It then adds skills on top, so each result shows the effect of a combined change. Reusing records and procedures across tasks also requires selecting context for the current audience and applying corrections wherever the old information remains in use.",
+   "bottleneck": "Digital assistance runs into two bottlenecks that no single module resolves: keeping the workspace available and reusing retained context. First, keeping the workspace available draws on computation and bandwidth that all three modules share, so background checks and memory upkeep have to be scheduled against response delay across all pending tasks. Efficient Agents compares inference schedules by task success and token cost. DualPath addresses storage bandwidth in KV-cache serving, which reuses stored intermediate results to avoid repeating earlier model computation. FreeToken divides execution between the CPU and the GPU and allocates cache loading on constrained hardware, and measurements on local devices report the energy and latency of each model call. These studies measure the cost of calling models and loading context for them. Background checks by Sensing and maintenance by Memory compete with user-facing Action for this capacity, so more frequent checks can raise costs and delay responses. Claude Duet states this trade-off directly: it checks connected accounts only every few hours, because continuous checking would use up the user's plan limits much faster, and its background checks count toward the same usage limits as the user's other work with Claude. The competition grows with the number of pending tasks, since each unresolved task needs checks of its own.\n\nSecond, reuse links Memory to Action: when reused context fails, repair requires telling apart missing evidence, which Sensing must acquire, wrong retained state, which Memory must correct, and valid state used outside its current scope, which Action must not apply. Reuse can hurt when the interface, task, or permission has changed. For example, PAST-Bench reports task-stream cases where removing a persistence component improves performance. Permissions and inputs can also change without notice, so an earlier grant can lapse before it is used, and content read without a request cannot be trusted by default. An external task record can recover a missed completion event, while a user correction can expose an obsolete assumption.",
+   "works": [
+    {
+     "name": "PASK",
+     "key": "pask2026",
+     "keys": [
+      "pask2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Digital × I × s",
+     "mechanism": "Intent cues and post-session memory",
+     "bottleneck": "Intent freshness",
+     "framework": "π_S",
+     "ref": {
+      "title": "PASK: Toward Intent-Aware Proactive Agents with Long-Term Memory",
+      "all_authors_short": "Zhifei Xie, Zongzheng Hu, Fangda Ye et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2604.08000"
+     },
+     "url": "https://arxiv.org/abs/2604.08000",
+     "code": "https://github.com/xzf-thu/Pask"
+    },
+    {
+     "name": "JoyAI-VL",
+     "key": "joyaiinteraction2026",
+     "keys": [
+      "joyaiinteraction2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Digital × I × s",
+     "mechanism": "Response gating; asynchronous tasks",
+     "bottleneck": "Coordination / stale results",
+     "framework": "π_S, π_A",
+     "ref": {
+      "title": "JoyAI-VL-Interaction: Real-Time Vision-Language Interaction Intelligence",
+      "all_authors_short": "Dingyu Yao, Junhao Zhou, Chenxu Yang et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2606.14777"
+     },
+     "url": "https://arxiv.org/abs/2606.14777",
+     "code": "https://github.com/jd-opensource/JoyAI-VL-Interaction"
+    },
+    {
+     "name": "PITCH",
+     "key": "lunchnow2025",
+     "keys": [
+      "lunchnow2025"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Digital × I × c",
+     "mechanism": "Daily plans; scheduled follow-ups",
+     "bottleneck": "Plan relevance / receptivity",
+     "framework": "M→A, π_A",
+     "ref": {
+      "title": "“Having Lunch Now”: Understanding How Users Engage with a Proactive Agent for Daily Planning and Self-Reflection",
+      "all_authors_short": "Adnan Abbas, Caleb Wohn, Arnav Jagtap et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2509.24073"
+     },
+     "url": "https://arxiv.org/abs/2509.24073",
+     "code": null
+    },
+    {
+     "name": "User as Code",
+     "key": "userascode2026",
+     "keys": [
+      "userascode2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Digital × I × s",
+     "mechanism": "Typed state; executable alert rules",
+     "bottleneck": "Schema / state correctness",
+     "framework": "M space; π_M",
+     "ref": {
+      "title": "User as Code: Executable Memory for Personalized Agents",
+      "all_authors_short": "Bojie Li",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2606.16707"
+     },
+     "url": "https://arxiv.org/abs/2606.16707",
+     "code": "https://github.com/19PINE-AI/user-as-code"
+    },
+    {
+     "name": "KnowAct",
+     "key": "knowactguiclaw2026",
+     "keys": [
+      "knowactguiclaw2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Digital × I × s",
+     "mechanism": "GUI skill use; procedure repair",
+     "bottleneck": "Stale skills / task contracts",
+     "framework": "θ_t; π_A, A→M",
+     "ref": {
+      "title": "KnowAct-GUIClaw: Know Deeply, Act Perfectly, Personal GUI Assistant with Self-Evolving Memory and Skill",
+      "all_authors_short": "Yunxin Li, Jinchao Li, Shibo Su et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.12625"
+     },
+     "url": "https://arxiv.org/abs/2607.12625",
+     "code": "https://github.com/HITsz-TMG/KnowAct"
+    },
+    {
+     "name": "MOSS",
+     "key": "moss2026",
+     "keys": [
+      "moss2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Digital × I × c",
+     "mechanism": "Source repair; replay and rollback",
+     "bottleneck": "Repair transfer",
+     "framework": "θ_t; π_M",
+     "ref": {
+      "title": "MOSS: Self-Evolution through Source-Level Rewriting in Autonomous Agent Systems",
+      "all_authors_short": "Qianshu Cai, Yonggang Zhang, Xianzhang Jia et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2605.22794"
+     },
+     "url": "https://arxiv.org/abs/2605.22794",
+     "code": "https://github.com/hkgai-official/Moss"
+    },
+    {
+     "name": "Ouroboros",
+     "key": "ouroboros2026",
+     "keys": [
+      "ouroboros2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Public"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × Pub × –",
+     "mechanism": "Reviewed code/prompt self-edits",
+     "bottleneck": "Revision / authority drift",
+     "framework": "θ_t; c_t",
+     "ref": {
+      "title": "Ouroboros: A Self-Developing Frontier Coding Agent with Reviewed Core Evolution",
+      "all_authors_short": "Anton Razzhigaev, Andrei Gritsaev, Andrei Kaznacheev et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2608.08311"
+     },
+     "url": "https://arxiv.org/abs/2608.08311",
+     "code": "https://github.com/razzant/ouroboros"
+    },
+    {
+     "name": "HealthClaw",
+     "key": "healthclaw2026",
+     "keys": [
+      "healthclaw2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Digital × I × l",
+     "mechanism": "Health-history updates for later QA",
+     "bottleneck": "State conflicts / privacy",
+     "framework": "π_M; c_t",
+     "ref": {
+      "title": "A Self-Evolving Agent for Longitudinal Personal Health Management",
+      "all_authors_short": "Haoran Li, Jiebi Deng, Tong Jin et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.13940"
+     },
+     "url": "https://arxiv.org/abs/2607.13940",
+     "code": "https://github.com/HC-Guo/HealthClaw"
+    },
+    {
+     "name": "Oralytics",
+     "key": "oralytics2025",
+     "keys": [
+      "oralytics2025"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Digital × I × l",
+     "mechanism": "RL prompt policy revised weekly",
+     "bottleneck": "Delayed brushing outcomes",
+     "framework": "θ_t; π_A",
+     "ref": {
+      "title": "A Deployed Online Reinforcement Learning Algorithm in an Oral Health Clinical Trial",
+      "all_authors_short": "Anna L. Trella, Kelly W. Zhang, Hinal Jajal et al.",
+      "year": 2025,
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "url": "https://arxiv.org/abs/2409.02069"
+     },
+     "url": "https://arxiv.org/abs/2409.02069",
+     "code": "https://github.com/StatisticalReinforcementLearningLab/oralytics-post-deployment-analysis"
+    },
+    {
+     "name": "Long-term TOA",
+     "key": "longtermtoa2026",
+     "keys": [
+      "longtermtoa2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Digital × I × c",
+     "mechanism": "Triggers kept through dormancy",
+     "bottleneck": "Stale triggers / timing",
+     "framework": "M→A, A→M",
+     "ref": {
+      "title": "Long-term Task-oriented Agent: Proactive Long-term Intent Maintenance in Dynamic Environments",
+      "all_authors_short": "Qinglong Shi, Donghai Wang, Hantao Zhou et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2601.09382"
+     },
+     "url": "https://arxiv.org/abs/2601.09382",
+     "code": null
+    },
+    {
+     "name": "ProAct",
+     "key": "proact2026",
+     "keys": [
+      "proact2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Digital × I × s",
+     "mechanism": "Idle-time anticipation",
+     "bottleneck": "Wasted preparation",
+     "framework": "M→S, π_A",
+     "ref": {
+      "title": "Anticipate and Learn: Unleashing Idle-Time Compute in Proactive Agents",
+      "all_authors_short": "Haoyi Hu, Qirong Lyu, Xianghan Kong et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2605.25971"
+     },
+     "url": "https://arxiv.org/abs/2605.25971",
+     "code": "https://github.com/AgentACE-AI/ProAct"
+    },
+    {
+     "name": "ProPerSim",
+     "key": "propersim",
+     "keys": [
+      "propersim"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Digital × I × l",
+     "mechanism": "New version each day from ratings",
+     "bottleneck": "Simulated users / drift",
+     "framework": "θ_t; A→M",
+     "ref": {
+      "title": "ProPerSim: Developing Proactive and Personalized AI Assistants through User-Assistant Simulation",
+      "all_authors_short": "Jiho Kim, Junseong Choi, Woosog Chay et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2509.21730"
+     },
+     "url": "https://arxiv.org/abs/2509.21730",
+     "code": "https://github.com/jiho283/ProPerSim"
+    },
+    {
+     "name": "Dot",
+     "key": "dots2026",
+     "keys": [
+      "dots2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × I × –",
+     "mechanism": "Self-timed wake-ups; delegated tasks",
+     "bottleneck": "Authority / result checks",
+     "framework": "A→S, π_A; c_t",
+     "ref": {
+      "title": "Introducing dots",
+      "all_authors_short": "OpenAI",
+      "year": 2026,
+      "url": "https://openai.com/index/introducing-dots/"
+     },
+     "url": "https://learn.chatgpt.com/docs/dots",
+     "code": null
+    },
+    {
+     "name": "Claude Cowork",
+     "key": "claude2026",
+     "keys": [
+      "claude2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × I × –",
+     "mechanism": "File access and multi-step execution",
+     "bottleneck": "Permissions / recovery",
+     "framework": "π_A; c_t",
+     "ref": {
+      "title": "Claude",
+      "all_authors_short": "Anthropic",
+      "year": 2026,
+      "url": "https://claude.com/product/overview"
+     },
+     "url": "https://claude.com/product/cowork",
+     "code": null
+    },
+    {
+     "name": "Muse",
+     "key": "muse2026",
+     "keys": [
+      "muse2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × I × –",
+     "mechanism": "Memory, schedules, permission gates",
+     "bottleneck": "Authority / freshness",
+     "framework": "π_S, π_A; c_t",
+     "ref": {
+      "title": "Introducing Muse: The World's First Personal AI Agent Built for Everyone",
+      "all_authors_short": "Meta",
+      "year": 2026,
+      "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+     },
+     "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/",
+     "code": null
+    },
+    {
+     "name": "Claude Duet",
+     "key": "claudeduet2026",
+     "keys": [
+      "claudeduet2026"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × I × –",
+     "mechanism": "Account checks; approval gates",
+     "bottleneck": "Urgency / usage limits",
+     "framework": "π_S, π_A; c_t",
+     "ref": {
+      "title": "Introducing Claude Duet",
+      "all_authors_short": "Anthropic",
+      "year": 2026,
+      "url": "https://claude.com/resources/articles/claude-duet"
+     },
+     "url": "https://claude.com/resources/articles/claude-duet",
+     "code": null
+    },
+    {
+     "name": "Windows Recall",
+     "key": "msrecall2024",
+     "keys": [
+      "msrecall2024"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Digital × I × –",
+     "mechanism": "Protected screen-history retrieval",
+     "bottleneck": "Admission / access control",
+     "framework": "S→M, π_M; c_t",
+     "ref": {
+      "title": "Update on the Recall Preview Feature for Copilot+ PCs",
+      "all_authors_short": "Microsoft",
+      "year": 2024,
+      "url": "https://blogs.windows.com/windowsexperience/2024/06/07/update-on-the-recall-preview-feature-for-copilot-pcs/"
+     },
+     "url": "https://blogs.windows.com/windowsexperience/2024/06/07/update-on-the-recall-preview-feature-for-copilot-pcs/",
+     "code": null
+    },
+    {
+     "name": "EAIA",
+     "key": "langchaineai2025",
+     "keys": [
+      "langchaineai2025"
+     ],
+     "domains": [
+      "Digital"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Digital × I × c",
+     "mechanism": "Email triage, drafts held",
+     "bottleneck": "Authority / edit learning",
+     "framework": "θ_t; c_t",
+     "ref": {
+      "title": "Introducing Ambient Agents",
+      "all_authors_short": "LangChain",
+      "year": 2025,
+      "url": "https://www.langchain.com/blog/introducing-ambient-agents"
+     },
+     "url": "https://www.langchain.com/blog/introducing-ambient-agents",
+     "code": "https://github.com/langchain-ai/executive-ai-assistant"
+    }
+   ]
+  },
+  {
+   "domain": "Physical",
+   "section": "6.1.3",
+   "title": "Physical Assistance and Collaboration",
+   "description": "Physical assistance requires reliable task execution and coordination with people, and a few deployed systems already sustain that assistance between requests. They sustain it in different ways: ElliQ through remembered preferences, Hobbit through execution verification, and STRANDS through outcome-driven scheduling. ElliQ initiates conversations several times a day, using ambient sensing, the user's availability, and remembered interests to decide when to speak and what to raise. Across multi-week deployments in private homes, Hobbit pairs scheduled reminders with background fall detection and a patrol after long inactivity. It checks each grasp before placing the object on its tray and tries once more if the grasp failed. STRANDS schedules visits across days in a care facility and keeps state that serves the residents as a group. It uses logged interaction outcomes to adjust when and where it goes next. Two home-care studies bring the same continuity to health checks. MoveCare times reminders in older adults' homes and closes each one when the requested measurement arrives. PALRO stored one older adult's vital signs over 334 days and reminded the user whenever a daily measurement was missing, thanking the user once it arrived.\n\nPAM studies routine-conditioned initiative directly. A visual task predictor tracks which phase of a routine the user is in, using a memory of the activity's phases and its assistance rules, and selects a task or stays silent. At the end of each day, a separate reflector reviews the day's observations and actions and revises that memory. Its five-day prediction study uses short recordings of one user's desk routine. This supports a bounded test of memory-guided assistance and daily revision, not of generalization to unseen users or long-term autonomous deployment.\n\nRecent robot agent systems also carry personal state across tasks, but they mostly act on instruction. PHILIA keeps long-horizon memory of people and preferences across several robots. ABot-Claw uses a critic to correct and replan during execution, and it shares visual memory across embodiments, the physical robot bodies in which the agent operates. Other systems organize personal state across interactions. ABot-AgentOS stores identities, preferences, and social commitments in a cross-session graph, a structure that represents entities and their relationships. AssistantX likewise keeps a graph of people, places, and items, with ownership and who is available, through a month-and-a-half office deployment. To associate memory with returning users, EgoMem recognizes them by face and voice and updates their memory after each dialog. Every evaluated episode in these systems starts from an instruction or a live exchange. Revisiting an unresolved commitment without a new request needs the scheduling and monitoring that the deployed systems above provide.",
+   "bottleneck": "Mistakes usually cost more in physical assistance. Physical actions add risks of contact, collision, and movement, and a wrong action can hurt the user or people nearby. In digital and physical assistance alike, whether an action can be undone depends on its effect. Physical assistance runs into two bottlenecks that no single module resolves: checking results and judging whether the assistance was useful. First, checking results links Action back to Sensing: how much to check depends on the consequence of an error and the cost of delaying or repeating the action. Reviewing the scene helps resolve uncertain execution, but extra observation and replanning take time and resources. Because the assistant often acts while the user is away, a physical effect that cannot be undone, such as a collision, can occur before anyone is able to stop it, and people who have not agreed to the assistant share its consequences. Second, judging whether the assistance was useful links Action to Memory: the assistant can tell whether it helped only if Memory keeps the user's response and later task progress.",
+   "works": [
+    {
+     "name": "Hobbit",
+     "key": "hobbit2018",
+     "keys": [
+      "hobbit2018"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Physical × I × c",
+     "mechanism": "Scheduled reminders; idle patrol",
+     "bottleneck": "Trigger reliability / alarms",
+     "framework": "M→A, A→S",
+     "ref": {
+      "title": "Hobbit: Providing Fall Detection and Prevention for the Elderly in the Real World",
+      "all_authors_short": "Markus Bajones, David Fischinger, Astrid Weiss et al.",
+      "year": 2018,
+      "venue": "Journal of Robotics",
+      "url": "https://doi.org/10.1155/2018/1754657"
+     },
+     "url": "https://doi.org/10.1155/2018/1754657",
+     "code": null
+    },
+    {
+     "name": "STRANDS",
+     "key": "strands2017",
+     "keys": [
+      "strands2017"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Physical × G × l",
+     "mechanism": "Visit timing learned from logs",
+     "bottleneck": "Site-level state / drift",
+     "framework": "A→M, M→A",
+     "ref": {
+      "title": "The STRANDS Project: Long-Term Autonomy in Everyday Environments",
+      "all_authors_short": "Nick Hawes, Christopher Burbridge, Ferdian Jovan et al.",
+      "year": 2017,
+      "venue": "IEEE Robotics & Automation Magazine",
+      "url": "https://arxiv.org/abs/1604.04384"
+     },
+     "url": "https://arxiv.org/abs/1604.04384",
+     "code": "https://github.com/strands-project"
+    },
+    {
+     "name": "EgoMem",
+     "key": "egomem2025",
+     "keys": [
+      "egomem2025"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Within-session",
+     "regime": "Physical × G × s",
+     "mechanism": "Face/voice polling; lifelong memory",
+     "bottleneck": "Identity / memory upkeep",
+     "framework": "S→M, M→A",
+     "ref": {
+      "title": "EgoMem: Lifelong Memory Agent for Full-duplex Omnimodal Models",
+      "all_authors_short": "Yiqun Yao, Naitong Yu, Xiang Li et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2509.11914"
+     },
+     "url": "https://arxiv.org/abs/2509.11914",
+     "code": null
+    },
+    {
+     "name": "MoveCare",
+     "key": "movecare2023",
+     "keys": [
+      "movecare2023"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Physical × I × c",
+     "mechanism": "Self-timed reminders; result checks",
+     "bottleneck": "False alarms / missed data",
+     "framework": "M→A, A→M",
+     "ref": {
+      "title": "Integrating Social Assistive Robots, IoT, Virtual Communities and Smart Objects to Assist at-Home Independently Living Elders: the MoveCare Project",
+      "all_authors_short": "Matteo Luperto, Javier Monroy, Jennifer Renoux et al.",
+      "year": 2023,
+      "venue": "International Journal of Social Robotics",
+      "url": "https://doi.org/10.1007/s12369-021-00843-0"
+     },
+     "url": "https://doi.org/10.1007/s12369-021-00843-0",
+     "code": null
+    },
+    {
+     "name": "PALRO",
+     "key": "palro2025",
+     "keys": [
+      "palro2025"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Physical × I × l",
+     "mechanism": "Stored vitals drive reminders",
+     "bottleneck": "One user / fixed logic",
+     "framework": "S→M, M→A",
+     "ref": {
+      "title": "The Long-Term Use of Communication Robots by Users of Visiting Healthcare Services: Development of an Integrated Vital Signs Measurement System",
+      "all_authors_short": "Toshiaki Takahashi, Shiho Higashimura, Tsuneki Ninomiya et al.",
+      "year": 2025,
+      "venue": "Cureus",
+      "url": "https://doi.org/10.7759/cureus.77635"
+     },
+     "url": "https://doi.org/10.7759/cureus.77635",
+     "code": null
+    },
+    {
+     "name": "PHILIA",
+     "key": "philia2026",
+     "keys": [
+      "philia2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Physical × I × s",
+     "mechanism": "Remembered preferences guide tasks",
+     "bottleneck": "Relevance / safe execution",
+     "framework": "M→A, π_A",
+     "ref": {
+      "title": "A Glimpse into Long-term Physical Coexistence with Intelligent Robots",
+      "all_authors_short": "Weiqi Jin, Peijun Tang, Kuncheng Luo et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.11377"
+     },
+     "url": "https://arxiv.org/abs/2607.11377",
+     "code": null
+    },
+    {
+     "name": "AssistantX",
+     "key": "assistantx",
+     "keys": [
+      "assistantx"
+     ],
+     "domains": [
+      "Physical",
+      "Digital"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Within-session",
+     "regime": "Physical/Digital × G × s",
+     "mechanism": "Cross-domain plans; outcome review",
+     "bottleneck": "Who is free / verification",
+     "framework": "A space, A→S",
+     "ref": {
+      "title": "AssistantX: An LLM-Powered Proactive Assistant in Collaborative Human-Populated Environments",
+      "all_authors_short": "Nan Sun, Bo Mao, Yongchang Li et al.",
+      "year": 2025,
+      "venue": "2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)",
+      "url": "https://arxiv.org/abs/2409.17655"
+     },
+     "url": "https://arxiv.org/abs/2409.17655",
+     "code": "https://github.com/AssistantX-Agent/AssistantX"
+    },
+    {
+     "name": "ABot-Claw",
+     "key": "abotclaw2026",
+     "keys": [
+      "abotclaw2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Within-session",
+     "regime": "Physical × I × s",
+     "mechanism": "Shared visual memory, critic",
+     "bottleneck": "Progress checks",
+     "framework": "A→S, M→A",
+     "ref": {
+      "title": "ABot-Claw: A Foundation for Persistent, Cooperative, and Self-Evolving Robotic Agents",
+      "all_authors_short": "Dongjie Huo, Haoyun Liu, Guoqing Liu et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2604.10096"
+     },
+     "url": "https://arxiv.org/abs/2604.10096",
+     "code": "https://github.com/amap-cvlab/ABot-Claw"
+    },
+    {
+     "name": "ABot-AgentOS",
+     "key": "abotagentos2026",
+     "keys": [
+      "abotagentos2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Bounded group"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Physical × G × c",
+     "mechanism": "Cross-session graph, provenance",
+     "bottleneck": "Identity / commitments",
+     "framework": "π_M, S→M",
+     "ref": {
+      "title": "ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory",
+      "all_authors_short": "Jiayi Tian, Shiao Liu, Yuting Xu et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2607.10350"
+     },
+     "url": "https://arxiv.org/abs/2607.10350",
+     "code": null
+    },
+    {
+     "name": "PAM",
+     "key": "pam2026",
+     "keys": [
+      "pam2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Cross-session",
+     "regime": "Physical × I × c",
+     "mechanism": "Routine memory revised each day",
+     "bottleneck": "One user / short recordings",
+     "framework": "M→A, π_M",
+     "ref": {
+      "title": "An Agentic Framework for Proactive Robots with Procedural Assistance Memory",
+      "all_authors_short": "Dohyun Lee, Minho Park, Jeonghoon Park et al.",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2610.21211"
+     },
+     "url": "https://arxiv.org/abs/2610.21211",
+     "code": null
+    },
+    {
+     "name": "ElliQ",
+     "key": "elliq2024",
+     "keys": [
+      "elliq2024",
+      "elliqsite2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Not reported",
+     "regime": "Physical × I × –",
+     "mechanism": "Context-timed self-initiation",
+     "bottleneck": "Initiation timing / fatigue",
+     "framework": "M→A, π_A",
+     "ref": {
+      "title": "ElliQ, an AI-driven social robot to alleviate loneliness: progress and lessons learned",
+      "all_authors_short": "E. Broadbent, K. Loveys, G. Ilan et al.",
+      "year": 2024,
+      "venue": "The Journal of Aging Research and Lifestyle",
+      "url": "https://doi.org/10.14283/jarlife.2024.2"
+     },
+     "url": "https://doi.org/10.14283/jarlife.2024.2",
+     "code": null
+    },
+    {
+     "name": "Hyodol",
+     "key": "hyodolfront2026",
+     "keys": [
+      "hyodolfront2026",
+      "hyodoljcm2026"
+     ],
+     "domains": [
+      "Physical"
+     ],
+     "participants": [
+      "Individual"
+     ],
+     "horizon": "Longitudinal",
+     "regime": "Physical × I × l",
+     "mechanism": "Twice-daily voice check-ins",
+     "bottleneck": "Records shared, not reused",
+     "framework": "π_M",
+     "ref": {
+      "title": "Detection of Depression Risk among Older Adults Using Home-Deployed Socially Assistive Robots: A Real-World Study",
+      "all_authors_short": "Han Wool Jung, Jooho Lee, Jin Young Park et al.",
+      "year": 2026,
+      "venue": "Frontiers in Psychiatry",
+      "url": "https://doi.org/10.3389/fpsyt.2026.1740539"
+     },
+     "url": "https://doi.org/10.3390/jcm15010217",
+     "code": null
+    }
+   ]
+  }
+ ],
+ "patterns": "",
+ "patternsHeading": "",
+ "patternsSection": ""
+}
