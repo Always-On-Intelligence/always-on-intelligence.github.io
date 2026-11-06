@@ -1,9 +1,9 @@
 // Levels of loop closure (Section 6.3) as one map: levels L0–L5 across, interaction domains down,
 // and every system the closure table places, research systems first and products (†) after them.
-// Selecting a level shows what it requires (the level checklist) and why systems sit there.
+// A level's name opens its sheet: what it adds, the level checklist, and why systems sit there.
 // § marks an L5 placement that holds only under a stated condition.
-import { loadData, esc, notation } from './systems.mjs';
-import { openSheet } from './sheet.mjs';
+import { loadData, esc, notation, arrowNE } from './systems.mjs';
+import { openSheet, registerView } from './sheet.mjs';
 
 const DOMAIN_ORDER = ['Wearable', 'Digital', 'Physical'];
 
@@ -29,7 +29,6 @@ export async function mountLevels(root) {
   const CHECKS = [['durability', 'State durability'], ['continuity', 'Operational continuity'], ['attribution', 'Attribution'], ['governed', 'Governed self-evolution']];
   const checklistHtml = l => l.checklist ? `<ul class="level-checks" aria-label="Required at ${esc(l.id)}">${CHECKS.map(([k, label]) => `<li class="${l.checklist[k] ? 'is-yes' : 'is-no'}"><span aria-hidden="true">${l.checklist[k] ? '✓' : '✕'}</span>${label}<span class="sr-only">${l.checklist[k] ? ': required' : ': not required'}</span></li>`).join('')}</ul>` : '';
   const conditionsHtml = l => l.id === 'L5' && levels.conditions?.length ? `<div class="level-conditions"><p class="placed-kind">§ Meets L5 only under a stated condition</p><ul>${levels.conditions.map(c => `<li><b>${esc(c.systems)}</b> ${esc(c.text)}</li>`).join('')}</ul></div>` : '';
-  let current = Math.max(0, list.findIndex(l => l.id === 'L3'));
   const firstOn = list.findIndex(l => l.checklist?.durability && l.checklist?.continuity);
 
   // one map of every placement: levels across, domains down, research systems then products in each cell
@@ -53,61 +52,47 @@ export async function mountLevels(root) {
   const top = levels.placements.L5 || [];
   const conditional = top.filter(p => p.conditional).length;
   const topText = conditional === top.length ? `${top.length} reach L5, each only under a stated condition` : `${top.length} reach L5, ${conditional} of them only under a stated condition`;
-  const takeaway = `<p class="takeaway"><b>What the map shows.</b> Most systems sit between L2 and L4 (${middle} of ${placed}). ${on} reach L3 or above, where the assistant decides for itself whether or when to act, and ${topText}.
-    <span class="takeaway-src">${list.map(l => `${esc(l.id)} ${n(l.id)}`).join(' · ')} · ${esc(levels.source || 'Paper §6.3')}, working draft of November 2026</span></p>`;
+  // one compact line under the map, so the whole part fits one screen
+  const takeaway = `<p class="levels-sum"><b>What the map shows.</b> Most systems sit between L2 and L4 (${middle} of ${placed}), ${on} reach L3 or above, and ${topText}. <span>${esc(levels.source || 'Paper §6.3')}</span></p>`;
 
   root.innerHTML = `
-    <p class="lede levels-lede">Each level keeps the capabilities of the level below and adds one more. <mark class="hl">L3 is the first always-on level</mark>, because the assistant begins to decide for itself whether or when to act without a request.</p>
+    <p class="lede levels-lede">Each level keeps the capabilities of the level below and adds one more. <mark class="hl">L3 is the first always-on level</mark>.</p>
     <div class="lmap-scroll">
       <div class="lmap" style="--on:${firstOn + 2}">
         <span class="lmap-band" aria-hidden="true">Always-on</span>
-        ${list.map((l, i) => `<button type="button" class="lmap-level" data-level="${i}" style="grid-column:${i + 2}" aria-pressed="false" title="Show what ${esc(l.id)} requires">
-          <span class="lmap-id">${esc(l.id)}</span><span class="lmap-name">${esc(l.short || l.name)}</span><span class="lmap-count">${(levels.placements[l.id] || []).length}</span>
+        ${list.map((l, i) => `<button type="button" class="lmap-level" data-level="${esc(l.id)}" style="grid-column:${i + 2}" aria-haspopup="dialog" title="What ${esc(l.id)} requires">
+          <span class="lmap-id">${esc(l.id)}${arrowNE}</span><span class="lmap-name">${esc(l.short || l.name)}</span><span class="lmap-count">${(levels.placements[l.id] || []).length}</span>
         </button>`).join('')}
         ${domains.map((d, r) => `<p class="lmap-domain" style="grid-row:${r + 3}">${esc(d)}</p>${list.map(l => cell(l, d, r + 3)).join('')}`).join('')}
       </div>
     </div>
-    <p class="lmap-key"><span><i class="sys-chip"></i>Research system</span><span><i class="sys-chip is-product"></i>Product †</span><span>§ only under a stated condition</span><span>Select a level for what it requires, a name for its details</span></p>
+    <p class="lmap-key"><span><i class="sys-chip"></i>Research system</span><span><i class="sys-chip is-product"></i>Product †</span><span>§ only under a stated condition</span><span>Select a level for what it requires, or a name for its details</span></p>
     ${takeaway}
-    <div class="level-panel" role="region" aria-live="polite"></div>
-    <div class="levels-foot">
-      ${levels.rules?.length ? `<p><b>Placement.</b> ${esc(levels.rules[0])}</p>` : ''}
-      ${levels.rules?.[1] ? `<details class="levels-variants"><summary>Which variant each entry covers</summary><p>${esc(levels.rules[1])}</p></details>` : ''}
-    </div>`;
+`;
 
-  const panel = root.querySelector('.level-panel');
-
-  function render() {
-    root.querySelectorAll('.lmap-level').forEach((b, i) => {
-      b.classList.toggle('is-on', i === current);
-      b.setAttribute('aria-pressed', String(i === current));
-    });
-    root.querySelectorAll('.lmap-cell').forEach(c => c.classList.toggle('is-on', Number(c.dataset.col) === current));
-    const l = list[current];
+  const placedHtml = l => {
     const rest = without(l.explanation || '', [l.tagline, l.adds, l.criterion]);
-    panel.innerHTML = `
-      <div class="level-copy">
-        <p class="panel-kicker">${esc(l.id)} · ${esc(l.name)}${l.mark ? ` · ${esc(l.mark.replace(/[()]/g, ''))}` : ''} · ${(levels.placements[l.id] || []).length} placed</p>
-        <h3>${notation(l.tagline || l.name)}</h3>
-        ${l.adds ? `<p>${esc(l.adds)}</p>` : ''}
-        ${checklistHtml(l)}
-        ${conditionsHtml(l)}
-        ${rest ? `<details class="level-why"><summary>Why these systems are placed here</summary>${rest.split(/\n\n+/).map(par => `<p class="panel-muted">${esc(par)}</p>`).join('')}</details>` : ''}
-      </div>`;
-  }
+    return rest ? `<section class="level-why"><h4>Why these systems are placed here</h4>${rest.split(/\n\n+/).map(par => `<p>${esc(par)}</p>`).join('')}</section>` : '';
+  };
+  registerView('level', id => {
+    const l = list.find(x => x.id === id);
+    if (!l) return '';
+    return `<div class="sheet-body sheet-body--detail level-sheet"><!--back-->
+      <p class="panel-kicker">${esc(l.id)} · ${esc(l.name)}${l.mark ? ` · ${esc(l.mark.replace(/[()]/g, ''))}` : ''} · ${(levels.placements[l.id] || []).length} placed</p>
+      <h3 id="sheet-title">${notation(l.tagline || l.name)}</h3>
+      ${l.adds ? `<p>${esc(l.adds)}</p>` : ''}
+      ${checklistHtml(l)}
+      ${conditionsHtml(l)}
+      ${placedHtml(l)}
+      ${levels.rules?.length ? `<p class="level-rule"><b>Placement.</b> ${esc(levels.rules[0])}</p>` : ''}
+      ${levels.rules?.[1] ? `<details class="level-variants"><summary>Which variant each entry covers</summary><p>${esc(levels.rules[1])}</p></details>` : ''}
+    </div>`;
+  });
 
   root.addEventListener('click', event => {
     const level = event.target.closest('.lmap-level');
-    if (level) { current = Number(level.dataset.level); render(); return; }
+    if (level) { openSheet({ type: 'level', id: level.dataset.level }, level); return; }
     const chipEl = event.target.closest('[data-open-work]');
     if (chipEl) openSheet({ type: 'work', id: chipEl.dataset.openWork }, chipEl);
   });
-  root.querySelector('.lmap').addEventListener('keydown', event => {
-    if (!event.target.closest('.lmap-level') || !['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
-    event.preventDefault();
-    current = Math.max(0, Math.min(list.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1)));
-    render();
-    root.querySelector(`.lmap-level[data-level="${current}"]`).focus();
-  });
-  render();
 }

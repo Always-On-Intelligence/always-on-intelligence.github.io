@@ -7,8 +7,7 @@ import { mountLevels } from './levels.mjs';
 import { mountWorks, loadWorks } from './works.mjs';
 import { mountCases } from './cases.mjs';
 import { mountTeaser } from './teaser.mjs';
-import { mountFindings } from './findings.mjs';
-import { loadData, systemDetailHtml } from './systems.mjs';
+import { loadData, systemDetailHtml, arrowNE } from './systems.mjs';
 import { registerView } from './sheet.mjs';
 import { mountStats } from './stats.mjs';
 import { mountWall } from './wall.mjs';
@@ -16,12 +15,13 @@ import { mountReveal, mountNavRail, mountZoom } from './motion.mjs';
 import { mountHeroAnim, mountTitleIntro } from './hero-anim.mjs';
 import { loadLoops, loopHtml, mountLoopLinks } from './loopcard.mjs';
 import { mountVideo } from './video.mjs';
+import { mountTakeaways } from './takeaways.mjs';
 
 // The system detail view is shared by the applications, the levels and HALO read mode.
 registerView('work', key => {
   const data = loadedData;
   const item = data?.systems.get(key);
-  const more = worksByKey.has(key) ? `<button type="button" class="link-btn" data-paperwork="${key}">Every table in the paper that cites it →</button>` : '';
+  const more = worksByKey.has(key) ? `<button type="button" class="link-btn" data-paperwork="${key}">Every table in the paper that cites it ${arrowNE}</button>` : '';
   const loop = loopHtml(worksByKey.get(key), loops);
   return `<div class="sheet-body sheet-body--detail"><!--back-->${item ? systemDetailHtml(item, { levels: data.levels, loop }) : '<p>This system is not in the exported tables.</p>'}${more}</div>`;
 });
@@ -43,12 +43,12 @@ const mounts = [
   ['[data-works]', mountWorks],
   ['[data-cases]', mountCases],
   ['.pg-teaser', mountTeaser],
-  ['[data-findings]', mountFindings],
   ['[data-hero-anim]', mountHeroAnim],
   ['.hero-head .title', mountTitleIntro],
   ['[data-video]', mountVideo],
   ['[data-stats]', mountStats],
-  ['[data-wall]', mountWall]
+  ['[data-wall]', mountWall],
+  ['.tk-grid', mountTakeaways]
 ];
 
 for (const [selector, mount] of mounts) {
@@ -80,22 +80,33 @@ mountNavRail(document.querySelector('.nav'));
 mountReveal();
 mountZoom();
 
-// Copy BibTeX.
+// Copy BibTeX: the BibTeX tile under the title and the button in the citation box copy in place.
+// Only the [data-copy-label] part changes to "Copied", so the tile keeps its icon.
 document.querySelectorAll('[data-copy]').forEach(button => {
+  const label = button.querySelector('[data-copy-label]') || button;
+  const idle = label.textContent;
+  let timer;
   button.addEventListener('click', async () => {
     const target = document.querySelector(button.dataset.copy);
     if (!target) return;
+    const text = target.textContent.trim();
+    let ok = false;
     try {
-      await navigator.clipboard.writeText(target.textContent.trim());
-      const label = button.textContent;
-      button.textContent = 'Copied';
-      setTimeout(() => { button.textContent = label; }, 1600);
+      await navigator.clipboard.writeText(text);
+      ok = true;
     } catch {
-      const range = document.createRange();
-      range.selectNodeContents(target);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.append(area);
+      area.select();
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      area.remove();
     }
+    label.textContent = ok ? 'Copied' : 'Copy failed';
+    button.classList.toggle('is-copied', ok);
+    clearTimeout(timer);
+    timer = setTimeout(() => { label.textContent = idle; button.classList.remove('is-copied'); }, 1600);
   });
 });

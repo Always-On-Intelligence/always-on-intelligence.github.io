@@ -1,5 +1,5 @@
 // Short versions of the paper's §6.1 domain texts, for the Applications sheets. Each domain has a gist,
-// three points on what its systems do, and its bottlenecks, compressed from the paragraphs in
+// three points on what its systems do, and its bottlenecks (one line each, with a short reason), compressed from the paragraphs in
 // applications.json (exported from the paper), which the domain sheet still offers in full behind a toggle.
 // Markup: ==phrase== marks a key phrase, **label** starts a point.
 export const briefs = {
@@ -10,7 +10,11 @@ export const briefs = {
       '**Recall** can wait for better evidence. LightMem-Ego refines its event records later, from transcripts.',
       '**In conversation** the assistant decides when to speak and how. LlamaPIE gives suggestions in the user’s ear, SocialMind uses an augmented-reality display.'
     ],
-    bottleneck: '==The cost of capture==, ==the repair of wrong records==, and ==timing and audience== in conversation. No single module resolves them.'
+    bottlenecks: [
+      ['The cost of capture', 'What it captures now limits what Memory can recall later.'],
+      ['Repairing wrong records', 'Capturing more does not fix a wrong record. The user or later observations must.'],
+      ['Timing and audience', 'A response prepared in the background must still fit the topic and the people present.']
+    ]
   },
   Digital: {
     gist: 'Digital assistants carry ==plans and personal context== across applications, and some also ==revise the procedures or code== they use later.',
@@ -19,7 +23,10 @@ export const briefs = {
       '**Background work**: Claude Cowork runs scheduled tasks, Muse adds event-driven work, Dot reaches out with results, and Claude Duet checks connected accounts every few hours.',
       '**Reusable procedures**: ReasoningBank keeps guidance from feedback, SkillHarness builds reusable GUI procedures, and KnowAct-GUIClaw repairs them from execution feedback.'
     ],
-    bottleneck: '==Keeping the workspace available== draws on computation and bandwidth that all three modules share, and ==reused context can fail== when the interface, task or permission has changed.'
+    bottlenecks: [
+      ['Keeping the workspace available', 'Background checks and memory upkeep compete with replies for the same computation.'],
+      ['Reusing retained context', 'Reused context can fail when the interface, task, or permission has changed.']
+    ]
   },
   Physical: {
     gist: 'Physical assistance needs ==reliable execution== and coordination with people. A few deployed systems already ==sustain it between requests==.',
@@ -28,6 +35,9 @@ export const briefs = {
       '**Health checks and routines**: MoveCare and PALRO remind older adults when a measurement is due or missing, and PAM revises a memory of one user’s routine after each day.',
       '**Robot agents** such as PHILIA, ABot-Claw, AssistantX and EgoMem keep personal memory, but mostly act on instruction.'
     ],
-    bottleneck: '==Mistakes usually cost more==, because contact, collision and movement can hurt people. ==Checking results== takes time, and ==judging whether the assistance was useful== needs the user’s response and later task progress.'
+    bottlenecks: [
+      ['Checking results', 'Mistakes cost more here, so how much to check depends on the cost of an error.'],
+      ['Judging whether the help was useful', 'Memory has to keep the user’s response and later task progress.']
+    ]
   }
 };

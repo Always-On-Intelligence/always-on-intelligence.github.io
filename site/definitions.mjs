@@ -14,40 +14,16 @@ function svg(viewBox, body, label) {
 }
 
 // ---------- notation, quoted from the symbol table and equations of Section 2.1 (TeX, rendered by KaTeX) ----------
-// Eq. (1) of the paper: the policy selects an operation at every step; the two cases differ in R.
-const POLICY = String.raw`\pi_i^{\theta_t}(\,\cdot\mid I_{i,t};c_t)\ \text{selects}\\ \text{an operation at every }t\in\mathcal{T}`;
+// Eq. (1) of the paper: the policy selects an operation at every step; the two cases differ in R. Each formula
+// stays on one line, so "selects an operation" moves into the symbol list (\pi_i in KEY).
+const POLICY = String.raw`\pi_i^{\theta_t}(\,\cdot\mid I_{i,t};c_t)\ \text{at every }t\in\mathcal{T}`;
 const FORMULAS = {
-  continuing: String.raw`\begin{gathered}${POLICY}\\ \mathcal{R}\subsetneq\mathcal{T}\end{gathered}`,
-  request: String.raw`\begin{gathered}${POLICY}\\ \mathcal{R}=\mathcal{T}\end{gathered}`,
-  durable: String.raw`\begin{gathered}z_{t+1}=\mathrm{UPDATE}(z_t,x_t;\theta_t,c_t)\\ t\in\mathcal{B}\end{gathered}`,
-  session: String.raw`\begin{gathered}z_{t+1}=z_0\\ t\in\mathcal{B}\end{gathered}`,
+  continuing: String.raw`${POLICY},\ \ \mathcal{R}\subsetneq\mathcal{T}`,
+  request: String.raw`${POLICY},\ \ \mathcal{R}=\mathcal{T}`,
+  durable: String.raw`z_{t+1}=\mathrm{UPDATE}(z_t,x_t;\theta_t,c_t),\ \ t\in\mathcal{B}`,
+  session: String.raw`z_{t+1}=z_0,\ \ t\in\mathcal{B}`,
   evolve: String.raw`\theta_{t+1}=\mathrm{REVISE}(\theta_t;\tau_t)`,
   fixed: String.raw`\theta_{t+1}=\mathrm{REVISE}(\theta_t;\tau_t)=\theta_t`
-};
-const MECHANISM = String.raw`Mechanism implementing the local policies: model parameters $\omega_t$ and scaffolding $\Sigma_t$.`;
-const GLOSSARY = {
-  continuity: [
-    [String.raw`t\in\mathcal{T}`, String.raw`Step of the assistant: one runtime event or decision, and $\mathcal{T}$ is the set of all steps.`],
-    [String.raw`\mathcal{R}`, String.raw`Steps that carry out an explicit request as asked. Operational continuity means $\mathcal{R}\subsetneq\mathcal{T}$, and in a request-only assistant every step lies in $\mathcal{R}$, so $\mathcal{R}=\mathcal{T}$.`],
-    [String.raw`\pi_i`, String.raw`Local policy of module $i\in\{S,M,A\}$. It can be deterministic or stochastic.`],
-    ['I_{i,t}', String.raw`Decision context of module $i$: external input, local state, and input from other modules.`],
-    ['c_t', 'Shared conditions: privacy, authority, safety, resources, availability, and uncertainty.'],
-    [String.raw`\theta_t`, MECHANISM]
-  ],
-  durability: [
-    ['z_t', String.raw`Running state: all information the assistant carries into step $t$, except the mechanism $\theta_t$.`],
-    ['x_t', String.raw`Input or event at step $t$.`],
-    [String.raw`\mathcal{B}`, 'Steps ending an interaction.'],
-    [String.raw`\mathrm{UPDATE}`, String.raw`Chooses the information kept for later steps. With $\mathrm{ACT}$, which chooses the current action, it forms one assistant step, $\mathrm{STEP}$.`],
-    ['z_0', 'Initial running state, to which a session-local assistant returns whenever an interaction ends.'],
-    [String.raw`\theta_t`, MECHANISM],
-    ['c_t', 'Shared conditions: privacy, authority, safety, resources, availability, and uncertainty. They limit what UPDATE is allowed to store.']
-  ],
-  revision: [
-    [String.raw`\theta_t=(\omega_t,\Sigma_t)`, String.raw`Mechanism: model parameters $\omega_t$ and scaffolding $\Sigma_t$, its prompts, context construction, storage, tools and APIs, and the harness that runs the loop.`],
-    [String.raw`\tau_t`, String.raw`Trajectory: the assistant's inputs and actions up to step $t$, with feedback on them.`],
-    [String.raw`\mathrm{REVISE}`, String.raw`Revises the mechanism $\theta_t$, changing how the assistant works. In a fixed-mechanism loop it returns $\theta_t$ unchanged, so only the running state $z_t$ changes.`]
-  ]
 };
 
 // ---------- shared animation loop: progress p goes 0 → 1, holds, then restarts ----------
@@ -241,6 +217,33 @@ function revision(root) {
   };
 }
 
+// Short readings of every symbol in the formulas, always shown under them, from the paper's symbol table (§2.1).
+// Scaffolding is explained further down, in the framework's implementation part.
+const KEY = {
+  continuity: [
+    [String.raw`\mathcal{T}`, 'all steps of the assistant'],
+    [String.raw`\mathcal{R}`, 'steps that carry out an explicit request'],
+    [String.raw`\pi_i`, 'local policy of module $i$, which selects an operation at every step'],
+    ['I_{i,t}', 'decision context of module $i$'],
+    ['c_t', 'shared conditions, such as privacy and authority'],
+    [String.raw`\theta_t`, 'mechanism: model parameters and scaffolding']
+  ],
+  durability: [
+    ['z_t', 'running state'],
+    ['x_t', 'input or event at step $t$'],
+    [String.raw`\mathcal{B}`, 'steps ending an interaction'],
+    [String.raw`\mathrm{UPDATE}`, 'chooses the information kept for later steps'],
+    ['z_0', 'initial running state'],
+    [String.raw`\theta_t`, 'mechanism'],
+    ['c_t', 'shared conditions']
+  ],
+  revision: [
+    [String.raw`\theta_t`, 'mechanism: model parameters and scaffolding'],
+    [String.raw`\tau_t`, 'trajectory: inputs, actions, and feedback'],
+    [String.raw`\mathrm{REVISE}`, 'revises the mechanism, changing how the assistant works']
+  ]
+};
+
 const BUILDERS = { continuity, durability, revision };
 
 export async function mountDefinitions(scope = document) {
@@ -256,18 +259,16 @@ export async function mountDefinitions(scope = document) {
       pair.className = 'formula-pair';
       pair.innerHTML = sim.formulas.map(([label, source], i) => `<div class="fp-row${i ? ' is-base' : ''}"><span class="fp-label">${label}</span>${tex(katex, source, true)}</div>`).join('');
       math.replaceWith(pair);
-      let last = pair;
+      const legend = document.createElement('dl');
+      legend.className = 'fp-key';
+      legend.innerHTML = (KEY[el.dataset.def] || []).map(([sym, text]) => `<dt>${tex(katex, sym)}</dt><dd>${mixed(katex, text)}</dd>`).join('');
+      pair.after(legend);
       if (sim.note) {
         const note = document.createElement('p');
         note.className = 'ds-note';
         note.textContent = sim.note;
-        last.after(note);
-        last = note;
+        legend.after(note);
       }
-      const symbols = document.createElement('details');
-      symbols.className = 'glossary-toggle';
-      symbols.innerHTML = `<summary>Symbols</summary><dl class="glossary">${(GLOSSARY[el.dataset.def] || []).map(([sym, text]) => `<dt>${tex(katex, sym)}</dt><dd>${mixed(katex, text)}</dd>`).join('')}</dl>`;
-      last.after(symbols);
     }
   });
 }

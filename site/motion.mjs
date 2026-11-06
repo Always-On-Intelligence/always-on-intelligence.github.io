@@ -6,7 +6,7 @@
 const still = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Blocks that rise into place. Siblings matched by one selector rise one after another.
-const REVEAL = ['.section-head', '.gap-head', '.teaser', '.contribs > li', '.stats > .stat', '.open-grid > .open-card', '.faq details', '.works-intro .wall'];
+const REVEAL = ['.section-head', '.teaser', '.contribs > li', '.stats > .stat', '.open-grid > .open-card', '.faq details', '.works-intro .wall'];
 
 /** Calls fn once, the first time el is at least partly in view. */
 export function whenVisible(el, fn, threshold = 0.4) {

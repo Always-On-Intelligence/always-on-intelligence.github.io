@@ -5,6 +5,9 @@
 const dataUrl = name => new URL(`./data/${name}`, import.meta.url);
 let cache = null;
 
+/** The up-right arrow of everything that opens: the paper, outside links, and the domain and level sheets. */
+export const arrowNE = '<svg class="ne" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M8.5 7H17v8.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
 export const esc = value => String(value ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 

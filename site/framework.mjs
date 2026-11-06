@@ -1,5 +1,6 @@
 // Interactive framework figure: three modules, six directed channels, shared
-// conditions and the implementation, with two guided walkthroughs from Section 2.
+// conditions (left of the loop) and the implementation (right of it), as in the paper's framework figure, with
+// two guided walkthroughs from Section 2: self-evolving, and the reminder example.
 import {
   modules, channels, channelIntro, conditions, conditionsIntro, implementation,
   reminderSteps, reminderVariants, reminderClosing, evolveSteps,
@@ -143,9 +144,9 @@ function figureHtml() {
   return `
     <div class="fw-bar">
       <div class="seg" role="tablist" aria-label="Framework view">
-        <button type="button" role="tab" aria-selected="true" data-mode="explore">Explore</button>
-        <button type="button" role="tab" aria-selected="false" data-mode="reminder">Follow a reminder</button>
+        <button type="button" role="tab" aria-selected="true" data-mode="explore">Framework</button>
         <button type="button" role="tab" aria-selected="false" data-mode="evolve">Self-evolving</button>
+        <button type="button" role="tab" aria-selected="false" data-mode="reminder">Example</button>
       </div>
       <div class="seg seg--quiet" aria-label="Colour the channels by">
         <span class="seg-label">Channels by</span>
@@ -153,11 +154,11 @@ function figureHtml() {
         <button type="button" aria-pressed="false" data-color="difficulty">difficulty</button>
       </div>
     </div>
-    <div class="fw-row fw-row--conditions">
-      <span class="fw-row-label">Shared conditions <i>c</i><sub>t</sub></span>
-      ${conditions.map(c => `<button type="button" class="chip" data-cond="${c.id}">${esc(c.name)}</button>`).join('')}
-    </div>
     <div class="fw-main">
+      <div class="fw-side fw-side--cond">
+        <span class="fw-row-label">Shared conditions <i>c</i><sub>t</sub></span>
+        ${conditions.map(c => `<button type="button" class="chip" data-cond="${c.id}">${esc(c.name)}</button>`).join('')}
+      </div>
       <div class="fw-figure">
         <div class="loop" data-color="module">
           ${Object.values(modules).map(nodeHtml).join('')}
@@ -166,13 +167,13 @@ function figureHtml() {
         </div>
         <div class="legend" aria-label="Channels">${legendHtml()}</div>
       </div>
+      <div class="fw-side fw-side--impl">
+        <span class="fw-row-label">Implementation <i>θ</i><sub>t</sub> = (<i>ω</i><sub>t</sub>, <i>Σ</i><sub>t</sub>)</span>
+        <button type="button" class="chip" data-impl="model">Model</button>
+        <span class="fw-row-sep">Scaffolding</span>
+        ${scaffoldHtml()}
+      </div>
       <aside class="fw-panel" aria-live="polite"></aside>
-    </div>
-    <div class="fw-row fw-row--impl">
-      <span class="fw-row-label">Implementation <i>θ</i><sub>t</sub> = (<i>ω</i><sub>t</sub>, <i>Σ</i><sub>t</sub>)</span>
-      <button type="button" class="chip" data-impl="model">Model</button>
-      <span class="fw-row-sep">Scaffolding</span>
-      ${scaffoldHtml()}
     </div>`;
 }
 
@@ -295,17 +296,18 @@ function renderReminder(state) {
     <p class="variant-caption">${esc(reminderVariants[state.variant].note)}</p>
     <div class="timeline">${timeline}</div>
     <div class="tl-legend"><span><i class="tl-key tl-key--request"></i>request</span><span><i class="tl-key tl-key--boundary"></i>interaction ends</span><span><i class="tl-key tl-key--outside"></i>no request</span></div>
-    <h3 class="panel-title panel-title--step"><span class="step-no">${state.step + 1}/${reminderSteps.length}</span> ${esc(step.title)}</h3>
+    <div class="stepper">
+      <span class="step-no">${state.step + 1}/${reminderSteps.length}</span>
+      <button type="button" class="btn btn--ghost" data-step-move="-1" ${state.step === 0 ? 'disabled' : ''}>Back</button>
+      <button type="button" class="btn" data-step-move="1" ${state.step === reminderSteps.length - 1 ? 'disabled' : ''}>Next step</button>
+    </div>
+    <h3 class="panel-title panel-title--step">${esc(step.title)}</h3>
     <p class="step-kind">${KIND_LABEL[step.kind]}</p>
     <p class="${note ? 'is-faded' : ''}">${esc(fillState(step.text, state.free))}</p>
     ${skippedNote}
     ${channelLine}
     ${choice}
     <div class="z-card" aria-label="Running state">${stateRows}</div>
-    <div class="stepper">
-      <button type="button" class="btn btn--ghost" data-step-move="-1" ${state.step === 0 ? 'disabled' : ''}>Back</button>
-      <button type="button" class="btn" data-step-move="1" ${state.step === reminderSteps.length - 1 ? 'disabled' : ''}>Next step</button>
-    </div>
     ${state.step === reminderSteps.length - 1 ? `<p class="panel-muted">${esc(reminderClosing)}</p>` : ''}`;
 }
 
@@ -316,16 +318,17 @@ function renderEvolve(state) {
     ? `<div class="theta-card is-revised"><span class="theta-key">θ<sub>t+1</sub></span><span>the revised timing rule: wait until the user is back at their workstation</span></div>`
     : `<div class="theta-card"><span class="theta-key">θ<sub>t</sub></span><span>current rules, unchanged</span></div>`;
   return `<p class="panel-kicker">Walkthrough · Paper §1 and §2.1</p>
-    <h3 class="panel-title panel-title--step"><span class="step-no">${state.step + 1}/${evolveSteps.length}</span> ${esc(step.title)}</h3>
+    <div class="stepper">
+      <span class="step-no">${state.step + 1}/${evolveSteps.length}</span>
+      <button type="button" class="btn btn--ghost" data-step-move="-1" ${state.step === 0 ? 'disabled' : ''}>Back</button>
+      <button type="button" class="btn" data-step-move="1" ${state.step === evolveSteps.length - 1 ? 'disabled' : ''}>Next step</button>
+    </div>
+    <h3 class="panel-title panel-title--step">${esc(step.title)}</h3>
     <p>${esc(step.text)}</p>
     ${step.formula ? `<p class="formula">${tex(KATEX, step.formula)}</p>` : ''}
     ${step.channel ? `<p class="step-channel">${channelLink(step.channel)} ${esc(byId[step.channel].short)}</p>` : ''}
     ${theta}
-    <ol class="evolve-list">${list}</ol>
-    <div class="stepper">
-      <button type="button" class="btn btn--ghost" data-step-move="-1" ${state.step === 0 ? 'disabled' : ''}>Back</button>
-      <button type="button" class="btn" data-step-move="1" ${state.step === evolveSteps.length - 1 ? 'disabled' : ''}>Next step</button>
-    </div>`;
+    <ol class="evolve-list">${list}</ol>`;
 }
 
 export function mountFramework(root) {

@@ -65,15 +65,16 @@ test('regimes: nine settings with three example cases each', () => {
   }
 });
 
-test('applications: every domain has a short version with a gist, three points and a bottleneck', async () => {
+test('applications: every domain has a short version with a gist, three points and its bottlenecks', async () => {
   const { briefs } = await import('../site/data/applications-brief.mjs');
   for (const g of applications.groups) {
     const b = briefs[g.domain];
-    assert.ok(b?.gist && b.bottleneck, `${g.domain}: gist and bottleneck`);
+    assert.ok(b?.gist && b.bottlenecks?.length >= 2, `${g.domain}: gist and its bottlenecks`);
+    for (const [name, why] of b.bottlenecks) assert.ok(name && why && why.split(/\s+/).length <= 16, `${g.domain}: ${name} has a short reason`);
     assert.equal(b.points.length, 3, `${g.domain}: three points`);
   }
   // §6.1 no longer has a subsubsection of patterns across domains, so there are no short patterns.
-  const all = Object.values(briefs).flatMap(b => [b.gist, b.bottleneck, ...b.points]).join(' ');
+  const all = Object.values(briefs).flatMap(b => [b.gist, ...b.bottlenecks.flat(), ...b.points]).join(' ');
   assert.ok(!/[—;]/.test(all), 'no em dashes or semicolons in the short versions');
 });
 
@@ -193,7 +194,8 @@ test('takeaways: the paper’s twelve as short cards that explain themselves in 
   assert.doesNotMatch(box, /href=/, 'the cards explain in place and never send the reader elsewhere');
   const cards = [...box.matchAll(/<li class="tk-card[^"]*">([\s\S]*?)<\/li>/g)];
   assert.equal(cards.length, 12);
-  assert.equal(cards.filter(c => /is-key/.test(c[0])).length, 1, 'one card marks the main finding');
+  assert.equal(cards.filter(c => /tk-tag">Main finding/.test(c[1])).length, 1, 'one card names the main finding');
+  assert.doesNotMatch(box, /is-key/, 'and it looks like the other cards');
   const words = t => t.replace(/<[^>]+>/g, '').trim().split(/\s+/).length;
   cards.forEach(([, body], i) => {
     assert.match(body, new RegExp(`<span class="tk-n">${String(i + 1).padStart(2, '0')}</span>`), 'numbered in order');
@@ -210,7 +212,46 @@ test('takeaways: the paper’s twelve as short cards that explain themselves in 
   for (const id of ['S', 'M', 'A']) assert.ok(modules[id].takeaway.length === 3, `${id}: the chapter box has three points`);
 });
 
-test('open problems: the paper’s 15 in four parts, each with why it is open and its question', () => {
+test('applications: the columns are the paper’s table groups, in its order, with every row once', async () => {
+  const { columnsOf } = await import('../site/applications.mjs');
+  const cols = columnsOf(applications.groups);
+  assert.deepEqual(cols.map(c => c.group.section), ['6.1.1', '6.1.2', '6.1.3']);
+  assert.deepEqual(cols.map(c => c.domain.table), ['Wearable', 'Digital', 'Physical']);
+  const listed = cols.flatMap(c => c.group.works.map(w => w.key));
+  assert.equal(listed.length, applications.groups.flatMap(g => g.works).length, 'every row of the table, once');
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const box = html.match(/<section class="section" id="applications">[\s\S]*?<\/section>/)[0].replace(/<!--[\s\S]*?-->/g, '');
+  assert.doesNotMatch(box, /always-on/i, 'the section claims no more than the paper’s table');
+});
+
+test('applications: each domain’s systems to open, with no counts per setting', () => {
+  const lib = readFileSync(new URL('../site/applications.mjs', import.meta.url), 'utf8');
+  assert.match(lib, /data-work=/, 'every system opens its sheet');
+  assert.doesNotMatch(lib, /data-cell|apps-grid|tile-count|data-horizon/, 'no counts per setting and no horizon filter');
+});
+
+test('nav: the Demo page lists the same sections as the paper page, in the same order', () => {
+  const nav = file => {
+    const html = readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+    return [...html.match(/<nav class="nav"[\s\S]*?<\/nav>/)[0].matchAll(/<a href="(?:\.\/)?([^"]*)"[^>]*>([^<]+)<\/a>/g)].map(m => `${m[2]} ${m[1]}`);
+  };
+  assert.deepEqual(nav('play.html'), nav('index.html'));
+});
+
+test('takeaways: a click opens the card as a larger card over the page, with a light animation', () => {
+  const main = readFileSync(new URL('../site/main.mjs', import.meta.url), 'utf8');
+  assert.match(main, /\['\.tk-grid', mountTakeaways\]/, 'mounted on the takeaway grid');
+  const lib = readFileSync(new URL('../site/takeaways.mjs', import.meta.url), 'utf8');
+  assert.match(lib, /\.showModal\(\)/, 'a modal dialog: focus stays in it and Esc closes it');
+  assert.match(lib, /prefers-reduced-motion: reduce/, 'nothing moves under reduced motion');
+  const ms = [...lib.matchAll(/duration: (\d+)/g)].map(m => Number(m[1]));
+  assert.ok(ms.length >= 3 && Math.max(...ms) <= 300, 'light: each step takes at most 0.3 s');
+  const css = readFileSync(new URL('../site/site.css', import.meta.url), 'utf8');
+  const rules = css.match(/[^}]*\.tk-dialog[^{]*\{[^}]*\}/g).join('\n');
+  assert.doesNotMatch(rules + lib, /blur|backdrop-filter/, 'paper, not glass: glass stays with the Applications sheet');
+});
+
+test('open problems: the paper’s 15 in four parts, each with why it is open, its question and its directions', () => {
   const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   const cards = [...html.matchAll(/<article class="open-card">([\s\S]*?)<\/article>/g)].map(m => m[1]);
   assert.deepEqual(cards.map(c => [...c.matchAll(/<details>/g)].length), [5, 4, 4, 2]);
@@ -220,7 +261,10 @@ test('open problems: the paper’s 15 in four parts, each with why it is open an
       assert.doesNotMatch(d[1], /—|;/);
     }
   }
-  assert.equal([...html.matchAll(/class="op-tag">Main finding/g)].length, 2);
+  assert.doesNotMatch(html, /class="op-tag"/, 'no badges on the problems');
+  const dirs = [...html.matchAll(/<div class="op-dirs"><p class="op-label">Directions<\/p><ol>([\s\S]*?)<\/ol><\/div><\/details>/g)].map(m => [...m[1].matchAll(/<li>[^<]+<\/li>/g)].length);
+  assert.equal(dirs.length, 15, 'every problem lists its directions');
+  assert.ok(dirs.every(n => n >= 1 && n <= 3), 'one to three directions each, as in the paper');
 });
 
 test('works index: one entry per cite key, each placed in a table of the paper', async () => {

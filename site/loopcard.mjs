@@ -215,8 +215,8 @@ export function loopHtml(work, data) {
   if (!model) return '';
   const audit = model.kind === 'audit';
   const head = {
-    audit: ['Its loop, as the survey reads it', 'HALO channel audit, Table 22'],
-    tables: ['Its loop, as the survey reads it', 'From the paper’s tables'],
+    audit: ['Framework', 'HALO channel audit, Table 22'],
+    tables: ['Framework', 'From the paper’s tables'],
     bench: ['What its score depends on', `Framework column of Table ${model.tables?.join(' and ')}`]
   }[model.kind];
   const figure = `<div class="lc-fig">
