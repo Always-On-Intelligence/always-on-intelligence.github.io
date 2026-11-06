@@ -21,17 +21,11 @@ Planned site: https://always-on-intelligence.github.io/ (GitHub Pages serves an 
 - `site/data/` — content exported from the paper sources (see below)
 - `assets/figures/` — web exports of the paper's roadmap and framework figures, the social preview, and `banner-bg.webp`, the textless version of the awesome-list banner used behind the title (generated with Codex's built-in imagegen; the prompts are recorded in the awesome repository's `assets/banner-prompt.md`)
 - `assets/applications/` — the nine illustrations cropped from the paper's application figure
-- `demo/` — Minecraft iframe, scene switching and page-level game mode (not loaded by any page for now, see below)
-- `game-src/` — complete editable Minecraft client, bilingual HUD, NPCs, continuous demo and developer guide
-- `game/` — deployed client and versioned NTU map assets
-- `world/` — the three.js ECCV and NTU worlds; `world/vendor/three/` is also the three.js build that the island and the episode rooms import
-- `halo/` — the September evidence explorer (v2 ledger, 31 configurations); no longer linked from the page, since the paper's read mode now covers 40 works and the HALO code moves to its own repository
+- `world/vendor/three/` — the three.js build (r184) that the island and the episode rooms import
 - `tools/paper/` — scripts that export the paper's tables and text into `site/data/` (see below)
 - `citation.bib` — downloadable citation; it must match the BibTeX block in `index.html`
 
-This is a static website, including a Minecraft client with an in-browser single-player server. No build step is needed to preview the checked-in website. To develop the game, follow [game-src/README.MD](game-src/README.MD).
-
-The two 3D worlds (ECCV 2026 and NTU) are off the pages for now: no page loads `demo/minecraft-embed.mjs`, and the library has no world cards. Their sources stay in `demo/`, `game/`, `game-src/` and `world/`. To bring them back, load the embed on `play.html`, restore `#world-stage` with `#village-demo` inside it (no ancestor may use `transform`, `filter`, `backdrop-filter` or `perspective`), and add the cards; the embed also expects `#live-demo-title` and `#village-deck`. The paper's page keeps `id="live-demo"` on the teaser because the game staging script checks for it.
+This is a static website. No build step is needed to preview it.
 
 ## Preview locally
 
@@ -53,7 +47,7 @@ node --test tests/*.test.mjs
 
 GitHub Pages serves the `main` branch at `/ (root)`. Push changes to `main` to publish. `.nojekyll` ensures assets are served without Jekyll processing.
 
-The paper PDF and the author list are not posted yet: the Paper button reads "coming soon" and the BibTeX says "Authors to be announced". `assets/always-on-personal-ai.pdf` is the September 15 build and is no longer linked. When the paper is posted, add the PDF, link the button, and keep website copy, figure exports, author order, and the BibTeX in `index.html` and `citation.bib` synchronized with the approved draft.
+The paper PDF and the author list are not posted yet: the Paper button reads "coming soon" and the BibTeX says "Authors to be announced". When the paper is posted, add the PDF, link the button, and keep website copy, figure exports, author order, and the BibTeX in `index.html` and `citation.bib` synchronized with the approved draft.
 
 ## Content and provenance
 
@@ -66,11 +60,3 @@ The page follows the paper as built on 23 October 2026. Text in the interactive 
 - `works.json` — every work cited in the paper's tables, with its placements, channels, level and source (`export_works.py`)
 
 Re-export them when the paper changes; each script also takes `--check`. The two paper figures on the page, the roadmap in the masthead and the framework figure that opens §2 (`fig/roadmap.pdf` and `fig/teaser.pdf`), come from `sh tools/paper/export_figures.sh` (macOS, needs `swiftc` and Pillow).
-
-The older files `script.js`, `research.js`, `research.css`, `application-space*.{mjs,css}` and `data/research-index.json` belong to the previous page and are no longer loaded by `index.html`.
-
-## HALO workspace (September version)
-
-The `/halo/` route is the September workspace and is no longer linked from the page. It is entirely static. It browses the published read-mode review, prepares a self-contained Markdown task for a local coding agent, and displays locally selected evidence/report files. It does not launch model sessions or contact a local agent. Inputs and imported files are not uploaded or saved by the site.
-
-`halo/data/inventory.json` is an explicit public export of the current v2 source ledger, with local cache paths omitted. Its source SHA-256 is included for provenance. It preserves the 31 configurations and all 155 mechanism judgments. Run results are not inferred from this read-mode inventory.

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-import { cases, worlds, IMPL, STEP_LABEL } from '../site/data/cases.mjs';
+import { cases, IMPL, STEP_LABEL } from '../site/data/cases.mjs';
 import { resolveCase, coverage, CHANNELS, CONDITIONS } from '../site/case-core.mjs';
 import { domains, participants, horizons } from '../site/data/regimes.mjs';
 
@@ -79,15 +79,12 @@ test('cases: claims about levels follow the paper', () => {
   assert.equal(resolveCase(plan, 'scheduled').level, 'L2', 'acting at every scheduled time is L2');
 });
 
-test('cases: the two 3D worlds are off the pages for now; their data and sources stay', () => {
-  assert.deepEqual(worlds.map(w => w.id), ['eccv', 'singapore']);
+test('cases: the Demo page has no 3D world', () => {
   const html = readFileSync(new URL('../play.html', import.meta.url), 'utf8');
   assert.match(html, /data-cases/);
   assert.doesNotMatch(html, /minecraft-embed|id="world-stage"|id="village-demo"/, 'no 3D world on the Demo page');
   const lib = readFileSync(new URL('../site/cases.mjs', import.meta.url), 'utf8');
   assert.doesNotMatch(lib, /data-world|worldCardHtml/, 'no world cards in the library');
-  const embed = readFileSync(new URL('../demo/minecraft-embed.mjs', import.meta.url), 'utf8');
-  assert.match(embed, /always-on-open-world/, 'the embed is kept for when the worlds come back');
 });
 
 test('cases: every call can be played: a setup, a result for each option, and the policy\'s choice among them', async () => {

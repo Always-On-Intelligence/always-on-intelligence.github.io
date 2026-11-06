@@ -931,9 +931,3 @@ export const cases = [
     ]
   }
 ];
-
-// The two 3D worlds stay in the library as featured entries (loaded only on demand).
-export const worlds = [
-  { id: 'eccv', num: '3D', title: 'ECCV poster hall', tagline: 'Walk a poster session through smart glasses: attention, waiting, and revisits in space.', domain: 'wearable', scope: 'public', device: 'Smart glasses, first-person 3D' },
-  { id: 'singapore', num: '3D', title: 'A day on campus', tagline: 'Commitments carried across a lab day on a campus built from open data.', domain: 'wearable', scope: 'individual', device: 'Smart glasses, first-person 3D' }
-];
