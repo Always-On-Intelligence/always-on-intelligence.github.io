@@ -446,18 +446,21 @@ html.gx-open { overflow: hidden; }
   .pv-chip.is-in, .pv-bubble.is-in, .pv-alert.is-in, .gx-card, .gx-verdict, .gx-title-card, .gx-end-card { animation: none; }
 }
 
-/* ---------- the Demo page (play.html): dark chrome around the game ---------- */
-.page-play { background: #050608; color: #f4f2ec; }
-.page-play .topbar { background: #050608; -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom-color: rgba(255, 255, 255, .08); }
-.page-play .brand { color: #f4f2ec; }
-.page-play .nav a { color: #a9aeb7; }
-.page-play .nav a:hover { color: #fff; background: rgba(255, 255, 255, .08); }
-.page-play .nav a[aria-current="page"] { color: #fff; }
-.page-play .nav-icon { color: #c9ccd2; }
-.page-play .nav-icon:hover { color: #fff; background: rgba(255, 255, 255, .08); }
-.page-play .section--shelf { border-top: 0; }
-.page-play .footer { border-top-color: rgba(255, 255, 255, .08); color: #7d838d; background: #050608; }
-.page-play .footer a { color: #a9aeb7; }
+/* ---------- the Demo page (play.html) ---------- */
+/* Light like the paper's page (2026-11-06): the top bar and footer keep the site's own look, and the episode
+   shelf takes the teaser's ruled paper ground. The island, the cards' pictures with their dark captions and the
+   full-screen player keep the game's look. */
+.page-play .section--shelf {
+  border-top: 0; color: var(--ink); background-color: var(--paper-2);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(42, 43, 46, .045) 27px 28px);
+}
+.page-play .pg-discover .pg-pill { background: var(--ink); border-color: var(--ink); color: #fff; }
+.page-play .pg-kicker { color: var(--ink); }
+.page-play .pg-filters button { border-color: rgba(42, 43, 46, .18); background: var(--surface); color: var(--ink-2); }
+.page-play .pg-filters button:hover { color: var(--ink); border-color: rgba(42, 43, 46, .42); }
+.page-play .pg-filters button[aria-pressed="true"] { color: #fff; background: var(--ink); border-color: var(--ink); }
+.page-play .pg-card { box-shadow: 0 18px 40px -26px rgba(42, 43, 46, .5); }
+.page-play .pg-card:hover, .page-play .pg-card:focus-visible { box-shadow: 0 0 0 2px var(--gold), 0 24px 50px -24px rgba(42, 43, 46, .55); }
 
 /* ---------- the teaser on the paper's page ---------- */
 .section--teaser { padding: clamp(56px, 8vw, 96px) 0; }
