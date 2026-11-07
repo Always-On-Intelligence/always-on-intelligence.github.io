@@ -23,7 +23,7 @@ Live at https://always-on-intelligence.github.io/ (GitHub Pages serves an organi
 - `assets/applications/` — the nine illustrations cropped from the paper's application figure
 - `world/vendor/three/` — the three.js build (r184) that the island and the episode rooms import
 - `tools/paper/` — scripts that export the paper's tables and text into `site/data/` (see below)
-- `assets/readme/` — the banner and the section screenshots shown in `README.md`
+- `assets/readme/` — the banner (the reading list's animated `banner.gif`), the section screenshots and the Demo screenshots shown in `README.md`
 - `citation.bib` — downloadable citation; it must match the BibTeX blocks in `index.html` and `README.md`
 
 This is a static website. No build step is needed to preview it.

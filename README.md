@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://always-on-intelligence.github.io/"><img src="assets/readme/banner.webp" width="100%" alt="Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops"/></a>
+<a href="https://always-on-intelligence.github.io/"><img src="assets/readme/banner.gif" width="100%" alt="Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops"/></a>
 
 <p>
   <a href="https://always-on-intelligence.github.io/"><img src="https://img.shields.io/badge/Project-Website-66816D?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Project website"/></a>
@@ -46,6 +46,41 @@
     <td width="50%" valign="top">
       <a href="https://always-on-intelligence.github.io/#halo"><img src="assets/readme/halo.webp" alt="HALO read mode: coupling channels and the chain of evidence"/></a>
       <p align="center"><b>HALO</b> · Reading and running the loop</p>
+    </td>
+  </tr>
+</table>
+
+## Demo
+
+Eight playable episodes, from smart glasses to a home robot. In each one you make one call for its assistant, then try a what-if. **[Open the demo](https://always-on-intelligence.github.io/play.html)**
+
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html"><img src="assets/readme/demo-library.webp" alt="The episode library: eight cards, three wearable, three digital, two physical"/></a>
+      <p align="center"><b>Episode library</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-robot-cup"><img src="assets/readme/demo-call.webp" alt="The call in episode 07: set off with the cup, or check the grasp first"/></a>
+      <p align="center"><b>Make the call</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-robot-cup"><img src="assets/readme/demo-ending.webp" alt="The ending of episode 07: why the run sits at L4, and three what-ifs to try"/></a>
+      <p align="center"><b>Try a what-if</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-group-talk"><img src="assets/readme/demo-group-talk.webp" alt="Episode 03: the earbuds give the user a cue that only the user hears"/></a>
+      <p align="center"><b>A private cue in a group talk</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-governed-revision"><img src="assets/readme/demo-governed.webp" alt="Episode 06: a review outside the agent accepts one of two rule changes"/></a>
+      <p align="center"><b>An agent that edits its own rules</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-care-visits"><img src="assets/readme/demo-care.webp" alt="Episode 08: the robot visits the lounge and logs how the visit went"/></a>
+      <p align="center"><b>A week of visits</b></p>
     </td>
   </tr>
 </table>
