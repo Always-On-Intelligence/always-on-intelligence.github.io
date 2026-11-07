@@ -10,8 +10,7 @@
 </p>
 
 <p>The project page of the survey<br>
-<b><i>Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops</i></b><br>
-<a href="https://always-on-intelligence.github.io/"><b>always-on-intelligence.github.io</b></a></p>
+<b><i>Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops</i></b></p>
 
 </div>
 
