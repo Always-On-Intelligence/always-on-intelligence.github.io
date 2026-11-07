@@ -113,7 +113,7 @@ export function build(view) {
       if (option === 'inspect the file') {
         if (ctl === 'cut-AS') { alert.set('Not possible: A→S is cut', 'is-in'); await step(view.wait(1300)); return; }
         show(beat?.scene);
-        chip.set(policy ? 'The policy opens the file (A→S)' : 'Opening the file (A→S)', 'is-check');
+        chip.set(policy ? 'The agent opens the file (A→S)' : 'Opening the file (A→S)', 'is-check');
         await step(view.wait(1100));
       } else if (option === 'report success') {
         show({ ...filesOnly, panes: [{ app: 'chat', title: 'Agent', rows: [['agent', 'Done: Q3-report.pdf is ready.']] }, filesOnly.panes[0]], toast: { title: 'Agent', text: 'Export complete' } });
@@ -122,7 +122,7 @@ export function build(view) {
         await step(view.wait(1300));
       } else if (option === 'keep the task open') {
         show({ ...beat.scene, panes: [...beat.scene.panes] });
-        chip.set(policy ? 'The policy keeps the task open' : 'Task kept open · procedure unchanged', 'is-wait');
+        chip.set(policy ? 'The agent keeps the task open' : 'Task kept open · procedure unchanged', 'is-wait');
         await step(view.wait(1000));
       } else if (option === 'blame A18 and edit the procedure' || option === 'edit the procedure') {
         show({ clock: 'Wed 14:32', net: 'online', panes: [{ app: 'editor', title: 'Procedure', rows: [['v2', 'export report'], ['v3', 'edited on a guess']] }, { app: 'log', title: 'Attribution', rows: [[option.startsWith('blame') ? 'A18' : 'A17', option.startsWith('blame') ? 'blamed (no evidence)' : 'linked: incomplete']] }] });
@@ -132,7 +132,7 @@ export function build(view) {
         await step(view.wait(500));
       } else if (option === 'remove the partial file') {
         show(beat?.scene);
-        chip.set(policy ? 'The policy removes the partial file' : 'A17 removed · A18 kept', 'is-ok');
+        chip.set(policy ? 'The agent removes the partial file' : 'A17 removed · A18 kept', 'is-ok');
         await step(view.wait(1000));
       }
     });

@@ -168,7 +168,7 @@ export function build(view) {
       if (option === 'look closer') {
         look.visible = true; look.userData.aim(maker.head, new THREE.Vector3(PART_A[0] + 0.12, PART_A[1], PART_A[2]), 0.12);
         hud.set({ text: 'Checking…', tone: 'quiet' });
-        chip.set(policy ? 'The policy asks for a close-up (A→S)' : 'Close-up requested (A→S)', 'is-check');
+        chip.set(policy ? 'The glasses ask for a close-up (A→S)' : 'Close-up requested (A→S)', 'is-check');
         await step(view.wait(1100));
       } else if (option === 'answer now') {
         hud.set({ text: 'This one: part B', tone: 'suggest' });
@@ -192,7 +192,7 @@ export function build(view) {
         }
       } else if (option === 'stay silent') {
         hud.set(null);
-        if (ctl === 'low-budget') { chip.set(policy ? 'The policy stays silent: nothing observed' : 'Nothing observed, nothing shown', 'is-wait'); await step(view.wait(900)); }
+        if (ctl === 'low-budget') { chip.set(policy ? 'The glasses stay silent: nothing observed' : 'Nothing observed, nothing shown', 'is-wait'); await step(view.wait(900)); }
         else {
           await step(maker.setPose({ ...SIT_NEXT, rShX: -1.2, rEl: -0.3 }, 600));
           alert.anchor = [CLIP[0], CLIP[1] + 0.25, CLIP[2]];
@@ -209,7 +209,7 @@ export function build(view) {
       } else if (option === 'wait one frame') {
         hud.set({ text: 'Waiting', tone: 'quiet' });
         await step(view.animate(800, k => { clip.position.set(CLIP[0] + (MACHINE[0] - 0.1 - CLIP[0]) * k, CLIP[1] + Math.sin(k * Math.PI) * 0.2 + k * 0.21, CLIP[2] + (MACHINE[2] + 0.05 - CLIP[2]) * k); }));
-        chip.set(policy ? 'The policy waits: the clip goes in' : 'The next frame shows the clip going in', 'is-ok');
+        chip.set(policy ? 'The glasses wait: the clip goes in' : 'The next frame shows the clip going in', 'is-ok');
         await step(maker.setPose(SIT_WORK, 500));
       }
     });

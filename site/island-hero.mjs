@@ -2,7 +2,7 @@
 // hovering a building or its pin lifts the roof, clicking flies the camera into the building and opens
 // its episode. The island stops drawing when it is off screen, behind an episode, or in a hidden tab.
 // Without WebGL the hero keeps the illustration with the same pins.
-import { cases } from './data/cases.mjs';
+import { cases, LEVEL_NAME } from './data/cases.mjs';
 import { PINS } from './data/case-play.mjs';
 import { domains, participants, horizons } from './data/regimes.mjs';
 import { esc } from './systems.mjs';
@@ -17,7 +17,7 @@ const pinHtml = c => `<button type="button" class="pg-pin" data-case-pin="${c.id
  * application space (interaction domain × participant scope, outcome horizon) and its level.
  */
 const cardHtml = c => `<div class="pg-card3" aria-hidden="true">
-    <p class="pg-card3-top"><span>Episode ${c.num}</span><span class="pg-card3-level" title="Level of loop closure">${c.level}</span></p>
+    <p class="pg-card3-top"><span>Episode ${c.num}</span><span class="pg-card3-level" title="Level of loop closure"><b>${c.level}</b> <span>${esc(LEVEL_NAME[c.level] || '')}</span></span></p>
     <p class="pg-card3-title">${esc(c.title)}</p>
     <p class="pg-card3-text">${esc(c.tagline)}</p>
     <p class="pg-card3-tags" title="Application setting: interaction domain, participant scope and outcome horizon"><b>Setting</b><span>${esc(NAME[c.domain] || c.domain)}</span><span>${esc(NAME[c.scope] || c.scope)}</span><span>${esc(NAME[c.horizon] || c.horizon)}</span></p>

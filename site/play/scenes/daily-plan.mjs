@@ -131,7 +131,7 @@ export function build(view) {
       alert.set('');
       if (option === 'check the calendar first') {
         showScreen(beat?.scene);
-        chip.set(policy ? 'The policy reads the calendar first (A→S)' : 'Reading the calendar (A→S)', 'is-check');
+        chip.set(policy ? 'The assistant reads the calendar first (A→S)' : 'Reading the calendar (A→S)', 'is-check');
         await step(view.wait(1100));
       } else if (option === 'send at 18:00' || option === 'send now') {
         showScreen({ ...(beat?.scene || {}), toast: { title: 'Assistant', text: 'How did the methods draft go?' } });
@@ -140,7 +140,7 @@ export function build(view) {
         alert.set(option === 'send now' && ctl === 'calendar-offline' ? 'Sent on missing evidence' : 'Interrupts the call', 'is-in');
         await step(view.wait(1200));
       } else if (option === 'wait') {
-        chip.set(policy ? 'The policy waits for the call to end' : 'Waiting for the call to end', 'is-wait');
+        chip.set(policy ? 'The assistant waits for the call to end' : 'Waiting for the call to end', 'is-wait');
         await step(view.wait(1000));
       } else if (option === 'wait and retry') {
         chip.set('Retry in 30 minutes', 'is-wait');

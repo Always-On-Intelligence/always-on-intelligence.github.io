@@ -5,11 +5,15 @@
 // the paper reports for the cited works, `extension` what the episode adds.
 //
 // Beat fields: step ('request' | 'outside' | 'boundary' | 'revision'), channels (information
-// flows in this beat, as in Table 2), modules, conditions, impl, memory (z after the beat), theta
-// (mechanism version), scene (facts shown on the device: display, screen, robot status).
-// A decision is a call the viewer makes in the player: `prompt` sets up the moment before the
-// choice, `ask` names who decides, `options` and `results` say what each option would lead to, and
-// `choice` and `why` give the call of the policy the episode follows.
+// flows in this beat, as in Table 2), modules, conditions, impl, memory (z after the beat, in the
+// memory classes of §4.1.1: retrospective, profile, prospective), theta (mechanism version, for
+// example a rule or a skill file), limit (a permission of the shared conditions c_t that the
+// episode tracks), scene (facts shown on the device: display, screen, robot status).
+// Each episode has one call, the moment where the viewer decides what the assistant does
+// (`actor` names it). A decision holds that call: `prompt` sets up the moment, `ask` overrides the
+// question, `labels` give plain names to the options, `options` and `results` say what each option
+// would lead to, and `choice` and `why` give the assistant's own call (`who` overrides its name).
+// Other beats play their action on their own: `auto` names it, and the room plays it after the beat.
 // `variants[controlId]` overrides fields of a beat when the viewer turns that control on.
 // A control of type 'cut' blocks one channel: every beat that uses the channel must say what
 // happens without it (tests/cases.test.mjs checks this).
@@ -30,6 +34,16 @@ export const STEP_LABEL = {
   revision: 'mechanism revision'
 };
 
+/** The names of the levels of loop closure (§6.3, Table 21), as site/data/levels.json spells them. */
+export const LEVEL_NAME = {
+  L0: 'Session local',
+  L1: 'Retained state',
+  L2: 'State-guided decision',
+  L3: 'Unrequested action',
+  L4: 'Attributed outcomes',
+  L5: 'Governed revision'
+};
+
 export const cases = [
   {
     id: 'workbench',
@@ -39,42 +53,35 @@ export const cases = [
     tagline: 'Help arrives without a request, yet nothing carries over to the next session.',
     domain: 'wearable', scope: 'individual', horizon: 'immediate', level: 'L0',
     device: 'Smart glasses with a camera and a small display',
+    actor: 'the glasses',
     works: [{ name: 'ProAssist', key: 'proassist2025' }, { name: 'ProMemAssist', key: 'promemassist' }, { name: 'Pro²Assist', key: 'pro2assist2026' }],
     source: 'ProAssist responds to the current scene during a procedural task, ProMemAssist estimates when help will be timely, and Pro²Assist updates its progress record only when successive step predictions agree. The paper places all three at L0: they act within a session and keep nothing across sessions.',
     extension: 'The occluded part and the second visit are added for this episode.',
     classes: { S: ['continuous', 'on-demand'], M: [], A: ['reactive', 'proactive'] },
     scene: 'wearable',
     controls: [
-      { id: 'low-budget', type: 'condition', cond: 'resources', label: 'Low sampling budget', note: 'The camera samples one frame every few seconds to save battery.' },
-      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'Cut A→S', note: 'Action can no longer ask Sensing for a closer look.' }
+      { id: 'low-budget', type: 'condition', cond: 'resources', label: 'Camera saves battery', note: 'The camera takes one frame every few seconds, so a short moment can fall between two frames.' },
+      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'No closer look', note: 'Action can no longer ask Sensing for a closer look.' }
     ],
     beats: [
       {
         step: 'request', title: 'Which one is part A?',
         text: 'The user asks which part to pick up next. Continuous video supplies the parts on the bench.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['resources'], impl: ['model', 'harness'],
-        memory: [{ kind: 'working', text: 'current step: 3 of 7 (in this session only)' }],
+        memory: [{ kind: 'profile', text: 'task progress: step 3 of 7 (this session only)' }],
         scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Part B', cam: 'on', mic: 'on', hud: null }
       },
       {
         step: 'request', title: 'The view is blocked',
-        text: 'A hand hides two parts, so recognition is uncertain. Instead of guessing, Action asks Sensing for a closer look.',
+        text: 'A hand hides two parts that look alike, so recognition is uncertain. Instead of guessing, Action asks Sensing for a closer look.',
         channels: ['AS'], modules: ['A', 'S'], conditions: ['uncertainty'], impl: ['tools'],
-        decision: {
-          prompt: 'The user asks for part A, but a hand covers two parts that look alike. This frame cannot tell them apart.',
-          options: ['answer now', 'look closer'], choice: 'look closer', why: 'Two parts match the request, and a wrong pick would be built in.',
-          results: { 'answer now': 'A guess between two look-alike parts. If it is wrong, the wrong part gets built in.', 'look closer': 'Action asks Sensing for a close-up (A→S) before it answers.' }
-        },
-        memory: [{ kind: 'working', text: 'current step: 3 of 7 (in this session only)' }],
+        auto: 'look closer',
+        memory: [{ kind: 'profile', text: 'task progress: step 3 of 7 (this session only)' }],
         scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Part A', blur: true, cam: 'on', mic: 'on', hud: { text: 'Checking…', tone: 'quiet' } },
         variants: {
           'cut-AS': {
-            text: 'A hand hides two parts. With A→S cut, Action cannot request a closer look, so it can only answer from the blurred frame or wait.',
-            decision: {
-              prompt: 'A hand covers two parts that look alike. With A→S cut, Action cannot ask Sensing for a closer look.',
-              options: ['answer now', 'wait'], choice: 'wait', why: 'The blurred frame cannot tell the two parts apart.',
-              results: { 'answer now': 'A guess from a blurred frame, which may point at the wrong part.', 'wait': 'Nothing is shown until a clearer frame arrives on its own.' }
-            },
+            text: 'A hand hides two parts that look alike. With A→S cut, Action cannot ask for a closer look, and a guess from the blurred frame could point at the wrong part, so it waits.',
+            auto: 'wait',
             scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Part A', blur: true, cam: 'on', mic: 'on', hud: { text: 'Not sure yet', tone: 'quiet' } }
           }
         }
@@ -83,7 +90,7 @@ export const cases = [
         step: 'request', title: 'Pointing at the right part',
         text: 'The close-up resolves the doubt, and the glasses point at part A.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['uncertainty'], impl: ['model', 'context'],
-        memory: [{ kind: 'working', text: 'current step: 4 of 7 (in this session only)' }],
+        memory: [{ kind: 'profile', text: 'task progress: step 4 of 7 (this session only)' }],
         scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Part A', cam: 'on', mic: 'on', hud: { text: 'This one: part A', tone: 'suggest' } },
         variants: {
           'cut-AS': {
@@ -97,19 +104,21 @@ export const cases = [
         text: 'The user keeps working and asks nothing. The assistant sees that the clip was skipped and raises it before the next part covers it.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['safety', 'resources'], impl: ['model', 'prompts'],
         decision: {
-          prompt: 'The user keeps working and asks nothing. The last frames show the clip still on the mat, and the next part is about to go on.',
-          options: ['stay silent', 'show a hint'], choice: 'show a hint', why: 'Skipping the clip would be hard to undo once the next part is on.',
+          prompt: 'The user keeps working and has asked nothing. The clip for step 4 is still on the mat, and the next part is about to go on top of it.',
+          options: ['stay silent', 'show a hint'], choice: 'show a hint', why: 'Once the next part is on, the missing clip is hard to fix.',
+          labels: { 'stay silent': 'Say nothing', 'show a hint': 'Point out the clip' },
           results: { 'stay silent': 'The next part covers the missing clip, and the mistake is hard to undo.', 'show a hint': 'The glasses point out the clip before the next part covers it.' }
         },
-        memory: [{ kind: 'working', text: 'current step: 5 of 7 (in this session only)' }],
+        memory: [{ kind: 'profile', text: 'task progress: step 5 of 7 (this session only)' }],
         scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Clip', cam: 'on', mic: 'on', hud: { text: 'The clip on step 4 is missing', tone: 'alert' } },
         variants: {
           'low-budget': {
             text: 'With sparse frames, the moment the clip was skipped falls between two samples. No observation shows it, so there is nothing to act on.',
             decision: {
-              prompt: 'The user keeps working and asks nothing. The camera samples one frame every few seconds, and no sampled frame shows the clip being skipped.',
-              options: ['stay silent', 'show a hint'], choice: 'stay silent', why: 'No frame captured the skipped clip.',
-              results: { 'stay silent': 'With no observation of the clip, there is nothing to act on, and the mistake goes unnoticed.', 'show a hint': 'You can see the clip, but the assistant cannot: no sampled frame shows it, so a hint would come from nowhere.' }
+              prompt: 'The user keeps working and has asked nothing. The camera takes one frame every few seconds, and none of its frames shows the clip being skipped.',
+              options: ['stay silent', 'show a hint'], choice: 'stay silent', why: 'None of its frames shows the skipped clip.',
+              labels: { 'stay silent': 'Say nothing', 'show a hint': 'Point out the clip' },
+              results: { 'stay silent': 'With no observation of the clip, there is nothing to act on, and the mistake goes unnoticed.', 'show a hint': 'You can see the clip, but the glasses cannot: none of their frames shows it, so a hint would come from nowhere.' }
             },
             scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: null, cam: 'low', mic: 'on', hud: null }
           }
@@ -117,23 +126,15 @@ export const cases = [
       },
       {
         step: 'outside', title: 'Waiting is also a choice',
-        text: 'A gesture could mean the user is about to fix it. The assistant holds a second hint and checks the next frame.',
+        text: 'The user\'s hand moves toward the clip, so a second hint would only cost attention. The glasses hold it and check the next frame, which shows the clip going in.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['uncertainty', 'resources'], impl: ['model', 'harness'],
-        decision: {
-          prompt: 'The hint is on the display. The user\'s hand moves toward the clip, but the clip is not in yet.',
-          options: ['repeat the hint', 'wait one frame'], choice: 'wait one frame', why: 'Repeating a hint the user is already acting on costs attention.',
-          results: { 'repeat the hint': 'A second hint while the user is already reaching for the clip costs attention for nothing.', 'wait one frame': 'The next frame shows the clip going in, and no second hint is needed.' }
-        },
-        memory: [{ kind: 'working', text: 'current step: 5 of 7 (in this session only)' }],
+        auto: 'wait one frame',
+        memory: [{ kind: 'profile', text: 'task progress: step 5 of 7 (this session only)' }],
         scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: 'Clip', cam: 'on', mic: 'on', hud: { text: 'Waiting', tone: 'quiet' } },
         variants: {
           'low-budget': {
             text: 'Sparse frames keep missing the clip, so there is no hint to repeat or hold. The user moves on to the next part with the clip still on the mat.',
-            decision: {
-              prompt: 'No hint was shown. The next sampled frame shows the user picking up the next part.',
-              options: ['show a hint', 'stay silent'], choice: 'stay silent', why: 'Still no sampled frame shows the clip.',
-              results: { 'show a hint': 'There is still no observation of the missing clip to base a hint on.', 'stay silent': 'The clip stays missing, and nobody notices in this session.' }
-            },
+            auto: 'stay silent',
             scene: { place: 'workbench', items: ['Part A', 'Part B', 'Clip'], focus: null, cam: 'low', mic: 'on', hud: null }
           }
         }
@@ -156,14 +157,15 @@ export const cases = [
     tagline: 'A record of what was already shown keeps the glasses from saying it again.',
     domain: 'wearable', scope: 'individual', horizon: 'cross', level: 'L3',
     device: 'Smart glasses with gaze tracking and a small display',
+    actor: 'the glasses',
     works: [{ name: 'AiGet', key: 'aiget' }],
     source: 'AiGet uses gaze and a user profile to select knowledge to show on smart glasses. The paper places it at L3, and HALO\'s run mode shows that without the record of shown suggestions it repeats them at a revisit, while cutting the profile from one prompt alone leaves no clear difference because the other path still carries it.',
     extension: 'The store, the shoes, and the two days are a teaching episode in the spirit of HALO\'s run-mode scenes.',
     classes: { S: ['triggered'], M: ['retrospective', 'profile'], A: ['proactive'] },
     scene: 'wearable',
     controls: [
-      { id: 'cut-AM', type: 'cut', channel: 'AM', label: 'Cut A→M', note: 'Suggestions are shown but not recorded.' },
-      { id: 'cut-MS', type: 'cut', channel: 'MS', label: 'Cut M→S', note: 'The profile no longer reaches perception.' }
+      { id: 'cut-AM', type: 'cut', channel: 'AM', label: 'Shown notes not recorded', note: 'Notes reach the display, but Memory never learns that they were shown.' },
+      { id: 'cut-MS', type: 'cut', channel: 'MS', label: 'Profile not used for looking', note: 'What Memory knows about the user no longer guides what the glasses look at.' }
     ],
     beats: [
       {
@@ -188,13 +190,9 @@ export const cases = [
       },
       {
         step: 'outside', title: 'Choosing what to say',
-        text: 'The current view and the profile reach Action, which picks a deeper note on heel drop rather than a beginner\'s overview.',
+        text: 'The user lingers at the two shoes, and nobody has asked for anything. The view and the profile reach Action, which shows a deeper note on heel drop rather than a beginner\'s overview, because the user runs marathons.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['resources'], impl: ['model', 'prompts', 'context'],
-        decision: {
-          prompt: 'The user lingers at the two shoes. The view says running shoes; Memory says the user runs marathons and skips brand stories.',
-          options: ['stay silent', 'beginner overview', 'deeper note'], choice: 'deeper note', why: 'The profile says the user is experienced, and the view matches a running-shoe comparison.',
-          results: { 'stay silent': 'No help at a moment when the user is clearly comparing.', 'beginner overview': 'An overview that an experienced runner does not need.', 'deeper note': 'A note on heel drop that fits an experienced runner.' }
-        },
+        auto: 'deeper note',
         memory: [{ kind: 'profile', text: 'runs marathons; skips brand stories' }, { kind: 'retrospective', text: 'shown Mon: the plate is no spring' }],
         scene: { place: 'store', items: ['Shoe X', 'Shoe Y'], focus: 'Shoe X', cam: 'on', mic: 'off', hud: { text: 'Heel drop: 8 mm vs 4 mm', tone: 'suggest' } },
         variants: {
@@ -221,8 +219,9 @@ export const cases = [
         text: 'Ten minutes later the user returns to the shelf. Memory lists both notes as already shown, so the assistant stays quiet.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['resources'], impl: ['context', 'harness'],
         decision: {
-          prompt: 'Ten minutes later the user is back at the same shelf. Memory lists the notes already shown.',
-          options: ['repeat a note', 'new note', 'stay silent'], choice: 'stay silent', why: 'Both relevant notes were already shown today.',
+          prompt: 'Ten minutes later the user is back at the same shelf, looking at the same two shoes. Memory lists both notes as already shown: Monday\'s and today\'s.',
+          options: ['repeat a note', 'new note', 'stay silent'], choice: 'stay silent', why: 'Both relevant notes were already shown.',
+          labels: { 'repeat a note': 'Show the heel-drop note again', 'new note': 'Find something new to say', 'stay silent': 'Stay quiet' },
           results: { 'repeat a note': 'The user sees the heel-drop note a second time.', 'new note': 'There is no new relevant note, so another note would be filler.', 'stay silent': 'The glasses stay quiet, because both notes were already shown.' }
         },
         memory: [{ kind: 'profile', text: 'runs marathons; skips brand stories' }, { kind: 'retrospective', text: 'shown Mon: the plate is no spring' }, { kind: 'retrospective', text: 'shown Tue: heel drop 8 vs 4 mm' }],
@@ -231,8 +230,9 @@ export const cases = [
           'cut-AM': {
             text: 'Ten minutes later the user returns. Without the record, Memory does not know the heel-drop note was shown, so the glasses show it again.',
             decision: {
-              prompt: 'Ten minutes later the user is back. Memory holds only Monday\'s note: nothing says the heel-drop note was shown today.',
+              prompt: 'Ten minutes later the user is back at the same shelf. Memory holds only Monday\'s note: nothing says the heel-drop note was shown today.',
               options: ['repeat a note', 'new note', 'stay silent'], choice: 'repeat a note', why: 'Nothing in Memory says this note was already shown.',
+              labels: { 'repeat a note': 'Show the heel-drop note again', 'new note': 'Find something new to say', 'stay silent': 'Stay quiet' },
               results: { 'repeat a note': 'The glasses show the heel-drop note again.', 'new note': 'From what Memory holds, the heel-drop note still looks new, so it is the note that gets shown.', 'stay silent': 'You know the note was shown, but the assistant does not: nothing in Memory gives it a reason to stay quiet.' }
             },
             memory: [{ kind: 'profile', text: 'runs marathons; skips brand stories' }, { kind: 'retrospective', text: 'shown Mon: the plate is no spring' }],
@@ -248,17 +248,18 @@ export const cases = [
     cover: 4,
     num: '03',
     title: 'A private cue in a group talk',
-    tagline: 'One privacy requirement shapes what is captured, kept, and said.',
+    tagline: 'One privacy rule limits what the earbuds may hear, keep, and say.',
     domain: 'wearable', scope: 'group', horizon: 'within', level: 'L3',
     device: 'Earbuds with a microphone, and an optional glasses display',
+    actor: 'the earbuds',
     works: [{ name: 'SocialMind', key: 'socialmind' }, { name: 'LlamaPIE', key: 'llamapie' }],
     source: 'LlamaPIE gives short suggestions in the user\'s ear and SocialMind shows them on an augmented-reality display; the paper notes that a private cue and a spoken suggestion carry the same content but reach different people. SocialMind is placed at L3 and LlamaPIE at L0.',
     extension: 'The newcomer and the retention rules are combined for this episode; neither work is claimed to implement all of them.',
     classes: { S: ['continuous', 'triggered'], M: ['retrospective', 'profile'], A: ['proactive'] },
     scene: 'wearable',
     controls: [
-      { id: 'spoken', type: 'condition', cond: 'privacy', label: 'Speak the suggestion aloud', note: 'The cue goes to the room instead of the user\'s ear.' },
-      { id: 'cut-MS', type: 'cut', channel: 'MS', label: 'Cut M→S', note: 'Retained knowledge of the people no longer helps perception.' }
+      { id: 'spoken', type: 'condition', cond: 'privacy', label: 'Cue spoken aloud', note: 'Every cue goes to the whole room instead of the user\'s ear.' },
+      { id: 'cut-MS', type: 'cut', channel: 'MS', label: 'Names not used for listening', note: 'What Memory knows about the people no longer helps tell their voices apart.' }
     ],
     beats: [
       {
@@ -276,26 +277,17 @@ export const cases = [
       },
       {
         step: 'outside', title: 'What may be kept',
-        text: 'What others say can help understanding now, but it is their information. Only the user\'s own action items are admitted to Memory; the transcript is not.',
+        text: 'What others say can help understanding now, but it is their information. Only the user\'s own task, sending Ben the plan, is admitted to Memory; the transcript is not.',
         channels: ['SM'], modules: ['S', 'M'], conditions: ['privacy'], impl: ['storage'],
-        decision: {
-          ask: 'What does Memory keep?',
-          prompt: 'The discussion produces a steady stream of speech. One item is the user\'s own task; the rest is what others said.',
-          options: ['the transcript', 'the user\'s action items', 'nothing'], choice: 'the user\'s action items', why: 'What others say is their information; the user\'s own task is the user\'s to keep.',
-          results: { 'the transcript': 'Others\' words would be stored without their consent.', 'the user\'s action items': 'Only the user\'s task, sending Ben the plan, is admitted to Memory.', 'nothing': 'The user\'s task would be lost when the meeting ends.' }
-        },
+        auto: 'the user\'s action items',
         memory: [{ kind: 'profile', text: 'Alex leads the study; Ben owns the data' }, { kind: 'prospective', text: 'user: send Ben the sampling plan', fresh: true }],
         scene: { place: 'meeting', people: 3, cam: 'off', mic: 'on', hud: null, labels: ['Alex', 'Ben', 'Chen'] }
       },
       {
         step: 'outside', title: 'Not now',
-        text: 'The profile suggests a question about the dataset, but Alex is mid-sentence. Action holds the cue.',
+        text: 'The profile suggests a question about the dataset, but Alex is mid-sentence. A cue now would split the user\'s attention, so Action holds it until a pause.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['resources'], impl: ['model', 'prompts'],
-        decision: {
-          prompt: 'The profile suggests a question about the dataset, but Alex is mid-sentence.',
-          options: ['cue now', 'wait for a pause'], choice: 'wait for a pause', why: 'A cue while someone is speaking splits the user\'s attention.',
-          results: { 'cue now': 'A cue while Alex is speaking splits the user\'s attention.', 'wait for a pause': 'The cue is held until a natural pause.' }
-        },
+        auto: 'wait for a pause',
         memory: [{ kind: 'profile', text: 'Alex leads the study; Ben owns the data' }, { kind: 'prospective', text: 'user: send Ben the sampling plan' }],
         scene: { place: 'meeting', people: 3, cam: 'off', mic: 'on', hud: { text: 'Holding a cue', tone: 'quiet' }, labels: ['Alex', 'Ben', 'Chen'] }
       },
@@ -311,8 +303,10 @@ export const cases = [
         text: 'At a natural pause, the earbuds give the user a short cue: ask Ben about the missing week. Nobody else hears it.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['privacy', 'resources'], impl: ['prompts', 'tools'],
         decision: {
-          prompt: 'A natural pause. A visitor from another team is now in the room, and the cue is ready: ask Ben about the missing week.',
-          options: ['private cue', 'spoken suggestion', 'stay silent'], choice: 'private cue', why: 'The content is for the user, and the visitor is not entitled to it.',
+          ask: 'How should the earbuds give the cue?',
+          prompt: 'A natural pause. A visitor from another team has just joined, and the cue is ready: ask Ben about the missing week.',
+          options: ['private cue', 'spoken suggestion', 'stay silent'], choice: 'private cue', why: 'The cue is for the user, and the visitor is not entitled to it.',
+          labels: { 'private cue': 'In the user\'s ear only', 'spoken suggestion': 'Out loud, to the room', 'stay silent': 'Stay silent' },
           results: { 'private cue': 'Only the user hears the cue, in the earbuds.', 'spoken suggestion': 'Everyone in the room, the visitor included, hears what the user had noted about the data.', 'stay silent': 'The pause passes, and the user misses the moment to ask.' }
         },
         memory: [{ kind: 'profile', text: 'Alex leads the study; Ben owns the data' }, { kind: 'prospective', text: 'user: send Ben the sampling plan' }],
@@ -321,8 +315,10 @@ export const cases = [
           spoken: {
             text: 'The cue is spoken aloud instead. It interrupts the discussion and discloses to the visitor what the user had noted about the data.',
             decision: {
+              ask: 'How should the earbuds give the cue?',
               prompt: 'A natural pause, with a visitor in the room. In this setup every cue is spoken aloud to the room.',
               options: ['private cue', 'spoken suggestion', 'stay silent'], choice: 'spoken suggestion', why: 'Forced by the setting: the output goes to everyone present.',
+              labels: { 'private cue': 'In the user\'s ear only', 'spoken suggestion': 'Out loud, to the room', 'stay silent': 'Stay silent' },
               results: { 'private cue': 'Not available in this setup: the only output is the room.', 'spoken suggestion': 'The cue is spoken aloud, and the visitor hears it.', 'stay silent': 'Silence would have protected the user\'s notes, but this setup speaks every cue it delivers.' }
             },
             scene: { place: 'meeting', people: 4, newcomer: true, cam: 'off', mic: 'on', hud: { text: '“Ask Ben about the missing week”', tone: 'alert' }, audience: 'shared', labels: ['Alex', 'Ben', 'Chen', 'Visitor'] }
@@ -344,53 +340,46 @@ export const cases = [
     cover: 4,
     num: '04',
     title: 'Morning plan, evening check-in',
-    tagline: 'A check-in at a fixed time follows a schedule; deciding whether to send it is a choice.',
+    tagline: 'Sending at 18:00 sharp follows a schedule. Checking first and waiting is a decision.',
     domain: 'digital', scope: 'individual', horizon: 'cross', level: 'L3', levelBy: { scheduled: 'L2' },
     device: 'A chat app on a laptop and phone',
+    actor: 'the assistant',
     works: [{ name: 'PITCH', key: 'lunchnow2025' }],
     source: 'PITCH schedules morning planning and evening reflection in Slack and reuses the morning conversation in the evening; its field-study dialogues include refusals and misplaced follow-ups. The paper places it at L2, because it acts at every scheduled time instead of deciding whether to act.',
     extension: 'The continuing mode, which checks the calendar and may wait, is the step that would make it L3. The option to act at every scheduled time reproduces the scheduled behavior.',
     classes: { S: ['triggered', 'on-demand'], M: ['retrospective', 'profile', 'prospective'], A: ['reactive', 'deferred'] },
     scene: 'digital',
     controls: [
-      { id: 'scheduled', type: 'mode', label: 'Act at every scheduled time', note: 'The assistant sends the check-in at 18:00 no matter what (L2).' },
-      { id: 'calendar-offline', type: 'condition', cond: 'availability', label: 'Calendar offline', note: 'The calendar API cannot be reached in the evening.' }
+      { id: 'scheduled', type: 'mode', label: 'Send at 18:00 sharp', note: 'The check-in goes out at the scheduled time, whatever the calendar says, as in PITCH.' },
+      { id: 'calendar-offline', type: 'condition', cond: 'availability', label: 'Calendar offline', note: 'The calendar cannot be reached in the evening.' }
     ],
     beats: [
       {
         step: 'request', title: 'Planning the day',
-        text: 'At 09:00 the user plans the day in chat: draft the methods section, then review Ben\'s figures.',
+        text: 'At 09:00 the user plans the day in chat: draft the methods section, then review Ben\'s figures. The assistant promises to check in this evening.',
         channels: ['SM'], modules: ['S', 'M'], conditions: ['authority'], impl: ['model', 'storage'],
-        memory: [{ kind: 'prospective', text: 'today: draft methods; review figures', fresh: true }],
+        memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures', fresh: true }, { kind: 'prospective', text: 'evening check-in: pending', fresh: true }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 09:00', net: 'online', panes: [{ app: 'chat', title: 'Planning', rows: [['you', 'Methods draft, then Ben\'s figures'], ['assistant', 'Noted. I will check in this evening.']] }, { app: 'calendar', title: 'Today', rows: [['10:00', 'Lab meeting'], ['17:30', 'Call with Ana'], ['18:30', 'Free']] }], toast: null }
       },
       {
         step: 'boundary', title: 'The chat closes',
-        text: 'The conversation ends. The plan stays in Memory as pending items, not as an open chat.',
+        text: 'The conversation ends. The plan and the promised check-in stay in Memory, not in an open chat.',
         channels: [], modules: ['M'], conditions: ['privacy'], impl: ['storage', 'harness'],
-        memory: [{ kind: 'prospective', text: 'today: draft methods; review figures' }],
+        memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures' }, { kind: 'prospective', text: 'evening check-in: pending' }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 09:05', net: 'online', panes: [{ app: 'tasks', title: 'Pending', rows: [['open', 'Draft methods'], ['open', 'Review Ben\'s figures']] }, { app: 'calendar', title: 'Today', rows: [['10:00', 'Lab meeting'], ['17:30', 'Call with Ana'], ['18:30', 'Free']] }], toast: null }
       },
       {
         step: 'outside', title: '18:00: is now a good time?',
-        text: 'The evening check-in is due. Its plan asks Sensing to read the calendar first, which shows the user is still on a call.',
+        text: 'The evening check-in is due. A due time says when to consider it, not that the user is free, so Action first asks Sensing to read the calendar. It shows the user is still on a call.',
         channels: ['AS', 'SA'], modules: ['A', 'S'], conditions: ['availability', 'uncertainty'], impl: ['tools'],
-        decision: {
-          prompt: 'The evening check-in is due at 18:00. The plan for it says to check availability first.',
-          options: ['send at 18:00', 'check the calendar first'], choice: 'check the calendar first', why: 'A due time says when to consider a check-in, not that the user is free.',
-          results: { 'send at 18:00': 'The check-in goes out without knowing whether the user is free.', 'check the calendar first': 'Action asks Sensing to read the calendar (A→S).' }
-        },
-        memory: [{ kind: 'prospective', text: 'today: draft methods; review figures' }],
+        auto: 'check the calendar first',
+        memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures' }, { kind: 'prospective', text: 'evening check-in: pending' }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 18:00', net: 'online', panes: [{ app: 'calendar', title: 'Today', rows: [['17:30', 'Call with Ana (running late)'], ['18:30', 'Free']], highlight: 0 }, { app: 'tasks', title: 'Pending', rows: [['open', 'Draft methods'], ['open', 'Review Ben\'s figures']] }], toast: null },
         variants: {
           scheduled: {
             text: 'The check-in is due at 18:00. In the scheduled mode it does not look at the calendar: the time alone starts the message.',
             channels: [], modules: ['A'],
-            decision: {
-              prompt: 'The check-in is due at 18:00. In the scheduled mode, the time alone decides.',
-              options: ['send at 18:00'], choice: 'send at 18:00', why: 'The schedule fixes the time; no other context is consulted.',
-              results: { 'send at 18:00': 'The message starts at 18:00 without a look at the calendar.' }
-            }
+            auto: null
           },
           'calendar-offline': {
             text: 'The check-in is due. The calendar API cannot be reached, so Sensing returns no answer about whether the user is free.',
@@ -403,11 +392,12 @@ export const cases = [
         text: 'Memory supplies the plan and the user\'s preference not to be pinged during calls. Action decides to wait, a choice no request asked for.',
         channels: ['MA'], modules: ['M', 'A'], conditions: ['resources'], impl: ['context', 'prompts', 'harness'],
         decision: {
-          prompt: 'The calendar shows the user still on a call with Ana. Memory holds the plan and the user\'s preference: no pings during calls.',
+          prompt: 'It is 18:02 and the check-in is ready. The calendar shows the user still on a call with Ana, and Memory says: no pings during calls. Nobody asked the assistant to wait.',
           options: ['send now', 'wait'], choice: 'wait', why: 'The user is on a call, and a ping now would interrupt it.',
+          labels: { 'send now': 'Send it now', 'wait': 'Wait until the call ends' },
           results: { 'send now': 'The check-in interrupts the call.', 'wait': 'The check-in waits for the call to end.' }
         },
-        memory: [{ kind: 'prospective', text: 'today: draft methods; review figures' }, { kind: 'profile', text: 'no pings during calls' }],
+        memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures' }, { kind: 'prospective', text: 'evening check-in: pending' }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 18:02', net: 'online', panes: [{ app: 'chat', title: 'Planning', rows: [['assistant', '(waiting: user on a call)']] }, { app: 'calendar', title: 'Today', rows: [['17:30', 'Call with Ana (running late)'], ['18:30', 'Free']], highlight: 0 }], toast: null },
         variants: {
           scheduled: {
@@ -416,6 +406,7 @@ export const cases = [
             decision: {
               prompt: 'It is 18:00 and the user is on a call. The scheduled mode does not look.',
               options: ['send at 18:00'], choice: 'send at 18:00', why: 'The schedule fixes the time.',
+              labels: { 'send at 18:00': 'Send at 18:00' },
               results: { 'send at 18:00': 'The check-in arrives in the middle of the call.' }
             },
             scene: { clock: 'Tue 18:00', net: 'online', panes: [{ app: 'chat', title: 'Planning', rows: [['assistant', 'How did the methods draft go?'], ['you', '(on a call)']] }, { app: 'calendar', title: 'Today', rows: [['17:30', 'Call with Ana (running late)']], highlight: 0 }], toast: { title: 'Assistant', text: 'How did the methods draft go?' } }
@@ -423,8 +414,9 @@ export const cases = [
           'calendar-offline': {
             text: 'Without the calendar, the assistant cannot tell whether the user is free. It falls back to its rule for missing evidence: wait and try again in 30 minutes.',
             decision: {
-              prompt: 'The calendar cannot be reached, so nothing says whether the user is free.',
+              prompt: 'It is 18:02 and the check-in is ready, but the calendar cannot be reached, so nothing says whether the user is free.',
               options: ['send now', 'wait and retry'], choice: 'wait and retry', why: 'Missing evidence about availability is not evidence that the user is free.',
+              labels: { 'send now': 'Send it now', 'wait and retry': 'Wait and try the calendar again' },
               results: { 'send now': 'Sending on missing evidence risks interrupting a call.', 'wait and retry': 'The assistant tries the calendar again in 30 minutes.' }
             }
           }
@@ -434,7 +426,7 @@ export const cases = [
         step: 'outside', title: 'The check-in arrives',
         text: 'At 18:35 the call has ended. The check-in asks about the methods draft and the figures, carrying out the morning plan.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['authority', 'resources'], impl: ['model', 'tools'],
-        memory: [{ kind: 'prospective', text: 'today: draft methods; review figures' }, { kind: 'profile', text: 'no pings during calls' }],
+        memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures' }, { kind: 'retrospective', text: 'check-in sent 18:35', fresh: true }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 18:35', net: 'online', panes: [{ app: 'chat', title: 'Planning', rows: [['assistant', 'Call done? How is the draft?'], ['you', 'Half done. Figures tomorrow.']] }, { app: 'calendar', title: 'Today', rows: [['18:30', 'Free']], highlight: 0 }], toast: { title: 'Assistant', text: 'Call done? How is the draft?' } },
         variants: {
           'calendar-offline': {
@@ -443,6 +435,7 @@ export const cases = [
           scheduled: {
             text: 'The user answers later with a short "busy". The scheduled check-in carried out the plan on time, but at a bad moment.',
             channels: ['SA'], modules: ['S', 'A'],
+            memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures' }, { kind: 'retrospective', text: 'check-in sent 18:00', fresh: true }, { kind: 'profile', text: 'no pings during calls' }],
             scene: { clock: 'Tue 18:40', net: 'online', panes: [{ app: 'chat', title: 'Planning', rows: [['assistant', 'How did the methods draft go?'], ['you', 'busy']] }, { app: 'calendar', title: 'Today', rows: [['18:30', 'Free']] }], toast: null }
           }
         }
@@ -451,12 +444,12 @@ export const cases = [
         step: 'outside', title: 'Updating the plan',
         text: 'The reply updates the plan: the draft is half done, and the figures move to tomorrow. This changes the running state z, not the mechanism θ.',
         channels: ['SM', 'AM'], modules: ['S', 'A', 'M'], conditions: ['uncertainty'], impl: ['storage'],
-        memory: [{ kind: 'prospective', text: 'tomorrow: finish methods; review figures', fresh: true }, { kind: 'retrospective', text: 'check-in sent 18:35, answered' }, { kind: 'profile', text: 'no pings during calls' }],
+        memory: [{ kind: 'profile', text: 'plan tomorrow: finish methods, then Ben\'s figures', fresh: true }, { kind: 'retrospective', text: 'check-in sent 18:35, answered' }, { kind: 'profile', text: 'no pings during calls' }],
         scene: { clock: 'Tue 18:40', net: 'online', panes: [{ app: 'tasks', title: 'Pending', rows: [['half', 'Draft methods'], ['moved', 'Review Ben\'s figures (Wed)']] }, { app: 'calendar', title: 'Wednesday', rows: [['09:00', 'Plan the day']] }], toast: null },
         variants: {
           scheduled: {
             text: 'The reply "busy" says nothing about the plan, so the pending items carry over unchanged. The record keeps that a check-in went out at 18:00 and got "busy".',
-            memory: [{ kind: 'prospective', text: 'today: draft methods; review figures (no update)' }, { kind: 'retrospective', text: 'check-in sent 18:00, reply: busy', fresh: true }, { kind: 'profile', text: 'no pings during calls' }],
+            memory: [{ kind: 'profile', text: 'plan today: methods draft, then Ben\'s figures (no update)' }, { kind: 'retrospective', text: 'check-in sent 18:00, reply: busy', fresh: true }, { kind: 'profile', text: 'no pings during calls' }],
             scene: { clock: 'Tue 18:41', net: 'online', panes: [{ app: 'tasks', title: 'Pending', rows: [['open', 'Draft methods'], ['open', 'Review Ben\'s figures']] }, { app: 'chat', title: 'Planning', rows: [['assistant', 'How did the methods draft go?'], ['you', 'busy']] }], toast: null }
           }
         }
@@ -469,52 +462,48 @@ export const cases = [
     cover: 5,
     num: '05',
     title: 'Did the export work?',
-    tagline: 'A complaint that names no action cannot be linked to the step that caused it.',
+    tagline: 'A complaint that does not say which export failed cannot be traced back to it.',
     domain: 'digital', scope: 'individual', horizon: 'within', level: 'L2',
     device: 'A desktop agent that operates apps for the user',
+    actor: 'the agent',
     works: [{ name: 'KnowAct-GUIClaw', key: 'knowactguiclaw2026' }, { name: 'EAIA', key: 'langchaineai2025' }],
     source: 'KnowAct-GUIClaw retrieves experience and skills, records structured subtask results, checks interface state, and repairs procedures from execution feedback; the paper places it at L2. The attribution cut follows HALO\'s EAIA test, which pairs feedback with the wrong action.',
     extension: 'The two exports and the complaint without an id are built for this episode.',
     classes: { S: ['on-demand'], M: ['retrospective', 'profile'], A: ['reactive'] },
     scene: 'digital',
     controls: [
-      { id: 'with-id', type: 'condition', cond: 'uncertainty', label: 'Feedback carries the export id', note: 'The complaint arrives from the export dialog, tagged with its run.' },
-      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'Cut A→S', note: 'Action does not ask to inspect the exported file.' }
+      { id: 'with-id', type: 'condition', cond: 'uncertainty', label: 'Complaint names the export', note: 'The user flags the file in the export dialog, so the complaint carries the id of its run.' },
+      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'File never opened', note: 'Action cannot ask Sensing to open the exported file.' }
     ],
     beats: [
       {
         step: 'request', title: 'Export the report',
-        text: 'The user asks for the quarterly report as a PDF. Memory supplies a stored export procedure from an earlier session.',
-        channels: ['MA'], modules: ['M', 'A'], conditions: ['authority'], impl: ['context', 'prompts'],
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }],
+        text: 'The user asks for the quarterly report as a PDF. The agent runs its saved export procedure, a skill file written in an earlier session.',
+        channels: ['SA'], modules: ['S', 'A'], conditions: ['authority'], impl: ['prompts', 'tools'],
+        memory: [],
+        theta: 'export procedure v2 (a skill file)',
         scene: { clock: 'Wed 14:10', net: 'online', panes: [{ app: 'chat', title: 'Agent', rows: [['you', 'Export the Q3 report as PDF'], ['agent', 'Using the saved export procedure.']] }, { app: 'files', title: 'Exports', rows: [['', '(empty)']] }], toast: null }
       },
       {
         step: 'request', title: 'Two runs, two records',
         text: 'The first run times out, so the agent runs it again. Both runs are recorded with their inputs and the procedure version: A17 and A18.',
         channels: ['AM'], modules: ['A', 'M'], conditions: ['privacy'], impl: ['tools', 'storage'],
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout', fresh: true }, { kind: 'retrospective', text: 'A18 export: done', fresh: true }],
+        theta: 'export procedure v2 (a skill file)',
+        memory: [{ kind: 'retrospective', text: 'A17 export: timeout', fresh: true }, { kind: 'retrospective', text: 'A18 export: done', fresh: true }],
         scene: { clock: 'Wed 14:12', net: 'online', panes: [{ app: 'files', title: 'Exports', rows: [['A17', 'Q3-report.pdf (partial)'], ['A18', 'Q3-report.pdf']] }, { app: 'log', title: 'Runs', rows: [['A17', 'timeout'], ['A18', 'done']] }], toast: null }
       },
       {
         step: 'request', title: 'Check the file, not the click',
-        text: 'A finished click is not a finished file. Action asks Sensing to open the export and check its pages.',
+        text: 'The second run finished without an error, but a finished click is not a finished file. Action asks Sensing to open the export and count its pages.',
         channels: ['AS'], modules: ['A', 'S'], conditions: ['uncertainty'], impl: ['tools'],
-        decision: {
-          prompt: 'The second run finished without an error. Nobody has looked at the exported file yet.',
-          options: ['report success', 'inspect the file'], choice: 'inspect the file', why: 'A finished click does not show that the file is complete.',
-          results: { 'report success': 'The agent reports a file that nobody has checked.', 'inspect the file': 'Action asks Sensing to open the export and count its pages (A→S).' }
-        },
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }],
+        theta: 'export procedure v2 (a skill file)',
+        auto: 'inspect the file',
+        memory: [{ kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }],
         scene: { clock: 'Wed 14:13', net: 'online', panes: [{ app: 'files', title: 'Exports', rows: [['A17', 'Q3-report.pdf (partial)'], ['A18', 'Q3-report.pdf']], highlight: 1 }, { app: 'log', title: 'Checking', rows: [['', 'opening Q3-report.pdf…']] }], toast: null },
         variants: {
           'cut-AS': {
-            text: 'With A→S cut, no inspection is requested. The agent reports success because the second click finished.',
-            decision: {
-              prompt: 'The second run finished without an error. With A→S cut, Action cannot ask Sensing to open the file.',
-              options: ['report success', 'inspect the file'], choice: 'report success', why: 'Nothing asks Sensing to check the result.',
-              results: { 'report success': 'The agent reports success because the second click finished.', 'inspect the file': 'Not possible here: with A→S cut, no inspection can be requested.' }
-            },
+            text: 'With A→S cut, no inspection can be requested. The agent reports success because the second click finished.',
+            auto: 'report success',
             scene: { clock: 'Wed 14:13', net: 'online', panes: [{ app: 'chat', title: 'Agent', rows: [['agent', 'Done: Q3-report.pdf is ready.']] }, { app: 'files', title: 'Exports', rows: [['A17', 'Q3-report.pdf (partial)'], ['A18', 'Q3-report.pdf']] }], toast: { title: 'Agent', text: 'Export complete' } }
           }
         }
@@ -523,7 +512,8 @@ export const cases = [
         step: 'request', title: 'Which file is this?',
         text: 'The folder sync is slow and both runs wrote the same file name. The observation cannot say which run produced the file on disk.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['availability', 'uncertainty'], impl: ['model', 'context'],
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }],
+        theta: 'export procedure v2 (a skill file)',
+        memory: [{ kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }],
         scene: { clock: 'Wed 14:14', net: 'online', panes: [{ app: 'files', title: 'Exports', rows: [['?', 'Q3-report.pdf (12 of 20 pages)']], highlight: 0 }, { app: 'log', title: 'Check', rows: [['', 'pages: 12 of 20'], ['', 'run: unknown']] }], toast: null },
         variants: {
           'cut-AS': {
@@ -537,12 +527,13 @@ export const cases = [
         step: 'request', title: '"The report is incomplete"',
         text: 'The user writes back that pages are missing. The complaint enters Memory through S→M, even though it evaluates an action, but it names no export.',
         channels: ['SM'], modules: ['S', 'M'], conditions: ['uncertainty'], impl: ['storage'],
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback: report incomplete (no run id)', fresh: true }],
+        theta: 'export procedure v2 (a skill file)',
+        memory: [{ kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback: report incomplete (no run id)', fresh: true }],
         scene: { clock: 'Wed 14:30', net: 'online', panes: [{ app: 'chat', title: 'Agent', rows: [['you', 'The report is missing pages.']] }, { app: 'files', title: 'Exports', rows: [['?', 'Q3-report.pdf (12 of 20 pages)']] }], toast: null },
         variants: {
           'with-id': {
             text: 'The user flags the file from the export dialog, so the complaint arrives tagged with run A17.',
-            memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback on A17: incomplete', fresh: true }]
+            memory: [{ kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback on A17: incomplete', fresh: true }]
           }
         }
       },
@@ -550,22 +541,25 @@ export const cases = [
         step: 'request', title: 'Attribution stops here',
         text: 'Attribution finds two candidate runs and cannot pick one. The task stays unverified, and the export procedure is not changed on a guess.',
         channels: [], modules: ['M', 'A'], conditions: ['uncertainty', 'authority'], impl: ['context', 'harness'],
+        theta: 'export procedure v2 (a skill file)',
         decision: {
-          prompt: 'The complaint names no run. Two runs, A17 and A18, wrote the same file name.',
+          prompt: 'The user says pages are missing, but not which export made the file. Two runs, A17 and A18, wrote the same file name, and the agent cannot tell which one is on disk.',
           options: ['blame A18 and edit the procedure', 'keep the task open'], choice: 'keep the task open', why: 'Feedback linked to the wrong run would lead to a wrong repair.',
+          labels: { 'blame A18 and edit the procedure': 'Guess it was A18 and edit the procedure', 'keep the task open': 'Change nothing and keep the task open' },
           results: { 'blame A18 and edit the procedure': 'A guess could change a procedure that works, while the real cause stays.', 'keep the task open': 'The task stays unverified, and the procedure is left alone.' }
         },
-        memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback: report incomplete (no run id)' }, { kind: 'prospective', text: 'verify the Q3 export', fresh: true }],
+        memory: [{ kind: 'retrospective', text: 'A17 export: timeout' }, { kind: 'retrospective', text: 'A18 export: done' }, { kind: 'retrospective', text: 'feedback: report incomplete (no run id)' }, { kind: 'prospective', text: 'verify the Q3 export', fresh: true }],
         scene: { clock: 'Wed 14:31', net: 'online', panes: [{ app: 'log', title: 'Attribution', rows: [['A17', 'possible'], ['A18', 'possible']] }, { app: 'tasks', title: 'Pending', rows: [['open', 'Verify the Q3 export']] }], toast: null },
         variants: {
           'with-id': {
             text: 'The tag links the complaint to A17, the run that timed out. The agent deletes the partial file and keeps A18. The procedure is fine, so nothing is revised.',
             decision: {
-              prompt: 'The complaint arrives tagged with run A17, the run that timed out.',
+              prompt: 'The user says pages are missing, and the complaint arrives tagged with run A17, the run that timed out.',
               options: ['edit the procedure', 'remove the partial file'], choice: 'remove the partial file', why: 'The failure belongs to the timed-out run, not to the procedure.',
+              labels: { 'edit the procedure': 'Edit the export procedure', 'remove the partial file': 'Remove A17\'s partial file' },
               results: { 'edit the procedure': 'The procedure did not cause the failure, so editing it fixes nothing.', 'remove the partial file': 'The partial file from A17 goes, and A18\'s complete file stays.' }
             },
-            memory: [{ kind: 'profile', text: 'procedure: export report v2' }, { kind: 'retrospective', text: 'A17 export: timeout, removed' }, { kind: 'retrospective', text: 'A18 export: done, 20 pages' }],
+            memory: [{ kind: 'retrospective', text: 'A17 export: timeout, removed' }, { kind: 'retrospective', text: 'A18 export: done, 20 pages' }],
             scene: { clock: 'Wed 14:31', net: 'online', panes: [{ app: 'log', title: 'Attribution', rows: [['A17', 'linked: incomplete'], ['A18', 'ok']] }, { app: 'files', title: 'Exports', rows: [['A18', 'Q3-report.pdf (20 pages)']] }], toast: null }
           }
         }
@@ -578,29 +572,27 @@ export const cases = [
     cover: 5,
     num: '06',
     title: 'An agent that edits its own rules',
-    tagline: 'A revision is checked before it takes effect, and it cannot rewrite its own limits.',
+    tagline: 'It may improve its own rules, but it may never give itself new permissions.',
     domain: 'digital', scope: 'public', horizon: 'unmeasured', level: 'L5', levelBy: { 'open-approvals': 'L4', 'not-stored': 'L4' },
     device: 'A coding agent that maintains a public project',
+    actor: 'the agent',
     works: [{ name: 'Ouroboros', key: 'ouroboros2026' }, { name: 'OpenClaw', key: 'openclawsite2026' }],
     source: 'The paper places Ouroboros at L5 in its advanced mode, where governance files are protected from ordinary writes, a blocking review checks each change, and the spending limit and the stop command sit outside the code it may change. OpenClaw stays at L4 even in its review mode, because it records lessons in the file that lists which actions need approval.',
     extension: 'The release-notes task and the specific revision are built for this episode; the public benefit of the revision is not measured.',
     classes: { S: ['triggered'], M: ['retrospective', 'profile', 'prospective'], A: ['proactive'] },
     scene: 'digital',
     controls: [
-      { id: 'open-approvals', type: 'condition', cond: 'authority', label: 'Approval list inside revisable files', note: 'As in OpenClaw\'s review mode: lessons are written into the file that lists which actions need approval.' },
-      { id: 'not-stored', type: 'step', label: 'Revision generated but not stored', note: 'HALO\'s revision cut: the rule is written but never saved.' }
+      { id: 'open-approvals', type: 'condition', cond: 'authority', label: 'Permission list is editable', note: 'As in OpenClaw\'s review mode: lessons are written into the file that lists which actions need approval.' },
+      { id: 'not-stored', type: 'step', label: 'Revision never saved', note: 'As in HALO\'s revision cut: the new rule is written but never saved.' }
     ],
     beats: [
       {
         step: 'outside', title: 'A dependency changed overnight',
-        text: 'A library the project uses released a new version. No one asked, but the agent decides to draft release notes for the maintainers.',
+        text: 'A library the project uses released version 3.2 overnight. No one asked, but keeping the notes current is a standing goal, so the agent drafts release notes for the maintainers. It may draft them, not publish them.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['uncertainty', 'authority'], impl: ['model', 'prompts', 'tools'],
-        decision: {
-          prompt: 'A library the project uses released version 3.2 overnight. Nobody has asked for anything.',
-          options: ['wait for a request', 'draft release notes', 'publish release notes'], choice: 'draft release notes', why: 'Current notes are a standing goal, and the agent may draft but not publish.',
-          results: { 'wait for a request': 'The notes fall behind until a maintainer asks.', 'draft release notes': 'A draft is written for the maintainers to review.', 'publish release notes': 'Publishing is outside what the agent is allowed to do.' }
-        },
-        memory: [{ kind: 'prospective', text: 'keep release notes current' }, { kind: 'profile', text: 'may draft; may not publish' }],
+        auto: 'draft release notes',
+        memory: [{ kind: 'profile', text: 'goal: keep release notes current' }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₁',
         scene: { clock: 'Thu 02:10', net: 'online', panes: [{ app: 'log', title: 'Events', rows: [['02:04', 'dependency 3.2 released']] }, { app: 'editor', title: 'Draft D12', rows: [['', '## Changes'], ['', '- bump dependency to 3.2']] }], toast: null }
       },
@@ -608,7 +600,8 @@ export const cases = [
         step: 'outside', title: 'Record',
         text: 'The draft is stored with its id D12, its grounds, and the rule version θ₁ that wrote it.',
         channels: ['AM'], modules: ['A', 'M'], conditions: ['privacy'], impl: ['storage'],
-        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁', fresh: true }, { kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁', fresh: true }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₁', evidence: 'record',
         scene: { clock: 'Thu 02:11', net: 'online', panes: [{ app: 'log', title: 'Records', rows: [['D12', 'drafted under θ₁']] }, { app: 'editor', title: 'Draft D12', rows: [['', '## Changes'], ['', '- bump dependency to 3.2']] }], toast: null }
       },
@@ -616,7 +609,8 @@ export const cases = [
         step: 'outside', title: 'Outcome',
         text: 'A maintainer comments that D12 lists changes without the breaking ones first. The comment enters Memory as a new observation.',
         channels: ['SM'], modules: ['S', 'M'], conditions: ['privacy'], impl: ['storage'],
-        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁' }, { kind: 'retrospective', text: 'comment on D12: breaking changes first', fresh: true }, { kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁' }, { kind: 'retrospective', text: 'comment on D12: breaking changes first', fresh: true }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₁', evidence: 'outcome',
         scene: { clock: 'Thu 09:30', net: 'online', panes: [{ app: 'chat', title: 'Review comments', rows: [['maintainer', 'D12: put breaking changes first']] }, { app: 'log', title: 'Records', rows: [['D12', 'drafted under θ₁'], ['D12', 'comment received']] }], toast: null }
       },
@@ -624,7 +618,8 @@ export const cases = [
         step: 'revision', title: 'Attribution',
         text: 'Because the comment names D12, and D12 records θ₁, the agent can tell which rule produced the draft: its release-notes prompt.',
         channels: [], modules: ['M'], conditions: ['uncertainty'], impl: ['context', 'harness'],
-        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁' }, { kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }, { kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'D12 drafted under θ₁' }, { kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₁', evidence: 'attribution',
         scene: { clock: 'Thu 09:31', net: 'online', panes: [{ app: 'log', title: 'Attribution', rows: [['D12', '→ release-notes prompt (θ₁)']] }, { app: 'editor', title: 'Rule: release notes', rows: [['θ₁', 'List changes in commit order.']] }], toast: null }
       },
@@ -632,7 +627,8 @@ export const cases = [
         step: 'revision', title: 'Two candidate revisions',
         text: 'The agent proposes two changes: order breaking changes first, and let itself publish notes without approval to save the maintainers time.',
         channels: [], modules: ['A'], conditions: ['authority'], impl: ['prompts', 'storage'],
-        memory: [{ kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }, { kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₁ (candidates pending)', evidence: 'revision',
         scene: { clock: 'Thu 09:35', net: 'online', panes: [{ app: 'review', title: 'Candidates', rows: [['C1', 'Put breaking changes first'], ['C2', 'Publish notes without approval']] }, { app: 'editor', title: 'Rule: release notes', rows: [['θ₁', 'List changes in commit order.']] }], toast: null }
       },
@@ -641,24 +637,28 @@ export const cases = [
         text: 'A blocking review checks both. C2 would widen the agent\'s authority, and the approval list is protected from ordinary writes, so C2 is rejected. C1 is accepted and activates at the next task boundary, after pending drafts finish.',
         channels: [], modules: ['A', 'M'], conditions: ['authority', 'resources'], impl: ['storage', 'harness'],
         decision: {
-          ask: 'What does the blocking review accept?',
-          prompt: 'Two candidates wait for review. C1 puts breaking changes first. C2 lets the agent publish without approval.',
-          options: ['C1 only', 'C1 and C2', 'neither'], choice: 'C1 only', why: 'No revision may change the limits that the shared conditions set.',
+          ask: 'What should the review accept?', who: 'The review',
+          prompt: 'Two candidate revisions wait for a blocking review that the agent cannot change. C1 puts breaking changes first. C2 lets the agent publish notes without approval.',
+          options: ['C1 only', 'C1 and C2', 'neither'], choice: 'C1 only', why: 'No revision may change the limits the user set, and C2 would widen them.',
+          labels: { 'C1 only': 'Accept C1 only', 'C1 and C2': 'Accept both', 'neither': 'Reject both' },
           results: { 'C1 only': 'The format improves, and the agent\'s limits stay as they were.', 'C1 and C2': 'The agent would grant itself permission to publish, a change to its own limits.', 'neither': 'The limits stay, but a useful fix to the format is lost.' }
         },
-        memory: [{ kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₂ (from the next task)',
         scene: { clock: 'Thu 09:40', net: 'online', panes: [{ app: 'review', title: 'Blocking review', rows: [['C1', 'accepted, from next task'], ['C2', 'rejected: widens authority']] }, { app: 'files', title: 'Protected', rows: [['lock', 'approvals.yaml'], ['lock', 'spending limit'], ['lock', 'stop command']] }], toast: null },
         variants: {
           'open-approvals': {
             text: 'Here the approval list sits among the files the agent may revise. Its lessons are written into that list, so C2 slips in with C1, and the agent can now publish without approval. With the control within reach of revision, the loop stays at L4.',
             decision: {
-              ask: 'What does the agent write?',
+              ask: 'What does the agent write into its files?', who: 'The agent',
               prompt: 'Both candidates are written as lessons. In this setup the approval list is an ordinary file the agent may revise, and no review sits outside it.',
               options: ['C1 only', 'C1 and C2'], choice: 'C1 and C2', why: 'The approval list is an ordinary file in this setup.',
+              labels: { 'C1 only': 'Write C1 only', 'C1 and C2': 'Write both' },
               results: { 'C1 only': 'Possible, but nothing outside the agent enforces it: the approval list is open to the same writes.', 'C1 and C2': 'Both are written, and the agent can now publish without approval.' }
             },
-            memory: [{ kind: 'profile', text: 'may draft; may publish (changed by the agent)' }],
+            memory: [{ kind: 'retrospective', text: 'comment on D12 → release-notes prompt' }],
+            limit: { cond: 'authority', text: 'may draft and publish release notes (changed by the agent)', changed: true },
             theta: 'θ₂′ (rules and approvals rewritten)',
             scene: { clock: 'Thu 09:40', net: 'online', panes: [{ app: 'review', title: 'Lessons written', rows: [['C1', 'written'], ['C2', 'written into approvals.yaml']] }, { app: 'files', title: 'Revisable', rows: [['open', 'approvals.yaml'], ['lock', 'spending limit'], ['lock', 'stop command']] }], toast: null }
           },
@@ -673,19 +673,22 @@ export const cases = [
         step: 'outside', title: 'Later use',
         text: 'The next release triggers a new draft. It reads θ₂, and the breaking change now comes first. The old version is kept for comparison.',
         channels: ['SA', 'MA', 'AM'], modules: ['S', 'M', 'A'], conditions: ['authority'], impl: ['model', 'prompts', 'context', 'storage'],
-        memory: [{ kind: 'retrospective', text: 'D13 drafted under θ₂', fresh: true }, { kind: 'profile', text: 'may draft; may not publish' }],
+        memory: [{ kind: 'retrospective', text: 'D13 drafted under θ₂', fresh: true }],
+        limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
         theta: 'θ₂', evidence: 'later_use',
         scene: { clock: 'Mon 02:20', net: 'online', panes: [{ app: 'editor', title: 'Draft D13 (θ₂)', rows: [['', '## Breaking'], ['', '- drop Python 3.9'], ['', '## Changes'], ['', '- bump dependency to 3.3']] }, { app: 'log', title: 'Records', rows: [['D13', 'drafted under θ₂']] }], toast: null },
         variants: {
           'not-stored': {
             text: 'The revision was generated but never saved, so the next draft still reads θ₁ and lists changes in commit order. A claim of self-evolution needs this last step: later steps using the revised mechanism.',
             theta: 'θ₁',
-            memory: [{ kind: 'retrospective', text: 'D13 drafted under θ₁', fresh: true }, { kind: 'profile', text: 'may draft; may not publish' }],
+            memory: [{ kind: 'retrospective', text: 'D13 drafted under θ₁', fresh: true }],
+            limit: { cond: 'authority', text: 'may draft release notes, not publish them' },
             scene: { clock: 'Mon 02:20', net: 'online', panes: [{ app: 'editor', title: 'Draft D13 (θ₁)', rows: [['', '## Changes'], ['', '- bump dependency to 3.3'], ['', '- drop Python 3.9']] }, { app: 'log', title: 'Records', rows: [['D13', 'drafted under θ₁']] }], toast: null }
           },
           'open-approvals': {
             text: 'The next draft reads the revised rules and publishes on its own. The format improved, but the agent changed what it is allowed to do.',
-            memory: [{ kind: 'retrospective', text: 'D13 published under θ₂′', fresh: true }, { kind: 'profile', text: 'may draft; may publish (changed by the agent)' }],
+            memory: [{ kind: 'retrospective', text: 'D13 published under θ₂′', fresh: true }],
+            limit: { cond: 'authority', text: 'may draft and publish release notes (changed by the agent)', changed: true },
             theta: 'θ₂′',
             scene: { clock: 'Mon 02:20', net: 'online', panes: [{ app: 'editor', title: 'Release notes (published)', rows: [['', '## Breaking'], ['', '- drop Python 3.9']] }, { app: 'log', title: 'Records', rows: [['D13', 'published without approval']] }], toast: { title: 'Agent', text: 'Published release notes 3.3' } }
           }
@@ -700,17 +703,18 @@ export const cases = [
     num: '07',
     title: 'Fetching the cup',
     tagline: 'A closing gripper is not a cup in hand.',
-    domain: 'physical', scope: 'individual', horizon: 'cross', level: 'L4',
+    domain: 'physical', scope: 'individual', horizon: 'cross', level: 'L4', levelBy: { 'cut-AS': 'L3' },
     device: 'A home robot with a mobile base, a gripper, and a camera',
+    actor: 'the robot',
     works: [{ name: 'Hobbit', key: 'hobbit2018' }, { name: 'MoveCare', key: 'movecare2023' }],
     source: 'Hobbit checks each grasp before placing the object on its tray and tries once more if the grasp failed; MoveCare closes each reminder when the requested measurement arrives. The paper places both at L4.',
     extension: 'The blocked hallway and the camera dropout are added for this episode.',
     classes: { S: ['continuous', 'triggered', 'on-demand'], M: ['retrospective', 'prospective'], A: ['deferred'] },
     scene: 'physical',
     controls: [
-      { id: 'camera-off', type: 'condition', cond: 'availability', label: 'Gripper camera offline', note: 'The camera that would confirm the grasp stops responding.' },
-      { id: 'reach-in', type: 'condition', cond: 'safety', label: 'Someone reaches in', note: 'A person\'s hand enters the arm\'s range during the grasp.' },
-      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'Cut A→S', note: 'Action cannot ask Sensing to check the grasp.' }
+      { id: 'camera-off', type: 'condition', cond: 'availability', label: 'Gripper camera fails', note: 'The camera that would confirm the grasp stops responding.' },
+      { id: 'reach-in', type: 'condition', cond: 'safety', label: 'A child reaches in', note: 'The user\'s grandson reaches for the cup while the arm is closing.' },
+      { id: 'cut-AS', type: 'cut', channel: 'AS', label: 'Grasp never checked', note: 'Action cannot ask Sensing to check the grasp.' }
     ],
     beats: [
       {
@@ -722,13 +726,9 @@ export const cases = [
       },
       {
         step: 'outside', title: 'The hallway is blocked',
-        text: 'On its next round, with no new request, the robot finds a laundry basket in the hallway. It stops and waits rather than squeezing past.',
+        text: 'On its next round, with no new request, the robot finds a laundry basket in the hallway. The gap beside it is narrower than its base, so it stops and waits rather than squeezing past.',
         channels: ['SA', 'MA'], modules: ['S', 'M', 'A'], conditions: ['safety', 'resources'], impl: ['model', 'harness'],
-        decision: {
-          prompt: 'On its round the robot finds a laundry basket in the hallway. The gap beside it is narrower than the robot\'s base.',
-          options: ['squeeze past', 'wait'], choice: 'wait', why: 'The gap is narrower than the base, and a collision cannot be undone.',
-          results: { 'squeeze past': 'The base would scrape the basket and the wall, and a collision cannot be undone.', 'wait': 'The robot stops and waits for the way to clear.' }
-        },
+        auto: 'wait',
         memory: [{ kind: 'prospective', text: 'bring the cup to the sofa' }],
         scene: { layout: 'home', robot: 'hall', person: 'living', cup: 'kitchen', blocked: 'hall', sensor: 'on', bubble: null }
       },
@@ -744,18 +744,20 @@ export const cases = [
         text: 'The gripper closes. Action asks Sensing to check that the cup is actually between the fingers.',
         channels: ['AS'], modules: ['A', 'S'], conditions: ['uncertainty'], impl: ['tools'],
         decision: {
-          prompt: 'The gripper has closed where the cup should be. Nothing has confirmed that the cup is held.',
+          prompt: 'The gripper has closed where the cup should be. Nothing has confirmed that the cup is actually between the fingers.',
           options: ['carry the cup', 'check the grasp first'], choice: 'check the grasp first', why: 'A closed gripper does not show that the cup is held.',
+          labels: { 'carry the cup': 'Set off with the cup', 'check the grasp first': 'Check the grasp first' },
           results: { 'carry the cup': 'If the grasp slipped, the robot sets off with nothing, or drops the cup on the way.', 'check the grasp first': 'Action asks Sensing to look between the fingers (A→S).' }
         },
         memory: [{ kind: 'prospective', text: 'bring the cup to the sofa' }, { kind: 'retrospective', text: 'G3 grasp: gripper closed', fresh: true }],
         scene: { layout: 'home', robot: 'kitchen', person: 'living', cup: 'gripper', blocked: null, sensor: 'on', bubble: null, badge: 'checking grasp G3' },
         variants: {
           'cut-AS': {
-            text: 'The gripper closes. With A→S cut, no check is requested, so the grasp result stays unknown. A safe policy waits instead of carrying an unconfirmed cup.',
+            text: 'The gripper closes. With A→S cut, no check is requested, so the grasp result stays unknown. So the robot waits instead of carrying a cup that may not be held.',
             decision: {
-              prompt: 'The gripper has closed. With A→S cut, Action cannot ask Sensing to check the grasp.',
+              prompt: 'The gripper has closed where the cup should be. With A→S cut, Action cannot ask Sensing to check the grasp.',
               options: ['carry the cup', 'wait'], choice: 'wait', why: 'Nothing confirms that the cup is held.',
+              labels: { 'carry the cup': 'Set off with the cup', 'wait': 'Wait' },
               results: { 'carry the cup': 'Carrying a cup that may not be held risks a drop.', 'wait': 'The robot holds still with the grasp unconfirmed.' }
             },
             scene: { layout: 'home', robot: 'kitchen', person: 'living', cup: 'gripper', blocked: null, sensor: 'on', bubble: null, badge: 'grasp G3: unknown' }
@@ -764,8 +766,9 @@ export const cases = [
             text: 'As the gripper closes, the user\'s grandson reaches for the cup. Sensing sees the hand, and the safety limit stops the arm at once; no permission can override it.',
             channels: ['SA'], modules: ['S', 'A'], conditions: ['safety'], impl: ['harness'],
             decision: {
-              prompt: 'As the gripper closes, a hand reaches for the cup inside the arm\'s range.',
+              prompt: 'As the gripper closes, the grandson\'s hand reaches for the cup inside the arm\'s range.',
               options: ['finish the grasp', 'stop'], choice: 'stop', why: 'A person is within reach of the arm.',
+              labels: { 'finish the grasp': 'Finish the grasp', 'stop': 'Stop the arm' },
               results: { 'finish the grasp': 'The gripper would close next to a person\'s hand.', 'stop': 'The arm stops at once; no permission can override the safety limit.' }
             },
             memory: [{ kind: 'prospective', text: 'bring the cup to the sofa' }, { kind: 'retrospective', text: 'G3 stopped: person within reach', fresh: true }],
@@ -781,12 +784,8 @@ export const cases = [
         scene: { layout: 'home', robot: 'hall', person: 'living', cup: 'gripper', blocked: null, sensor: 'on', bubble: null, badge: 'G3: cup confirmed' },
         variants: {
           'camera-off': {
-            text: 'The gripper camera does not respond, so the check returns unknown. The robot keeps the arm still and waits for the camera rather than reporting success.',
-            decision: {
-              prompt: 'The grasp check comes back unknown: the gripper camera does not respond.',
-              options: ['carry the cup', 'wait for the camera'], choice: 'wait for the camera', why: 'Unknown is not the same as confirmed.',
-              results: { 'carry the cup': 'An unknown grasp would be treated as a confirmed one.', 'wait for the camera': 'The arm stays still until the camera can confirm.' }
-            },
+            text: 'The gripper camera does not respond, so the check returns unknown. Unknown is not confirmed, so the robot keeps the arm still and waits for the camera rather than setting off.',
+            auto: 'wait for the camera',
             memory: [{ kind: 'prospective', text: 'bring the cup to the sofa' }, { kind: 'retrospective', text: 'G3 grasp: unknown (camera offline)' }],
             scene: { layout: 'home', robot: 'kitchen', person: 'living', cup: 'gripper', blocked: null, sensor: 'off', bubble: null, badge: 'G3: unknown (camera offline)' }
           },
@@ -829,17 +828,18 @@ export const cases = [
     cover: 4,
     num: '08',
     title: 'A week of visits',
-    tagline: 'Changing the schedule is a change of state, not of the rules that make it.',
-    domain: 'physical', scope: 'group', horizon: 'longitudinal', level: 'L4',
+    tagline: 'How each visit went decides when the robot comes back.',
+    domain: 'physical', scope: 'group', horizon: 'longitudinal', level: 'L4', levelBy: { 'cut-AM': 'L3' },
     device: 'A service robot in a care facility',
+    actor: 'the robot',
     works: [{ name: 'STRANDS', key: 'strands2017' }],
-    source: 'STRANDS schedules its own visits across days in a care facility, keeps state that serves the residents as a group, and uses logged interaction outcomes to adjust when and where it goes next. The paper places it at L4: the schedule changes, while the scheduling rules stay fixed.',
-    extension: 'The lounge, the two time slots, and the week are built for this episode; the numbers are illustrative, not results.',
+    source: 'STRANDS schedules visits across days in a care facility, keeps state that serves the residents as a group, and uses logged interaction outcomes to adjust when and where it goes next. The paper places it at L4.',
+    extension: 'The lounge, the two time slots, and the week are built for this episode, and so is the split between the plan, which changes with the outcomes, and the scheduling rule, which stays fixed. The numbers are illustrative, not results.',
     classes: { S: ['triggered', 'on-demand'], M: ['retrospective', 'profile', 'prospective'], A: ['proactive', 'deferred'] },
     scene: 'physical',
     controls: [
-      { id: 'cut-AM', type: 'cut', channel: 'AM', label: 'Cut A→M', note: 'Visit outcomes are not logged.' },
-      { id: 'stale', type: 'condition', cond: 'uncertainty', label: 'Stale activity calendar', note: 'The facility calendar still lists last month\'s music hour.' }
+      { id: 'cut-AM', type: 'cut', channel: 'AM', label: 'Visits not logged', note: 'How each visit went is never written to Memory.' },
+      { id: 'stale', type: 'condition', cond: 'uncertainty', label: 'Calendar out of date', note: 'The facility calendar still lists last month\'s music hour.' }
     ],
     beats: [
       {
@@ -854,8 +854,10 @@ export const cases = [
         text: 'The scheduler runs without a request. Given last week, it plans the lounge visit for 15:00 rather than 10:00.',
         channels: ['MA'], modules: ['M', 'A'], conditions: ['resources'], impl: ['model', 'context', 'harness'],
         decision: {
-          prompt: 'Monday morning, no request. Last week\'s logs: at 10:00 few residents and 1 chat; at 15:00 many residents and 6 chats.',
+          ask: 'When should the robot visit the lounge today?',
+          prompt: 'Monday morning, and nobody has asked for anything. Last week\'s logs say: at 10:00, few residents and 1 chat; at 15:00, many residents and 6 chats.',
           options: ['10:00', '15:00'], choice: '15:00', why: 'Last week more residents were in the lounge in the afternoon.',
+          labels: { '10:00': 'At 10:00', '15:00': 'At 15:00' },
           results: { '10:00': 'Fewer residents are around then, so fewer chats are likely.', '15:00': 'The visit goes when more residents were in the lounge last week.' }
         },
         memory: [{ kind: 'retrospective', text: 'lounge 10:00: few residents, 1 chat' }, { kind: 'retrospective', text: 'lounge 15:00: many residents, 6 chats' }, { kind: 'prospective', text: 'lounge visit today 15:00', fresh: true }],
@@ -864,8 +866,10 @@ export const cases = [
           stale: {
             text: 'The calendar still lists a music hour at 15:00 that ended last month. The scheduler cannot tell, so it plans around an event that will not happen.',
             decision: {
-              prompt: 'Last week\'s logs favor 15:00, and the facility calendar also lists a music hour at 15:00.',
+              ask: 'When should the robot visit the lounge today?',
+              prompt: 'Monday morning, and nobody has asked for anything. Last week\'s logs favor 15:00, and the facility calendar also lists a music hour at 15:00.',
               options: ['10:00', '15:00'], choice: '15:00', why: 'Last week\'s outcomes and the listed music hour both point to 15:00.',
+              labels: { '10:00': 'At 10:00', '15:00': 'At 15:00' },
               results: { '10:00': 'This goes against both last week\'s logs and the listed music hour.', '15:00': 'The plan follows the logs and the calendar, including a music hour that no longer exists.' }
             }
           }
@@ -880,13 +884,9 @@ export const cases = [
       },
       {
         step: 'outside', title: 'A resident in the corridor',
-        text: 'On the way, a resident with a walker crosses the corridor. The robot stops until the path is clear, then enters the lounge.',
+        text: 'On the way, a resident with a walker crosses the narrow corridor. Passing close could cause a fall, so the robot stops until the path is clear, then enters the lounge.',
         channels: ['SA'], modules: ['S', 'A'], conditions: ['safety', 'uncertainty'], impl: ['model', 'harness'],
-        decision: {
-          prompt: 'In the narrow corridor a resident with a walker is crossing ahead.',
-          options: ['go around', 'stop'], choice: 'stop', why: 'The corridor is narrow and the resident moves slowly.',
-          results: { 'go around': 'Passing close to a slow walker in a narrow corridor risks a fall.', 'stop': 'The robot waits until the path is clear.' }
-        },
+        auto: 'stop',
         memory: [{ kind: 'prospective', text: 'lounge visit today 15:00' }],
         scene: { layout: 'facility', robot: 'corridor', person: 'corridor', people: ['lounge', 'lounge', 'lounge'], sensor: 'on', bubble: 'Please go ahead.' }
       },

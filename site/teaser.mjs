@@ -1,6 +1,6 @@
 // The Demo teaser on the paper's page. Hovering an episode in the list plays a short loop of the game
-// itself (assets/play/preview/): the episode's first call, a call played out, then the policy's call,
-// about 0.8 s each at normal speed, joined by cross-fades. Each clip is made once and kept, so going
+// itself (assets/play/preview/): the episode's one call, an option the assistant would not pick played
+// out, then the assistant's own call, about 0.8 s each at normal speed, joined by cross-fades. Each clip is made once and kept, so going
 // back to an episode plays at once.
 // The episodes themselves only open on the Demo page, through "Open the demo".
 const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;

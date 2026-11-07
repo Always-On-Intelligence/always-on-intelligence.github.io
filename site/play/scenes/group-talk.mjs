@@ -174,7 +174,7 @@ export function build(view) {
         chip.set('Nothing kept: the task is lost after the meeting', 'is-stop');
         await step(view.wait(1100));
       } else if (option === 'wait for a pause') {
-        chip.set(policy ? 'The policy holds the cue' : 'Holding a cue', 'is-wait');
+        chip.set(policy ? 'The earbuds hold the cue' : 'Holding a cue', 'is-wait');
         await step(view.wait(900));
       } else if (option === 'cue now') {
         cue.set('Ask Ben about the missing week', 'private');

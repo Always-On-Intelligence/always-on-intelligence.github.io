@@ -1,9 +1,10 @@
 // Demo page: a game library of eight playable episodes under the 3D island. An episode opens
-// in a player with a real-time 3D room (site/play/). The viewer makes the calls the episode's policy
-// makes, sees each consequence play out in the room, and can change one condition or cut one channel
-// before or during play. Side panels show the episode in the paper's terms: modules and channels
-// (Table 2), shared conditions, the running state z, and the implementation and mechanism θ.
-import { cases, IMPL, STEP_LABEL } from './data/cases.mjs';
+// in a player with a real-time 3D room (site/play/). The story plays step by step; at one moment the
+// viewer decides what the assistant does and then sees the assistant's own call. At the end the viewer
+// can try a what-if: change one condition or cut one channel. Side panels show the episode in the
+// paper's terms: modules and channels (Table 2), shared conditions, the running state z, and the
+// implementation and mechanism θ.
+import { cases, IMPL, STEP_LABEL, LEVEL_NAME } from './data/cases.mjs';
 import { play, SCENES } from './data/case-play.mjs';
 import { resolveCase, arrow, CONDITIONS } from './case-core.mjs';
 import { RECTS, channelGeometry, headPath } from './framework.mjs';
@@ -19,12 +20,24 @@ const SCOPE = { individual: 'Single user', group: 'Small group', public: 'Public
 const HORIZON = Object.fromEntries(horizons.map(h => [h.id, h.name]));
 const CH = Object.fromEntries(CHANNEL_DEFS.map(c => [c.id, c]));
 const COND = Object.fromEntries(CONDITION_DEFS.map(c => [c.id, c]));
-const MEM_KIND = { retrospective: 'Retrospective', profile: 'Profile', prospective: 'Pending', working: 'Working' };
+// the memory classes of §4.1.1, with what each one holds
+const MEM_KIND = { retrospective: 'Retrospective', profile: 'Profile', prospective: 'Prospective' };
+const MEM_KEY = 'Retrospective: what happened · Profile: what holds now · Prospective: what to do later';
 const STEP_NAME = { request: 'Request', outside: 'No request', boundary: 'Interaction ends', revision: 'Mechanism revision' };
 const pad = n => String(n).padStart(2, '0');
 // absolute, because a url() inside a custom property resolves against the stylesheet that uses it
 const art = id => new URL(`assets/play/${id}.webp`, document.baseURI).href;
 const decisionsOf = beats => beats.filter(b => b.decision && b.decision.options.length > 1);
+/** A level with its name from §6.3, for example "L3 Unrequested action". */
+const levelHtml = l => `<b>${l}</b> <span>${esc(LEVEL_NAME[l] || '')}</span>`;
+const levelText = l => `${l} ${LEVEL_NAME[l] || ''}`.trim();
+const actorOf = c => c.actor || 'the assistant';
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const optLabel = (d, o) => d.labels?.[o] || o;
+/** Who makes the episode's own call in a decision: "The robot", or the decision's own `who`. */
+const whoOf = (d, c) => d.who || cap(actorOf(c));
+/** What a what-if changes, in the paper's terms: the cut channel, the shared condition, or the mode. */
+const controlTag = k => k.type === 'cut' ? `${arrow(k.channel)} cut` : k.type === 'condition' ? `${COND[k.cond]?.name || k.cond} condition` : k.type === 'mode' ? 'Mode' : 'Revision step';
 
 // ---------- the loop map: modules and the six channels of Table 2 ----------
 
@@ -53,7 +66,7 @@ function cardHtml(c) {
   return `<button type="button" class="pg-card" data-case="${c.id}" data-domain="${c.domain}" style="--art:url('${art(c.id)}')">
     <span class="pg-card-art" aria-hidden="true"><span class="pg-card-num">${c.num}</span></span>
     <span class="pg-chip">${DOMAIN[c.domain]}</span>
-    <span class="pg-card-level" title="Level of loop closure in this episode">${c.level}</span>
+    <span class="pg-card-level" title="Level of loop closure in this episode">${levelHtml(c.level)}</span>
     <span class="pg-card-box">
       <span class="pg-card-meta">${SCOPE[c.scope]} · ${c.beats.length} steps · ${calls} ${calls === 1 ? 'call' : 'calls'}</span>
       <span class="pg-card-title">${esc(c.title)}</span>
@@ -74,7 +87,7 @@ export function mountCases(root) {
         <div class="pg-hero-copy">
           <p class="pg-hero-logo" aria-hidden="true">PLAY THE LOOP</p>
           <p class="pg-hero-tag">Eight episodes. One framework.</p>
-          <p class="pg-hero-sub">Choose a building on the island and make the calls its agent makes. Change one condition, cut one channel, and watch what follows.</p>
+          <p class="pg-hero-sub">Choose a building on the island. In each episode you make one call for its assistant, such as speak now or wait. Then try a what-if: change one condition, or cut one channel so that one module no longer passes information to another.</p>
           <div class="pg-hero-actions"><button type="button" class="pg-pill pg-pill--start" data-case-start="${featured.id}">Press start</button><span class="pg-hero-hint">or click a building</span></div>
         </div>
       </div>
@@ -86,7 +99,7 @@ export function mountCases(root) {
           ${['wearable', 'digital', 'physical'].map(d => `<button type="button" aria-pressed="false" data-filter="${d}">${DOMAIN[d]} <small>${count(d)}</small></button>`).join('')}
         </div>
         <div class="pg-grid">${cases.map(cardHtml).join('')}</div>
-        <p class="pg-note">Each episode is a scripted teaching scene built from what the paper reports for the works it names. Your calls are compared with the policy the episode follows; cutting a channel is a scripted contrast in the spirit of HALO’s run mode, not a run of the original system.</p>
+        <p class="pg-note">Each episode is a scripted teaching scene built from what the paper reports for the works it names. Your call is compared with the call of the episode’s assistant. A what-if that cuts a channel is a scripted contrast in the spirit of HALO’s run mode, not a run of the original system. Levels L0 to L5 are the paper’s levels of loop closure, and L3 is the first always-on level.</p>
       </div>
     </div>`;
   // mark cards whose art exists (the art is a real render of the episode's room)
@@ -249,8 +262,8 @@ function ensureLayer() {
         <button type="button" class="gx-pill gx-back" data-gx="close"><span aria-hidden="true">◀</span> Library</button>
         <div class="gx-bar-title"><span class="gx-ep"></span><h3 id="gx-title"></h3></div>
         <div class="gx-bar-right">
-          <span class="gx-level" title="Level of loop closure in this scenario"></span>
-          <label class="gx-scenario"><span>Scenario</span><select data-gx="scenario"></select></label>
+          <span class="gx-level" title="Level of loop closure in this run"></span>
+          <label class="gx-scenario"><span>What if</span><select data-gx="scenario"></select></label>
           <button type="button" class="gx-close" data-gx="close" aria-label="Close the episode">${ICONS.close}</button>
         </div>
       </header>
@@ -311,7 +324,7 @@ async function openEpisode(caseId, opener, { swoop = false } = {}) {
 }
 
 function scenarioOptions(c) {
-  return [{ id: '', label: 'Episode baseline', note: 'As the episode is built.' }, ...(c.controls || []).map(k => ({ id: k.id, label: k.label, note: k.note, type: k.type }))];
+  return [{ id: '', label: 'Nothing changed', note: 'The episode as it is built.' }, ...(c.controls || []).map(k => ({ id: k.id, label: k.label, note: k.note, type: k.type, tag: controlTag(k) }))];
 }
 
 async function loadScene() {
@@ -386,6 +399,7 @@ function closePlayer({ pixels = false } = {}) {
 function renderTitle() {
   const c = G.c;
   const screen = $('.gx-screen--title');
+  const control = resolved().control;
   screen.hidden = false;
   screen.innerHTML = `
     <div class="gx-title-card">
@@ -393,12 +407,10 @@ function renderTitle() {
       <p class="gx-title-big">${esc(c.title)}</p>
       <p class="gx-title-tag">${esc(c.tagline)}</p>
       <div class="gx-title-obj"><span>Objective</span>${esc(play[c.id]?.objective || '')}</div>
-      <fieldset class="gx-scenarios">
-        <legend>Scenario</legend>
-        ${scenarioOptions(c).map(o => `<label class="gx-scen"><input type="radio" name="gx-scenario" value="${o.id}" ${o.id === G.ctl ? 'checked' : ''}><span><b>${esc(o.label)}</b><small>${esc(o.note)}</small></span></label>`).join('')}
-      </fieldset>
+      ${control ? `<p class="gx-title-whatif"><span>What if</span><b>${esc(control.label)}.</b> ${esc(control.note)}</p>` : ''}
+      <p class="gx-title-how">Step through the story. Once, you decide what ${esc(actorOf(c))} should do. At the end, try a what-if.</p>
       <button type="button" class="gx-pill gx-pill--start" data-gx="start">Press start</button>
-      <p class="gx-title-src">Modeled on ${c.works.map(w => esc(w.name)).join(', ')} · ${c.level === resolved().level ? c.level : resolved().level} in this scenario</p>
+      <p class="gx-title-src">Modeled on ${c.works.map(w => esc(w.name)).join(', ')} · ${esc(levelText(resolved().level))}</p>
     </div>`;
 }
 
@@ -439,9 +451,12 @@ async function goTo(i, { instant = false } = {}) {
   renderSide(beat);
   renderTimeline();
   if (G.scene) {
+    const mine = G;
     G.scene.spots.show(G.scene.visibleSpots(i, G.ctl));
     G.entering = G.scene.enter(i, G.ctl, { instant, beat });
-    await G.entering;
+    const entered = await G.entering;
+    // a beat without a call plays its action on its own once the room has set it up
+    if (beat.auto && !instant && entered !== false && G === mine && G.step === i && G.phase === 'beat') await G.scene.act(i, beat.auto, G.ctl);
   }
 }
 
@@ -452,15 +467,16 @@ function renderDialog() {
   const call = G.calls[G.step];
   const control = resolved().control;
   const last = G.step === beats.length - 1;
-  const head = `<div class="gx-dialog-head"><span class="gx-step gx-step--${beat.step}">${STEP_NAME[beat.step]}</span><span class="gx-count">${pad(G.step + 1)} / ${pad(beats.length)}</span>${beat.varied && control ? `<span class="gx-changed">Changed by: ${esc(control.label)}</span>` : ''}${beat.cut?.length ? `<span class="gx-changed gx-changed--cut">${beat.cut.map(arrow).join(', ')} cut</span>` : ''}</div>`;
+  const head = `<div class="gx-dialog-head"><span class="gx-step gx-step--${beat.step}">${STEP_NAME[beat.step]}</span><span class="gx-count">${pad(G.step + 1)} / ${pad(beats.length)}</span>${beat.varied && control ? `<span class="gx-changed">What if: ${esc(control.label)}</span>` : ''}${beat.cut?.length ? `<span class="gx-changed gx-changed--cut">${beat.cut.map(arrow).join(', ')} cut</span>` : ''}</div>`;
   let body = '';
   if (d && !call) {
     const single = d.options.length === 1;
+    const ask = d.ask || `What should ${actorOf(G.c)} do?`;
     body = `<p class="gx-beat-title">${esc(beat.title)}</p>
       <p class="gx-text">${esc(d.prompt || beat.text)}</p>
-      <div class="gx-choices" role="group" aria-label="${esc(d.ask || 'What does Action do?')}">
-        <p class="gx-ask">${single ? 'No choice to make: the schedule decides' : esc(d.ask || 'What does Action do?')}</p>
-        ${d.options.map((o, k) => `<button type="button" class="gx-choice" data-choice="${esc(o)}"><kbd>${k + 1}</kbd>${esc(o)}</button>`).join('')}
+      <div class="gx-choices" role="group" aria-label="${esc(ask)}">
+        <p class="gx-ask">${single ? 'No choice to make: the schedule decides' : `Your call · ${esc(ask)}`}</p>
+        ${d.options.map((o, k) => `<button type="button" class="gx-choice" data-choice="${esc(o)}"><kbd>${k + 1}</kbd>${esc(optLabel(d, o))}</button>`).join('')}
       </div>`;
   } else {
     const verdict = d && call ? verdictHtml(d, call) : '';
@@ -476,10 +492,11 @@ function renderDialog() {
 function verdictHtml(d, call) {
   const single = d.options.length === 1;
   const same = call.mine === d.choice;
+  const who = whoOf(d, G.c);
   return `<div class="gx-verdict ${single ? 'is-single' : same ? 'is-same' : 'is-diff'}">
-    ${single ? '' : `<span class="gx-match">${same ? 'Same call as the policy' : 'A different call from the policy'}</span>`}
-    <p><span class="gx-who">${single ? 'What happens' : 'Your call'}</span><b>${esc(call.mine)}</b> ${esc(d.results?.[call.mine] || '')}</p>
-    ${single ? '' : `<p><span class="gx-who">${esc(d.ask === 'What does the blocking review accept?' ? 'The review' : 'The policy')}</span><b>${esc(d.choice)}</b> ${esc(d.why)}</p>`}
+    ${single ? '' : `<span class="gx-match">${same ? `The same call as ${esc(who.charAt(0).toLowerCase() + who.slice(1))}` : `${esc(who)} chose differently`}</span>`}
+    <p><span class="gx-who">${single ? 'What happens' : 'Your call'}</span><b>${esc(optLabel(d, call.mine))}.</b> ${esc(d.results?.[call.mine] || '')}</p>
+    ${single ? '' : `<p><span class="gx-who">${esc(who)}</span><b>${esc(optLabel(d, d.choice))}.</b> ${esc(d.why)}</p>`}
   </div>`;
 }
 
@@ -496,7 +513,7 @@ async function choose(option) {
   if (G.entering) await G.entering;
   if (G.step !== at) return;
   const played = await G.scene.act(at, option, G.ctl);
-  // after a different call, the room plays the policy's call too, so the next step starts from it
+  // after a different call, the room plays the assistant's own call too, so the next step starts from it
   if (played && option !== d.choice && d.options.includes(d.choice) && G.step === at) {
     await G.view.wait(350);
     if (G.step === at) await G.scene.act(at, d.choice, G.ctl, { policy: true });
@@ -516,16 +533,20 @@ function prev() {
   if (G.step > 0) goTo(G.step - 1, { instant: true });
 }
 
+/** The first step a what-if changes (-1 for none): a varied beat, or one that uses the cut channel. */
+const firstChanged = ctl => ctl ? resolveCase(G.c, ctl).beats.findIndex(b => b.varied || (b.cut || []).length) : -1;
+
 function setScenario(id) {
   if (!G) return;
+  const before = G.ctl;
   G.ctl = id || '';
   $('[data-gx="scenario"]').value = G.ctl;
-  layer.querySelectorAll('input[name="gx-scenario"]').forEach(r => { r.checked = r.value === G.ctl; });
-  $('.gx-level').textContent = resolved().level;
+  $('.gx-level').innerHTML = levelHtml(resolved().level);
   if (G.phase === 'title') { renderTitle(); renderTimeline(); return; }
-  const beats = resolved().beats;
-  const first = G.ctl ? beats.findIndex(b => b.varied || (b.cut || []).length) : 0;
-  const from = Math.max(0, first);
+  // replay from the first step where the old or the new run differs from the episode as built,
+  // keeping a call made before that step, which both runs share
+  const changed = [firstChanged(before), firstChanged(G.ctl)].filter(i => i >= 0);
+  const from = changed.length ? Math.min(...changed) : 0;
   for (const k of Object.keys(G.calls)) if (Number(k) >= from) delete G.calls[k];
   goTo(from);
 }
@@ -537,22 +558,35 @@ function showEnd() {
   const c = G.c;
   const outcomes = play[c.id]?.outcomes || {};
   const out = outcomes[G.ctl] || outcomes[''] || { title: 'Episode complete', tone: 'neutral', text: '' };
-  const calls = decisionsOf(resolved().beats).map(b => ({ b, call: G.calls[b.index] })).filter(x => x.call);
-  const matched = calls.filter(x => x.call.match).length;
-  const tried = scenarioOptions(c).filter(o => o.id !== G.ctl);
-  const nextScenario = tried.find(o => o.id) || tried[0];
+  const level = resolved().level;
+  const control = resolved().control;
+  // the episode's one call, as the viewer made it in this run
+  const callBeat = resolved().beats.find(b => b.decision);
+  const call = callBeat && G.calls[callBeat.index];
+  let callHtml = '';
+  if (callBeat && callBeat.decision.options.length === 1) callHtml = '<p class="gx-yourcall">No call to make in this run: the schedule decided.</p>';
+  else if (call) {
+    const d = callBeat.decision;
+    const who = whoOf(d, c);
+    callHtml = `<p class="gx-yourcall ${call.match ? 'is-same' : 'is-diff'}"><span>Your call</span><b>${esc(optLabel(d, call.mine))}</b>${call.match ? ` · the same as ${esc(who.charAt(0).toLowerCase() + who.slice(1))}` : ` · ${esc(who)}: <b>${esc(optLabel(d, d.choice))}</b>`}</p>`;
+  }
+  const others = scenarioOptions(c).filter(o => o.id !== G.ctl).map(o => (o.id ? o : { ...o, note: 'Back to the episode as it is built.' }));
   const screen = $('.gx-screen--end');
   screen.hidden = false;
   $('.gx-dialog').hidden = true;
   screen.innerHTML = `
     <div class="gx-end-card gx-end-card--${out.tone}">
-      <p class="gx-kicker">Episode complete · ${esc(scenarioOptions(c).find(o => o.id === G.ctl)?.label || 'Episode baseline')} · ${resolved().level}</p>
+      <p class="gx-kicker">Episode complete · ${control ? `What if: ${esc(control.label)}` : 'Nothing changed'}</p>
       <p class="gx-end-title">${esc(out.title)}</p>
       <p class="gx-end-text">${esc(out.text)}</p>
-      ${calls.length ? `<div class="gx-calls"><p class="gx-calls-head">Your calls <b>${matched} / ${calls.length}</b> matched the episode’s policy</p><ol>${calls.map(({ b, call }) => `<li class="${call.match ? 'is-same' : 'is-diff'}"><span>${esc(b.title)}</span><span>You: ${esc(call.mine)}</span><span>Policy: ${esc(b.decision.choice)}</span></li>`).join('')}</ol></div>` : ''}
+      ${out.why ? `<div class="gx-why"><p class="gx-why-head">Why ${level} · ${esc(LEVEL_NAME[level] || '')}</p><p>${esc(out.why)}</p></div>` : ''}
+      ${callHtml}
+      <div class="gx-whatif">
+        <p class="gx-whatif-head">What if…</p>
+        <div class="gx-whatif-list">${others.map(o => `<button type="button" class="gx-whatif-btn" data-gx="try" data-scenario="${o.id}"><b>${esc(o.label)}</b><small>${esc(o.note)}</small>${o.tag ? `<i>${esc(o.tag)}</i>` : ''}</button>`).join('')}</div>
+      </div>
       <div class="gx-end-actions">
         <button type="button" class="gx-pill gx-pill--ghost" data-gx="replay">Replay</button>
-        ${nextScenario ? `<button type="button" class="gx-pill gx-pill--go" data-gx="try" data-scenario="${nextScenario.id}">Try: ${esc(nextScenario.label)}</button>` : ''}
         <button type="button" class="gx-pill gx-pill--ghost" data-gx="close">Library</button>
       </div>
     </div>`;
@@ -566,32 +600,35 @@ function renderSide(beat) {
   const c = G.c;
   const side = $('.gx-side');
   const control = resolved().control;
-  $('.gx-level').textContent = resolved().level;
+  $('.gx-level').innerHTML = levelHtml(resolved().level);
   if (!beat) {
-    side.innerHTML = `<section class="gx-panel"><h5>How to play</h5><ol class="gx-howto"><li>Press start. Each step plays out in the room.</li><li>At a call, choose what happens next. The episode then shows the call its policy made, and why.</li><li>Change the scenario at any time: one condition, one cut channel, or one mode.</li><li>Click a marker in the room to inspect it.</li></ol></section>${sourcesHtml(c)}`;
+    side.innerHTML = `<section class="gx-panel"><h5>How to play</h5><ol class="gx-howto"><li>Press start. The story plays out in the room, one step at a time.</li><li>Once in each episode, you decide what ${esc(actorOf(c))} should do. Then you see the call ${esc(actorOf(c))} made, and why.</li><li>At the end, try a what-if: change one condition, or cut one channel so that one module no longer passes information to another.</li><li>Click a marker in the room to inspect it.</li></ol></section>${sourcesHtml(c)}`;
     return;
   }
   const flows = (beat.channels || []).map(ch => `<li><b>${arrow(ch)}</b>${esc(CH[ch]?.short || '')}</li>`).join('')
     + (beat.cut || []).map(ch => `<li class="is-cut"><b>${arrow(ch)}</b>Cut: no information delivered</li>`).join('');
   const memory = beat.memory || [];
+  const limit = beat.limit ? `<p class="gx-limit${beat.limit.changed ? ' is-changed' : ''}"><span>${esc(COND[beat.limit.cond]?.name || beat.limit.cond)}</span>${esc(beat.limit.text)}</p>` : '';
   side.innerHTML = `
-    <section class="gx-panel"><h5>Loop map</h5>${loopMap(beat, control?.type === 'cut' ? control.channel : null)}
+    <section class="gx-panel"><h5>Loop map <small>lit arrows carry information in this step</small></h5>${loopMap(beat, control?.type === 'cut' ? control.channel : null)}
       <ul class="gx-flows">${flows || '<li class="is-none">No channel active in this step</li>'}</ul></section>
-    <section class="gx-panel"><h5>Shared conditions</h5>
+    <section class="gx-panel"><h5>Shared conditions <small>limits that every module works within</small></h5>
       <div class="gx-conds">${CONDITIONS.map(id => `<button type="button" class="gx-cond${(beat.conditions || []).includes(id) ? ' is-on' : ''}" data-cond="${id}" aria-pressed="false">${ICONS[id] || ''}<span>${esc(COND[id]?.name || id)}</span></button>`).join('')}</div>
+      ${limit}
       <p class="gx-cond-def" hidden></p></section>
-    <section class="gx-panel"><h5>Running state <i>z</i></h5>
-      <ul class="gx-mem">${memory.length ? memory.map(m => `<li class="${m.fresh ? 'is-fresh' : ''}"><span class="gx-mem-k gx-mem-k--${m.kind}">${MEM_KIND[m.kind] || m.kind}</span>${esc(m.text)}</li>`).join('') : '<li class="is-none">Nothing is retained.</li>'}</ul></section>
-    <section class="gx-panel"><h5>Implementation <i>θ</i></h5>
+    <section class="gx-panel"><h5>What it keeps <small>running state <i>z</i></small></h5>
+      <ul class="gx-mem">${memory.length ? memory.map(m => `<li class="${m.fresh ? 'is-fresh' : ''}"><span class="gx-mem-k gx-mem-k--${m.kind}">${MEM_KIND[m.kind] || m.kind}</span>${esc(m.text)}</li>`).join('') : '<li class="is-none">Nothing is kept.</li>'}</ul>
+      <p class="gx-mem-key">${MEM_KEY}</p></section>
+    <section class="gx-panel"><h5>How it is built <small>implementation <i>θ</i></small></h5>
       <div class="gx-impl">${IMPL.map(([id, name]) => `<span class="gx-impl-i${(beat.impl || []).includes(id) ? ' is-on' : ''}">${ICONS[id] || ''}<span>${esc(name)}</span></span>`).join('')}</div>
-      <p class="gx-theta">Mechanism <i>θ</i>: <b>${esc(beat.theta || 'not specified in this episode')}</b>${beat.evidence ? ` · evidence step: <b>${esc(beat.evidence.replace('_', ' '))}</b>` : ''}</p></section>
+      ${beat.theta ? `<p class="gx-theta">Mechanism <i>θ</i>: <b>${esc(beat.theta)}</b>${beat.evidence ? ` · evidence step: <b>${esc(beat.evidence.replace('_', ' '))}</b>` : ''}</p>` : ''}</section>
     ${sourcesHtml(c)}`;
 }
 
 function sourcesHtml(c) {
   return `<details class="gx-panel gx-sources"><summary>Sources and additions</summary>
     <p><b>From the paper.</b> ${esc(c.source)} ${c.works.map(w => `<button type="button" class="link-btn" data-paperwork="${w.key}">${esc(w.name)} ↗</button>`).join(' ')}</p>
-    <p><b>Added for this episode.</b> ${esc(c.extension)} Your calls are compared with the policy the episode follows; a cut is a scripted contrast in the spirit of HALO’s run mode, not a run of the original system.</p></details>`;
+    <p><b>Added for this episode.</b> ${esc(c.extension)} Your call is compared with the call of the episode’s assistant. A what-if that cuts a channel is a scripted contrast in the spirit of HALO’s run mode, not a run of the original system.</p></details>`;
 }
 
 function renderTimeline() {
@@ -602,7 +639,7 @@ function renderTimeline() {
     const cls = ['gx-dot', `gx-dot--${b.step}`, b.decision && b.decision.options.length > 1 ? 'is-call' : '', i === G.step && G.phase === 'beat' ? 'is-current' : '', i < G.step || G.phase === 'end' ? 'is-done' : '', b.varied || b.cut?.length ? 'is-varied' : '', call ? (call.match ? 'is-same' : 'is-diff') : ''].filter(Boolean).join(' ');
     return `<li><button type="button" class="${cls}" data-step="${i}" ${G.phase === 'title' ? 'disabled' : ''} aria-label="Step ${i + 1}: ${esc(b.title)}${b.decision ? ' (a call)' : ''}"><span></span></button></li>`;
   }).join('')}</ol>
-  <p class="gx-legend"><span><i class="gx-key gx-key--call"></i>A call</span><span><i class="gx-key gx-key--varied"></i>Changed by the scenario</span></p>`;
+  <p class="gx-legend"><span><i class="gx-key gx-key--call"></i>Your call</span><span><i class="gx-key gx-key--varied"></i>Changed by the what-if</span></p>`;
 }
 
 // ---------- inspect ----------
@@ -628,7 +665,7 @@ function onClick(event) {
   if (act === 'prev') { prev(); return; }
   if (act === 'uncard') { $('.gx-card').hidden = true; return; }
   if (act === 'replay') { G.calls = {}; goTo(0); return; }
-  if (act === 'try') { setScenario(el.dataset.scenario); G.calls = {}; if (G.phase !== 'beat') goTo(0); return; }
+  if (act === 'try') { setScenario(el.dataset.scenario); return; }
   if (el.dataset.choice !== undefined) { choose(el.dataset.choice); return; }
   if (el.dataset.step !== undefined) { goTo(Number(el.dataset.step), { instant: true }); return; }
   if (el.dataset.paperwork) { openSheet({ type: 'paperwork', id: el.dataset.paperwork }, el); return; }

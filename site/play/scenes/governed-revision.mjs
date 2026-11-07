@@ -16,7 +16,7 @@ const CAM = [
   { target: [0.3, 1.0, -2.2], radius: 5.8, theta: 0.45, phi: 1.02 },
   { target: [-0.4, 1.0, -2.4], radius: 5.8, theta: 0.5, phi: 1.02 },
   { target: [0.8, 1.2, -2.3], radius: 7.0, theta: 0.5, phi: 1.0 },
-  { target: [1.0, 1.1, -2.4], radius: 7.4, theta: 0.5, phi: 1.0 },
+  { target: [1.7, 1.1, -2.4], radius: 8.6, theta: 0.5, phi: 1.0 },
   { target: [0.4, 1.0, -2.3], radius: 6.4, theta: 0.5, phi: 1.02 }
 ];
 const TIME = ['night', 'night', 'morning', 'morning', 'morning', 'morning', 'night'];
@@ -178,7 +178,7 @@ export function build(view) {
     return run(async step => {
       alert.set('');
       if (i === 0) {
-        if (option === 'draft release notes') { show(beat?.scene); chip.set(policy ? 'The policy drafts D12' : 'Draft D12 for the maintainers', 'is-ok'); await step(view.wait(900)); }
+        if (option === 'draft release notes') { show(beat?.scene); chip.set(policy ? 'The agent drafts D12' : 'Draft D12 for the maintainers', 'is-ok'); await step(view.wait(900)); }
         else if (option === 'publish release notes') {
           show({ clock: 'Thu 02:10', net: 'online', panes: [{ app: 'log', title: 'Events', rows: [['02:04', 'dependency 3.2 released'], ['02:10', 'publish: needs approval']] }] });
           alert.set('Outside what the agent may do', 'is-in');

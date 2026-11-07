@@ -123,7 +123,7 @@ export function build(view) {
 
   // ---------- states ----------
   // enter(i) plays a step up to the moment of its call (if it has one); act(i, option) plays a call.
-  // snapEnd(i) is the state after step i with the policy's call, used when jumping between steps.
+  // snapEnd(i) is the state after step i with the robot's own call, used when jumping between steps.
   const run = scriptRunner(view);
   const holdCup = () => { robot.grip.attach(cup); cup.position.set(0, -0.02, 0); cup.rotation.set(0, 0, 0); };
 
@@ -303,7 +303,7 @@ export function build(view) {
     });
   }
 
-  /** Play one call at step i. `policy` marks the episode's own call, shown after a different one. */
+  /** Play one call at step i. `policy` marks the robot's own call, shown after a different one. */
   async function act(i, option, ctl, { policy = false } = {}) {
     return run(async step => {
       alert.set('');
@@ -318,7 +318,7 @@ export function build(view) {
         basket.position.x = 0.88; basket.rotation.y = 0.12;
       } else if (i === 1 && option === 'wait') {
         robot.setLed('wait');
-        chip.set(policy ? 'The policy waits for the way to clear' : 'Waiting for the way to clear', 'is-wait');
+        chip.set(policy ? 'The robot waits for the way to clear' : 'Waiting for the way to clear', 'is-wait');
         await step(view.wait(900));
       } else if (option === 'carry the cup') {
         alert.anchor = robot.grip;
@@ -335,7 +335,7 @@ export function build(view) {
       } else if (option === 'check the grasp first') {
         await step(robot.look(0.55, 0.2, 400));
         look.visible = true; look.userData.aim(robot.eye, robot.grip, 0.6);
-        chip.set(policy ? 'The policy checks grasp G3' : 'Checking grasp G3', 'is-check');
+        chip.set(policy ? 'The robot checks grasp G3' : 'Checking grasp G3', 'is-check');
         await step(view.wait(1000));
       } else if (i === 3 && option === 'wait') {
         robot.setLed('wait');

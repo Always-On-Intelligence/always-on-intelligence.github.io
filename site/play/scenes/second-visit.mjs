@@ -167,7 +167,7 @@ export function build(view) {
       } else if (option === 'stay silent') {
         hud.set(null);
         if (ctl === 'cut-AM') { alert.set('Nothing in Memory gives a reason to stay quiet', 'is-in'); await step(view.wait(1300)); }
-        else { chip.set(policy ? 'The policy stays quiet: both notes were shown' : 'Quiet: both notes were shown today', 'is-ok'); await step(view.wait(900)); }
+        else { chip.set(policy ? 'The glasses stay quiet: both notes were shown' : 'Quiet: both notes were shown today', 'is-ok'); await step(view.wait(900)); }
       }
     });
   }

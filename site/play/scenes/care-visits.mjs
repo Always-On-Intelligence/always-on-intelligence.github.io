@@ -161,7 +161,7 @@ export function build(view) {
       alert.set('');
       if (option === '15:00') {
         robot.setScreen(['Plan', 'Lounge 15:00']);
-        chip.set(policy ? 'The policy plans 15:00' : 'Plan: lounge 15:00', 'is-ok');
+        chip.set(policy ? 'The robot plans 15:00' : 'Plan: lounge 15:00', 'is-ok');
         lounge(ctl === 'stale' ? 2 : 6);
         await step(view.wait(1100));
         lounge(3);

@@ -20,15 +20,18 @@ preview loops are rendered from these same rooms.
 
 A scene module exports `build(view)` and returns:
 
-- `enter(i, scenario, { instant, beat })`: plays step `i` up to the moment of its call, if it has one.
-- `act(i, option, scenario, { policy })`: plays one call. After a call the policy did not make, the
-  player plays the policy's call too, so the next step starts from the episode's own path.
+- `enter(i, scenario, { instant, beat })`: plays step `i` up to the moment of its call or action.
+- `act(i, option, scenario, { policy })`: plays one option. Each episode has one call per scenario,
+  where the viewer picks the option; after an option the assistant would not pick, the player plays
+  the assistant's own call too (`policy: true`), so the next step starts from the episode's own path.
+  Every other step that acts names its option in `auto`, and the player plays it once the step is set up.
 - `snapEnd(i, scenario, beat)`: the state after step `i`, used when jumping between steps.
 - `inspect(spot, i, scenario)`, `visibleSpots(i, scenario)`, `spots`, `overview`.
 
-What each step means (modules, channels, conditions, memory, θ) stays in `site/data/cases.mjs`; the
-calls' setups and results are there too, so the tests can check them without a browser. Endings and
-objectives are in `site/data/case-play.mjs`.
+What each step means (modules, channels, conditions, memory, θ, tracked permissions) stays in
+`site/data/cases.mjs`; the call's setup and results are there too, so the tests can check them without
+a browser. Endings, with the reason each run sits at its level, and objectives are in
+`site/data/case-play.mjs`.
 
 ## The hero and the transitions
 
@@ -60,8 +63,8 @@ transitions and the island holds one telling moment of every scene.
 
 `assets/play/preview/<case>.mp4` (and a `.webp` still of the first frame) are recordings of the
 player itself, shown when an episode name is hovered on the paper's page. Each loop has three shots at
-normal speed: the episode's first call, the first offered call played out, and the policy's call played
-out. A shot holds about 0.8 s (up to 1 s while the room still moves), shots are joined by 0.25 s
+normal speed: the episode's one call, the first option the assistant would not pick played out, and the
+assistant's own call played out. A shot holds about 0.8 s (up to 1 s while the room still moves), shots are joined by 0.25 s
 cross-fades, and the last one fades back into the first, so the loop has no seam. They were
 recorded in headless Chrome with the DevTools screencast at 1680 × 860, with the page logging when the
 call is made and when the room starts and stops playing each call, then cropped to the stage at 16:9
