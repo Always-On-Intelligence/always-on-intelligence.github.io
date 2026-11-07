@@ -57,16 +57,16 @@ Eight playable episodes, from smart glasses to a home robot. In each one you mak
 <table>
   <tr>
     <td width="33%" valign="top">
-      <a href="https://always-on-intelligence.github.io/play.html"><img src="assets/readme/demo-library.gif" alt="The episode library: eight cards, three wearable, three digital, two physical"/></a>
+      <a href="https://always-on-intelligence.github.io/play.html"><img src="assets/readme/demo-library.gif" alt="The episode library: the pointer passes over the cards, filters to the physical episodes and opens episode 07"/></a>
       <p align="center"><b>Episode library</b></p>
     </td>
     <td width="33%" valign="top">
-      <a href="https://always-on-intelligence.github.io/play.html#case-robot-cup"><img src="assets/readme/demo-call.gif" alt="The call in episode 07: the viewer chooses to check the grasp before carrying the cup"/></a>
-      <p align="center"><b>Make the call</b></p>
+      <a href="https://always-on-intelligence.github.io/play.html#case-workbench"><img src="assets/readme/demo-workbench.gif" alt="Episode 01: the glasses point out a skipped clip without being asked"/></a>
+      <p align="center"><b>One hint at the workbench</b></p>
     </td>
     <td width="33%" valign="top">
-      <a href="https://always-on-intelligence.github.io/play.html#case-robot-cup"><img src="assets/readme/demo-whatif.gif" alt="The ending of episode 07, then the what-if &quot;A child reaches in&quot;: the robot stops its arm"/></a>
-      <p align="center"><b>Try a what-if</b></p>
+      <a href="https://always-on-intelligence.github.io/play.html#case-second-visit"><img src="assets/readme/demo-second-visit.gif" alt="Episode 02: back at the same shelf, the glasses stay quiet because both notes were already shown"/></a>
+      <p align="center"><b>The second visit</b></p>
     </td>
   </tr>
   <tr>
@@ -75,11 +75,25 @@ Eight playable episodes, from smart glasses to a home robot. In each one you mak
       <p align="center"><b>A private cue in a group talk</b></p>
     </td>
     <td width="33%" valign="top">
-      <a href="https://always-on-intelligence.github.io/play.html#case-governed-revision"><img src="assets/readme/demo-governed.gif" alt="Episode 06: a review outside the agent accepts one rule change and rejects the other"/></a>
+      <a href="https://always-on-intelligence.github.io/play.html#case-daily-plan"><img src="assets/readme/demo-daily-plan.gif" alt="Episode 04: at 18:00 the assistant waits until the user&#39;s call ends"/></a>
+      <p align="center"><b>Morning plan, evening check-in</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-export-check"><img src="assets/readme/demo-export-check.gif" alt="Episode 05: the agent keeps the task open rather than blame the wrong run"/></a>
+      <p align="center"><b>Did the export work?</b></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-governed-revision"><img src="assets/readme/demo-governed-revision.gif" alt="Episode 06: a review outside the agent accepts one rule change and rejects the other"/></a>
       <p align="center"><b>An agent that edits its own rules</b></p>
     </td>
     <td width="33%" valign="top">
-      <a href="https://always-on-intelligence.github.io/play.html#case-care-visits"><img src="assets/readme/demo-care.gif" alt="Episode 08: the robot waits for a resident in the corridor, then visits the lounge"/></a>
+      <a href="https://always-on-intelligence.github.io/play.html#case-robot-cup"><img src="assets/readme/demo-robot-cup.gif" alt="Episode 07: after the ending, the what-if &quot;A child reaches in&quot;, where the robot stops its arm"/></a>
+      <p align="center"><b>Fetching the cup</b></p>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://always-on-intelligence.github.io/play.html#case-care-visits"><img src="assets/readme/demo-care-visits.gif" alt="Episode 08: the robot plans the lounge visit for 15:00, waits for a resident in the corridor, then visits the lounge"/></a>
       <p align="center"><b>A week of visits</b></p>
     </td>
   </tr>
