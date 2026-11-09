@@ -9,6 +9,10 @@
   <a href="https://github.com/Always-On-Intelligence/HALO"><img src="https://img.shields.io/badge/HALO-Code-6C5F7A?style=for-the-badge&logo=github&logoColor=white" alt="HALO code"/></a>
 </p>
 
+<p>
+  <a href="https://doi.org/10.20944/preprints202611.0793.v1"><img src="https://img.shields.io/badge/DOI-10.20944%2Fpreprints202611.0793.v1-8B692E?style=flat-square" alt="DOI 10.20944/preprints202611.0793.v1"/></a>
+</p>
+
 <p>The project page of the survey<br>
 <b><i>Always-On Personal Intelligence: A Roadmap Towards Continuing, Self-Evolving Loops</i></b></p>
 
@@ -112,17 +116,18 @@ node --test tests/*.test.mjs
 ## Citation
 
 ```bibtex
-@misc{alwayson2026roadmap,
-  title  = {Always-On Personal Intelligence: A Roadmap Towards
-            Continuing, Self-Evolving Loops},
-  author = {Liu, Shuai and Guo, Hongming and Jin, Weiyang and Hu, Kairui and
-            Tian, Shulin and Dong, Yuhao and Wu, Jinming and Zhang, Kaichen and
-            Tang, Yujin and Han, Xinyang and Chai, Wenhao and Fu, Yuqian and
-            Zhang, Ce and Zhang, Yuanhan and Kong, Lingdong and Siyao, Li and
-            Yang, Jingkang and Bertasius, Gedas and Li, Manling and Wu, Jiajun and
-            Wang, Mengdi and Song, Dawn and Liu, Ziwei},
-  year   = {2026},
-  note   = {Working draft},
-  url    = {https://always-on-intelligence.github.io/}
+@article{alwayson2026roadmap,
+  title   = {Always-On Personal Intelligence: A Roadmap Towards
+             Continuing, Self-Evolving Loops},
+  author  = {Liu, Shuai and Guo, Hongming and Jin, Weiyang and Hu, Kairui and
+             Tian, Shulin and Dong, Yuhao and Wu, Jinming and Zhang, Kaichen and
+             Tang, Yujin and Han, Xinyang and Chai, Wenhao and Fu, Yuqian and
+             Zhang, Ce and Zhang, Yuanhan and Kong, Lingdong and Siyao, Li and
+             Yang, Jingkang and Bertasius, Gedas and Li, Manling and Wu, Jiajun and
+             Wang, Mengdi and Song, Dawn and Liu, Ziwei},
+  journal = {Preprints},
+  year    = {2026},
+  doi     = {10.20944/preprints202611.0793.v1},
+  url     = {https://doi.org/10.20944/preprints202611.0793.v1}
 }
 ```
