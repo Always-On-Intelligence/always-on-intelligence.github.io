@@ -26,6 +26,7 @@ Live at https://always-on-intelligence.github.io/ (GitHub Pages serves an organi
 - `assets/readme/` — the banner (the reading list's animated `banner.gif`), the section screenshots and the Demo GIFs shown in `README.md`
 - `citation.bib` — downloadable citation; it must match the BibTeX blocks in `index.html` and `README.md`
 - `sitemap.xml` and `robots.txt` — for search engines: the sitemap lists the paper's page, the Demo page and the PDF, and `robots.txt` points to it and to the HALO docs' own sitemap (`/HALO/sitemap-index.xml`). Add a page here when the site gains one
+- `google080f4f9c89ba4404.html` — Google Search Console's ownership check for the site. Keep it, or the site loses its verified status there
 
 This is a static website. No build step is needed to preview it.
 
