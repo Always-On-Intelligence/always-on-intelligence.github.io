@@ -50,7 +50,7 @@ node --test tests/*.test.mjs
 
 GitHub Pages serves the `main` branch at `/ (root)`. Push changes to `main` to publish. `.nojekyll` ensures assets are served without Jekyll processing.
 
-The Paper button opens `Always-On_Personal_Intelligence.pdf`, the paper as built on 6 November 2026 and the same file as in the reading list, until the arXiv version is out. GitHub Pages serves it as a PDF, so browsers open it directly. When the paper changes, replace the PDF, and keep website copy, figure exports, author order, and the BibTeX in `index.html` and `citation.bib` synchronized with the approved draft.
+The Paper button opens `Always-On_Personal_Intelligence.pdf`, the paper as built on 6 November 2026 and the same file as in the reading list, until the arXiv version is out. The Preprints button next to it opens the paper's page on Preprints.org (DOI 10.20944/preprints202611.0793.v1), which the BibTeX cites. GitHub Pages serves it as a PDF, so browsers open it directly. When the paper changes, replace the PDF, and keep website copy, figure exports, author order, and the BibTeX in `index.html` and `citation.bib` synchronized with the approved draft.
 
 ## Content and provenance
 
